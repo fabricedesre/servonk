@@ -1,0 +1,3 @@
+[console_scripts]
+servo-tidy = servo_tidy.tidy:scan
+

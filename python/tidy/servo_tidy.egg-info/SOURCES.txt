@@ -1,0 +1,14 @@
+README.rst
+servo_tidy/__init__.py
+servo_tidy/licenseck.py
+servo_tidy/tidy.py
+servo_tidy.egg-info/PKG-INFO
+servo_tidy.egg-info/SOURCES.txt
+servo_tidy.egg-info/dependency_links.txt
+servo_tidy.egg-info/entry_points.txt
+servo_tidy.egg-info/not-zip-safe
+servo_tidy.egg-info/requires.txt
+servo_tidy.egg-info/top_level.txt
+servo_tidy_tests/__init__.py
+servo_tidy_tests/shebang_license.py
+servo_tidy_tests/test_tidy.py
