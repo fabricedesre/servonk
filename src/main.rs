@@ -20,6 +20,9 @@ use servo::servo_config::opts;
 use std::env;
 use std::sync::mpsc::channel;
 
+// WIP: will not work because we don't implement the event loop walker
+// yet among other things...
+
 fn main() {
     println!(
         "Servonk starting, Servo version: {}",
