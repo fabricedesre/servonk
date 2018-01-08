@@ -1,0 +1,25 @@
+ifeq (armv7-linux-androideabi,$(findstring armv7-linux-androideabi,$(TARGET)))
+
+CXX := arm-linux-androideabi-g++
+AR := arm-linux-androideabi-ar
+CFLAGS := -fPIC -O2
+
+else
+
+CXX ?= g++
+AR ?= ar
+
+endif
+
+CSRC := src/native_window_glue.cpp
+
+OBJS := $(CSRC:%.cpp=$(OUT_DIR)/%.o)
+
+.PHONY: all
+all: $(OUT_DIR)/libnative_window_glue.a
+
+$(OUT_DIR)/%.o: %.cpp
+	mkdir -p `dirname $@` && $(CXX) $< -o $@ -c $(CXXFLAGS) $(CPPFLAGS)
+
+$(OUT_DIR)/libnative_window_glue.a: $(OBJS)
+	$(AR) rcs $@ $<

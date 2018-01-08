@@ -256,8 +256,8 @@ class MachCommands(CommandBase):
             if "ANDROID_NDK" not in os.environ:
                 print("Please set the ANDROID_NDK environment variable.")
                 sys.exit(1)
-            if "ANDROID_SDK" not in os.environ:
-                print("Please set the ANDROID_SDK environment variable.")
+            if "GONK_DIR" not in os.environ:
+                print("Please set the GONK_DIR environment variable.")
                 sys.exit(1)
 
             android_platform = self.config["android"]["platform"]
@@ -322,6 +322,8 @@ class MachCommands(CommandBase):
                 env['ANDROID_NDK'], "sources", "cxx-stl", "llvm-libc++", "libcxx", "include")
             cxxabi_include = path.join(
                 env['ANDROID_NDK'], "sources", "cxx-stl", "llvm-libc++abi", "libcxxabi", "include")
+            gonk_include = path.join(
+                env['GONK_DIR'], "system", "core", "include")
             env['CFLAGS'] = ' '.join([
                 "--sysroot", env['ANDROID_SYSROOT'],
                 "-I" + support_include])
@@ -329,7 +331,8 @@ class MachCommands(CommandBase):
                 "--sysroot", env['ANDROID_SYSROOT'],
                 "-I" + support_include,
                 "-I" + cxx_include,
-                "-I" + cxxabi_include])
+                "-I" + cxxabi_include,
+                "-I" + gonk_include])
             env["NDK_ANDROID_VERSION"] = android_platform.replace("android-", "")
             env['CPPFLAGS'] = ' '.join(["--sysroot", env['ANDROID_SYSROOT']])
             env["CMAKE_ANDROID_ARCH_ABI"] = self.config["android"]["lib"]

@@ -462,26 +462,12 @@ class CommandBase(object):
                                           env.get("LD_LIBRARY_PATH", ""))
 
         # Paths to Android build tools:
-        if self.config["android"]["sdk"]:
-            env["ANDROID_SDK"] = self.config["android"]["sdk"]
         if self.config["android"]["ndk"]:
             env["ANDROID_NDK"] = self.config["android"]["ndk"]
         if self.config["android"]["toolchain"]:
             env["ANDROID_TOOLCHAIN"] = self.config["android"]["toolchain"]
         if self.config["android"]["platform"]:
             env["ANDROID_PLATFORM"] = self.config["android"]["platform"]
-
-        # These are set because they are the variable names that build-apk
-        # expects. However, other submodules have makefiles that reference
-        # the env var names above. Once glutin is enabled and set as the
-        # default, we could modify the subproject makefiles to use the names
-        # below and remove the vars above, to avoid duplication.
-        if "ANDROID_SDK" in env:
-            env["ANDROID_HOME"] = env["ANDROID_SDK"]
-        if "ANDROID_NDK" in env:
-            env["NDK_HOME"] = env["ANDROID_NDK"]
-        if "ANDROID_TOOLCHAIN" in env:
-            env["NDK_STANDALONE"] = env["ANDROID_TOOLCHAIN"]
 
         if hosts_file_path:
             env['HOST_FILE'] = hosts_file_path
