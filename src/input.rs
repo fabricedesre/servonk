@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use errno::errno;
-use euclid::{TypedPoint2D, TypedVector2D};
+use servo::euclid::{TypedPoint2D, TypedVector2D};
 use libc::{c_int, c_long, time_t};
 use servo::compositing::windowing::{MouseWindowEvent, WindowEvent};
 use servo::script_traits::{MouseButton, TouchEventType};
@@ -114,10 +114,7 @@ fn read_input_device(device_path: &Path, sender: &Sender<WindowEvent>) {
 
     println!(
         "xMin: {}, yMin: {}, touch_width: {}, touch_height: {}",
-        x_info.minimum,
-        y_info.minimum,
-        touch_width,
-        touch_height
+        x_info.minimum, y_info.minimum, touch_width, touch_height
     );
 
     let mut buf: [u8; (16 * size_of::<linux_input_event>())] = unsafe { zeroed() };

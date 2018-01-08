@@ -6,7 +6,7 @@
 
 use servo::compositing::windowing::{WindowEvent, WindowMethods};
 use egl::{self, EGLContext, EGLDisplay, EGLSurface};
-use euclid::{Point2D, ScaleFactor, Size2D, TypedPoint2D, TypedRect, TypedSize2D};
+use servo::euclid::{Point2D, ScaleFactor, Size2D, TypedPoint2D, TypedRect, TypedSize2D};
 use gleam::gl::{self, Gl};
 use servo::webrender_api::DevicePixel;
 use servo::msg::constellation_msg::{Key, KeyModifiers, TopLevelBrowsingContextId};
@@ -307,7 +307,6 @@ impl EventLoopWaker for GonkEventLoopWaker {
         // self.proxy.wakeup().expect("wakeup eventloop failed");
     }
 }
-
 
 // struct GonkCompositorProxy {
 //     sender: Sender<compositor_thread::Msg>,

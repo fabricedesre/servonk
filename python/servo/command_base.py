@@ -531,10 +531,10 @@ class CommandBase(object):
         return env
 
     def servo_crate(self):
-        return path.join(self.context.topdir, "ports", "servo")
+        return self.context.topdir
 
     def servo_manifest(self):
-        return path.join(self.context.topdir, "ports", "servo", "Cargo.toml")
+        return path.join(self.context.topdir, "Cargo.toml")
 
     def geckolib_manifest(self):
         return path.join(self.context.topdir, "ports", "geckolib", "Cargo.toml")
