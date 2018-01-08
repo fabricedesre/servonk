@@ -3,3 +3,5 @@
 Cargo.lock
 _virtualenv
 .servo
+/.cargo/*
+!/.cargo/config
