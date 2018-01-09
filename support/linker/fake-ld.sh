@@ -40,7 +40,7 @@ call_gcc()
   "${ANDROID_TOOLCHAIN}/${_ANDROID_EABI}-gcc" \
     $PIE_FLAG -lGLESv2 -L$GONK_DIR/out/target/product/$GONK_PRODUCT_NAME/system/lib/ \
     --sysroot="${ANDROID_SYSROOT}" -L "${ANDROID_CXX_LIBS}" ${_GCC_PARAMS} -lc++ \
-    -o "${TARGET_DIR}/servonk" -shared
+    -o "${TARGET_DIR}/servo" -shared
 
-  "${ANDROID_TOOLCHAIN}/${_ANDROID_EABI}-strip" "${TARGET_DIR}/servonk"
+  "${ANDROID_TOOLCHAIN}/${_ANDROID_EABI}-strip" "${TARGET_DIR}/servo"
 }
