@@ -21,5 +21,5 @@ Do a b2g build first for you device (eng or userdebug to get root access), as th
 
 Well, not yet, as this doesn't start :)
 
-- We need to build with the gonk c++ library instead of the NDK one. I haven't figured out the right build config for that yet... any help appreciated, see [python/servo/build_commands.py]().
+- We need to build with the gonk c++ library instead of the NDK one. I haven't figured out the right build config for that yet... any help appreciated, see [python/servo/build_commands.py](python/servo/build_commands.py).
 - The Rust side is incomplete (no event loop).
