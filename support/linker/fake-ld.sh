@@ -37,9 +37,12 @@ call_gcc()
       PIE_FLAG="-pie"
   fi
 
+# This static linking doesn't work at runtime, but using -lc++ doesn't either because
+# we end up with 2 different c++ libraries.
   "${ANDROID_TOOLCHAIN}/${_ANDROID_EABI}-gcc" \
     $PIE_FLAG -lGLESv2 -L$GONK_DIR/out/target/product/$GONK_PRODUCT_NAME/system/lib/ \
-    --sysroot="${ANDROID_SYSROOT}" -L "${ANDROID_CXX_LIBS}" ${_GCC_PARAMS} -lc++ \
+    --sysroot="${ANDROID_SYSROOT}" -L "${ANDROID_CXX_LIBS}" ${_GCC_PARAMS} \
+    $ANDROID_NDK/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_static.a \
     -o "${TARGET_DIR}/servo" -shared
 
   "${ANDROID_TOOLCHAIN}/${_ANDROID_EABI}-strip" "${TARGET_DIR}/servo"

@@ -8,5 +8,12 @@ egl = "0.2"
 errno = "0.2"
 gleam = "0.4"
 libc = "0.2"
-# The gonk branch of Servo adds a feature to turn off the unimplemented web-bluetooth.
-libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
+# The gonk branch of Servo adds a feature to turn off the unimplemented web-bluetooth
+# and gonk support for the config.
+libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
+#libservo = { path = "/home/fabrice/dev/servo/components/servo", features = ["gonk"] }
+
+[patch.crates-io]
+# Fork of rust-webvr to make sure we don't pull in the android glue and jni.
+rust-webvr = { git = "https://github.com/fabricedesre/rust-webvr.git", branch = "gonk" }
+rust-webvr-api = { git = "https://github.com/fabricedesre/rust-webvr.git", branch = "gonk" }

@@ -312,10 +312,15 @@ class MachCommands(CommandBase):
             elif cpu_type in ["x86_64", "x86-64", "x64", "amd64"]:
                 host_suffix = "x86_64"
             host = os_type + "-" + host_suffix
+            gonk_host = os_type + "-x86"
 
             env['PATH'] = path.join(
                 env['ANDROID_NDK'], "toolchains", android_toolchain, "prebuilt", host, "bin"
             ) + ':' + env['PATH']
+            # Ex: prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
+            # env['PATH'] = path.join(
+            #     env['GONK_DIR'], "prebuilts", "gcc", gonk_host, self.config["android"]["arch"], "arm-linux-androideabi-4.9", "bin"
+            # ) + ':' + env['PATH']
             env['ANDROID_SYSROOT'] = path.join(env['ANDROID_NDK'], "platforms", android_platform, android_arch)
             support_include = path.join(env['ANDROID_NDK'], "sources", "android", "support", "include")
             cxx_include = path.join(
