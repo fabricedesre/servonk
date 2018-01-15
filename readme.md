@@ -8,6 +8,12 @@ Do a b2g build first for you device (eng or userdebug to get root access), as th
 
 ## Building
 
+### Option 1: using the Gonk prebuilt toolchain
+- Set the `GONK_DIR` environement variable to the location of your B2G checkout.
+- Set the `GONK_PRODUCT_NAME` environement variable to the codename of the device (eg: aries for the KK z3c build).
+- build with `./build.sh`. If you add parameters they will be passed to `cargo`, so for instance to only build Spidermonkey, run `./build.sh -p mozjs_sys`.
+
+### Option 2: using the Android ndk as does Servo
 - Set the `ANDROID_NDK` environment variable to the location of your NDK.
 - Set the `GONK_DIR` environement variable to the location of your B2G checkout.
 - Build with `./mach build -r --android`

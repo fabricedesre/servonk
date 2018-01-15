@@ -17,3 +17,4 @@ libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", fea
 # Fork of rust-webvr to make sure we don't pull in the android glue and jni.
 rust-webvr = { git = "https://github.com/fabricedesre/rust-webvr.git", branch = "gonk" }
 rust-webvr-api = { git = "https://github.com/fabricedesre/rust-webvr.git", branch = "gonk" }
+# mozjs_sys = { path = "/home/fabrice/dev/mozjs" }
