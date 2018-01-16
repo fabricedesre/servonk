@@ -8,7 +8,7 @@ Do a b2g build first for you device (eng or userdebug to get root access), as th
 
 ## Building
 
-First, run `./mach bootstrap-rust` to get the correct version of the Rust compiler.
+First, install [rustup](https://rustup.rs/). Then run `./bootstrap.sh` to get the correct version of the Rust compiler.
 
 ### Option 1: using the Gonk prebuilt toolchain
 - Set the `GONK_DIR` environement variable to the location of your B2G checkout.

@@ -2,17 +2,19 @@
 
 set -x -e
 
-export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
-
 RUST_TARGET=armv7-linux-androideabi
+
+export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
 
 SYSROOT=$GONK_DIR/prebuilts/ndk/current/platforms/android-18/arch-arm/
 GONK_LIBS=$GONK_DIR/out/target/product/$GONK_PRODUCT_NAME/obj/lib/
 
 ARCH_DIR="arch-arm"
 
-export GONKDIR=$GONK_DIR
+export gonkdir=$GONK_DIR
 export GONK_PRODUCT=$GONK_PRODUCT_NAME
+
+cargo build --target $RUST_TARGET $@
 
 # export NDK_ANDROID_VERSION=18
 # export ANDROID_NDK=$GONK_DIR/prebuilts/ndk/current
@@ -47,4 +49,4 @@ export LDFLAGS="-mandroid -L$GONK_DIR/out/target/product/$GONK_PRODUCT_NAME/obj/
 export OPENSSL_DIR=$GONK_DIR/external/openssl
 export OPENSSL_LIB_DIR=$GONK_LIBS
 
-cargo build --target $RUST_TARGET $@
+# cargo build --target $RUST_TARGET $@
