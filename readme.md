@@ -16,7 +16,7 @@ First, install [rustup](https://rustup.rs/). Then run `./bootstrap.sh` to get th
 - build with `./build.sh`. If you add parameters they will be passed to `cargo`, so for instance to only build Spidermonkey, run `./build.sh -p mozjs_sys`.
 
 Still to fix:
-- fonsan
+- fontsan
 - mozjs_sys
 - angle
 
