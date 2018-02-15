@@ -2,14 +2,16 @@
 
 set -x -e
 
-adb root
+KIND=${1:-release}
+
+echo "Pushing $KIND version to device"
+
+adb root && adb remount
 
 adb shell mkdir /data/local/servo
 adb shell rm -r /data/local/servo
 
-# Uncomment if using -lc++ in fake-ld.sh
-# adb push $ANDROID_NDK/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so /data/local/servo/libc++.so
-
-adb push target/armv7-linux-androideabi/release/servo /data/local/servo/servo
-adb push servo.sh /data/local/servo/servo.sh
+adb push target/armv7-linux-androideabi/$KIND/servo /data/local/servo/servo
+adb push servo.sh /system/bin/servo.sh
 adb push resources /data/local/servo/
+adb push index.html /data/local/servo/
