@@ -138,11 +138,11 @@ impl WindowMethods for BrowserWindow {
         let _ = egl::swap_buffers(self.native_window.dpy, self.native_window.surf);
     }
 
-    fn set_page_title(&self, _id: TopLevelBrowsingContextId, _: Option<String>) {
+    fn set_page_title(&self, _id: TopLevelBrowsingContextId, _title: Option<String>) {
         info!("set_page_title");
     }
 
-    fn status(&self, _id: TopLevelBrowsingContextId, _: Option<String>) {
+    fn status(&self, _id: TopLevelBrowsingContextId, _msg: Option<String>) {
         info!("status");
     }
 
@@ -154,7 +154,7 @@ impl WindowMethods for BrowserWindow {
         info!("load_end");
     }
 
-    fn load_error(&self, _id: TopLevelBrowsingContextId, _: NetError, _: String) {
+    fn load_error(&self, _id: TopLevelBrowsingContextId, _code: NetError, _url: String) {
         info!("load_error");
     }
 
@@ -193,6 +193,15 @@ impl WindowMethods for BrowserWindow {
     fn supports_clipboard(&self) -> bool {
         info!("supports_clipboard");
         false
+    }
+
+    fn handle_panic(
+        &self,
+        _id: TopLevelBrowsingContextId,
+        _reason: String,
+        _backtrace: Option<String>,
+    ) {
+        info!("handle_panic");
     }
 }
 
