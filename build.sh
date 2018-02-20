@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x -e
+set -e
 
 # Check that the GONK_DIR environment variable is set.
 if [ -z ${GONK_DIR+x} ];

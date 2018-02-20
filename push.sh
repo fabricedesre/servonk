@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x -e
+set -e
 
 KIND=${1:-release}
 
@@ -14,4 +14,3 @@ adb shell rm -r /data/local/servo
 adb push target/armv7-linux-androideabi/$KIND/servo /data/local/servo/servo
 adb push servo.sh /system/bin/servo.sh
 adb push resources /data/local/servo/
-adb push index.html /data/local/servo/
