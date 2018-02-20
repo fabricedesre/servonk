@@ -87,6 +87,7 @@ fn main() {
     // Setup the event loop and create the main objects.
     let looper = EventLoop::new();
     let window = browser_window::BrowserWindow::new(&looper.get_sender());
+    let (width, height) = window.dims();
     let mut servo = servo::Servo::new(window);
 
     // Load the initial url in a new browser and select it.
@@ -97,7 +98,7 @@ fn main() {
     let browser_id = receiver.recv().unwrap();
     servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
 
-    input::run_input_loop(&looper.get_sender());
+    input::run_input_loop(width, height, &looper.get_sender());
 
     // Process events by reinjecting them into Servo's event loop.
     looper.run(|event| {

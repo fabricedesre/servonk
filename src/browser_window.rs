@@ -32,12 +32,17 @@ impl BrowserWindow {
     /// Creates a new window.
     pub fn new(event_sender: &Sender<Event>) -> Rc<BrowserWindow> {
         let native_window = Window::new();
-        native_window.fill_color(1.0, 0.0, 1.0, 1.0);
+        native_window.fill_color(0.0, 1.0, 1.0, 1.0);
 
         Rc::new(BrowserWindow {
             native_window: native_window,
             waker: Box::new(GonkEventLoopWaker::new(event_sender)),
         })
+    }
+
+    /// Returns the (width, height) of the window.
+    pub fn dims(&self) -> (i32, i32) {
+        (self.native_window.width, self.native_window.height)
     }
 }
 
