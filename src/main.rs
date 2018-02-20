@@ -79,9 +79,6 @@ fn main() {
     if let Some(size) = init_size {
         opts.initial_window_size = size;
     }
-    // opts.no_native_titlebar = true;
-    // opts.tile_size = 256;
-    // opts.device_pixels_per_px = Some(1.0);
     opts::set_defaults(opts);
 
     // Setup the event loop and create the main objects.
@@ -142,6 +139,9 @@ fn main() {
                 } else {
                     servo.handle_events(vec![WindowEvent::KeyEvent(char_, key, state, modifier)]);
                 }
+            }
+            Event::WindowEvent(WindowEvent::Scroll(location, point, event_type)) => {
+                servo.handle_events(vec![WindowEvent::Scroll(location, point, event_type)]);
             }
             _ => info!("Unused event: {:?}", event),
         }
