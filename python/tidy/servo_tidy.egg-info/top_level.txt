@@ -1,2 +1,0 @@
-servo_tidy
-servo_tidy_tests
