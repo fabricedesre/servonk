@@ -13,13 +13,7 @@ fi
 
 export RUST_TARGET=armv7-linux-androideabi
 
-# Update the Rust toolchain if needed.
-# TODO: checkt the current version and only call rustup if needed.
-RUST_VERSION=`cat rust-toolchain`
-
-rustup install $RUST_VERSION
-rustup target add $RUST_TARGET
-rustup override set $RUST_VERSION
+./bootstrap.sh
 
 export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
 
@@ -30,6 +24,8 @@ ARCH_DIR="arch-arm"
 
 export gonkdir=$GONK_DIR
 export GONK_PRODUCT=$GONK_PRODUCT_NAME
+
+# cargo build --target $RUST_TARGET -p mtdev $@
 
 STLPORT_CPPFLAGS="-I$gonkdir/external/libcxx/include \
 -I$gonkdir/external/libcxx/include/ext \

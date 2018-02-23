@@ -4,3 +4,9 @@ _virtualenv
 .servo
 /.cargo/*
 !/.cargo/config
+**/*.o
+**/*.lo
+**/*.la
+**/.deps/*
+**/.libs/*
+mtdev/src/generated

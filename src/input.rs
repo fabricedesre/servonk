@@ -2,74 +2,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use errno::errno;
 use events_loop::Event;
-use libc::{c_int, c_long, time_t};
 use mio::*;
 use mio::unix::EventedFd;
-use servo::compositing::windowing::{MouseWindowEvent, WindowEvent};
-use servo::euclid::{TypedPoint2D, TypedVector2D};
+use mtdev::{input_event, MtDev};
+use servo::compositing::windowing::WindowEvent;
+use servo::euclid::TypedPoint2D;
 use servo::msg::constellation_msg::{Key, KeyModifiers, KeyState};
-use servo::script_traits::{MouseButton, TouchEventType};
-use servo::webrender_api::ScrollLocation;
+use servo::script_traits::{TouchEventType, TouchId};
 use std::fs::File;
-use std::io::Read;
-use std::mem::{size_of, transmute, zeroed};
 use std::os::unix::io::AsRawFd;
 use std::path::Path;
 use std::sync::mpsc::Sender;
 use std::thread;
 
-// extern "C" {
-//     // XXX: no variadic form in std libs?
-//     fn ioctl(fd: c_int, req: c_int, ...) -> c_int;
-// }
-
-#[derive(Debug)]
-#[repr(C)]
-struct linux_input_event {
-    sec: time_t,
-    msec: c_long,
-    evt_type: u16,
-    code: u16,
-    value: i32,
-}
-
-// #[repr(C)]
-// struct linux_input_absinfo {
-//     value: i32,
-//     minimum: i32,
-//     maximum: i32,
-//     fuzz: i32,
-//     flat: i32,
-//     resolution: i32,
-// }
-
-// const IOC_NONE: c_int = 0;
-// const IOC_WRITE: c_int = 1;
-// const IOC_READ: c_int = 2;
-
-// fn ioc(dir: c_int, ioctype: c_int, nr: c_int, size: c_int) -> c_int {
-//     dir << 30 | size << 16 | ioctype << 8 | nr
-// }
-
-// #define EVIOCGABS(abs) _IOR('E', 0x40 + (abs), struct input_absinfo)
-// fn ev_ioc_g_abs(abs: u16) -> c_int {
-//     ioc(
-//         IOC_READ,
-//         'E' as c_int,
-//         (0x40 + abs) as i32,
-//         size_of::<linux_input_absinfo>() as i32,
-//     )
-// }
-
 const EV_SYN: u16 = 0;
 const EV_KEY: u16 = 1;
+// const EV_REL: u16 = 2;
 const EV_ABS: u16 = 3;
 
-const EV_REPORT: u16 = 0;
+const SYN_REPORT: u16 = 0;
 
-const ABS_MT_SLOT: u16 = 0x2F;
+const ABS_MT_SLOT: u16 = 0x2f;
 const ABS_MT_TOUCH_MAJOR: u16 = 0x30;
 const ABS_MT_TOUCH_MINOR: u16 = 0x31;
 const ABS_MT_WIDTH_MAJOR: u16 = 0x32;
@@ -77,9 +31,19 @@ const ABS_MT_WIDTH_MINOR: u16 = 0x33;
 const ABS_MT_ORIENTATION: u16 = 0x34;
 const ABS_MT_POSITION_X: u16 = 0x35;
 const ABS_MT_POSITION_Y: u16 = 0x36;
+const ABS_MT_TOOL_TYPE: u16 = 0x37;
 const ABS_MT_TRACKING_ID: u16 = 0x39;
+const ABS_MT_PRESSURE: u16 = 0x3a;
+
+enum SlotStatus {
+    Tracked,
+    Untracked,
+    WillTrack,
+    WillUntrack,
+}
 
 struct InputSlot {
+    status: SlotStatus,
     tracking_id: i32,
     x: i32,
     y: i32,
@@ -88,6 +52,7 @@ struct InputSlot {
 impl Default for InputSlot {
     fn default() -> Self {
         InputSlot {
+            status: SlotStatus::Untracked,
             tracking_id: -1,
             x: 0,
             y: 0,
@@ -95,182 +60,138 @@ impl Default for InputSlot {
     }
 }
 
+// Matches what mtdev uses.
+const SLOT_COUNT: usize = 11;
+
 #[derive(Default)]
 struct TouchInputContext {
-    slots: [InputSlot; 10],
-    last_x: i32,
-    last_y: i32,
-    first_x: i32,
-    first_y: i32,
-    last_dist: f32,
-    touch_count: i32,
+    slots: [InputSlot; SLOT_COUNT],
     current_slot: usize,
-    tracking_updated: bool,
-    screen_dist: f32,
+    x_min: i32,
+    y_min: i32,
 }
 
 impl TouchInputContext {
-    pub fn new(width: i32, height: i32) -> Self {
+    pub fn new(x_min: i32, y_min: i32) -> Self {
         TouchInputContext {
-            screen_dist: dist(0, width, 0, height),
-            tracking_updated: false,
+            x_min,
+            y_min,
             ..Default::default()
         }
     }
 }
 
-fn dist(x1: i32, x2: i32, y1: i32, y2: i32) -> f32 {
-    let delta_x = (x2 - x1) as f32;
-    let delta_y = (y2 - y1) as f32;
-    (delta_x * delta_x + delta_y * delta_y).sqrt()
-}
-
-// fn read_input_device(device_path: &Path, sender: &Sender<Event>) {
-//     let mut device = match File::open(device_path) {
-//         Ok(dev) => dev,
-//         Err(e) => {
-//             println!("Couldn't open device! {}", e);
-//             return;
-//         }
-//     };
-//     let fd = device.as_raw_fd();
-
-//     let mut x_info: linux_input_absinfo = unsafe { zeroed() };
-//     let mut y_info: linux_input_absinfo = unsafe { zeroed() };
-//     unsafe {
-//         let ret = ioctl(fd, ev_ioc_g_abs(ABS_MT_POSITION_X), &mut x_info);
-//         if ret < 0 {
-//             println!("Couldn't get ABS_MT_POSITION_X info {} {}", ret, errno());
-//         }
-//     }
-//     unsafe {
-//         let ret = ioctl(fd, ev_ioc_g_abs(ABS_MT_POSITION_Y), &mut y_info);
-//         if ret < 0 {
-//             println!("Couldn't get ABS_MT_POSITION_Y info {} {}", ret, errno());
-//         }
-//     }
-// }
-
+// Processes a Type B protocol event.
+// See https://github.com/torvalds/linux/blob/master/Documentation/input/multi-touch-protocol.rst
 fn process_touch_event(
-    event: &linux_input_event,
+    event: &input_event,
     context: &mut TouchInputContext,
     sender: &Sender<Event>,
 ) {
-    match (event.evt_type, event.code) {
-        (EV_SYN, EV_REPORT) => {
-            let slot_a = &context.slots[0];
-            if context.tracking_updated {
-                context.tracking_updated = false;
-                if slot_a.tracking_id == -1 {
-                    println!("Touch up");
-                    let delta_x = slot_a.x - context.first_x;
-                    let delta_y = slot_a.y - context.first_y;
-                    let dist = delta_x * delta_x + delta_y * delta_y;
-                    if dist < 16 {
-                        let click_pt = TypedPoint2D::new(slot_a.x as f32, slot_a.y as f32);
-                        println!("Dispatching click!");
+    match (event.type_, event.code) {
+        (EV_SYN, SYN_REPORT) => {
+            // Report the state of all tracked touches.
+            // println!("SYN_REPORT");
+            for i in 0..SLOT_COUNT {
+                let slot = &mut context.slots[i];
+                let position = TypedPoint2D::new(slot.x as f32, slot.y as f32);
+
+                match slot.status {
+                    SlotStatus::Tracked => {
+                        // We moved.
+                        // println!("Slot tracking #{} moved", slot.tracking_id);
+                        // Send touchmove event.
                         sender
-                            .send(Event::WindowEvent(WindowEvent::MouseWindowEventClass(
-                                MouseWindowEvent::MouseDown(MouseButton::Left, click_pt),
-                            )))
-                            .ok()
-                            .unwrap();
-                        sender
-                            .send(Event::WindowEvent(WindowEvent::MouseWindowEventClass(
-                                MouseWindowEvent::MouseUp(MouseButton::Left, click_pt),
-                            )))
-                            .ok()
-                            .unwrap();
-                        sender
-                            .send(Event::WindowEvent(WindowEvent::MouseWindowEventClass(
-                                MouseWindowEvent::Click(MouseButton::Left, click_pt),
+                            .send(Event::WindowEvent(WindowEvent::Touch(
+                                TouchEventType::Move,
+                                TouchId(slot.tracking_id),
+                                position,
                             )))
                             .ok()
                             .unwrap();
                     }
-                } else {
-                    println!("Touch down");
-                    context.last_x = slot_a.x;
-                    context.last_y = slot_a.y;
-                    context.first_x = slot_a.x;
-                    context.first_y = slot_a.y;
-                    if context.touch_count >= 2 {
-                        let slot_b = &context.slots[1];
-                        context.last_dist = dist(slot_a.x, slot_b.x, slot_a.y, slot_b.y);
+                    SlotStatus::WillUntrack => {
+                        // We just released this slot.
+                        println!("Touch up for #{}", slot.tracking_id);
+                        // Send a touchup event.
+                        sender
+                            .send(Event::WindowEvent(WindowEvent::Touch(
+                                TouchEventType::Up,
+                                TouchId(slot.tracking_id),
+                                position,
+                            )))
+                            .ok()
+                            .unwrap();
+                        // sender
+                        //     .send(Event::WindowEvent(WindowEvent::Touch(
+                        //         TouchEventType::Cancel,
+                        //         TouchId(slot.tracking_id),
+                        //         position,
+                        //     )))
+                        //     .ok()
+                        //     .unwrap();
+                        slot.status = SlotStatus::Untracked;
                     }
-                }
-            } else {
-                println!("Touch move x: {}, y: {}", slot_a.x, slot_a.y);
-                sender
-                    .send(Event::WindowEvent(WindowEvent::Scroll(
-                        ScrollLocation::Delta(TypedVector2D::new(
-                            (slot_a.x - context.last_x) as f32,
-                            (slot_a.y - context.last_y) as f32,
-                        )),
-                        TypedPoint2D::new(slot_a.x, slot_a.y),
-                        TouchEventType::Move,
-                    )))
-                    .ok()
-                    .unwrap();
-                context.last_x = slot_a.x;
-                context.last_y = slot_a.y;
-                if context.touch_count >= 2 {
-                    let slot_b = &context.slots[1];
-                    let cur_dist = dist(slot_a.x, slot_b.x, slot_a.y, slot_b.y);
-                    println!(
-                        "Zooming {} {} {} {}",
-                        cur_dist,
-                        context.last_dist,
-                        context.screen_dist,
-                        ((context.screen_dist + (cur_dist - context.last_dist))
-                            / context.screen_dist)
-                    );
-                    sender
-                        .send(Event::WindowEvent(WindowEvent::Zoom(
-                            (context.screen_dist + (cur_dist - context.last_dist))
-                                / context.screen_dist,
-                        )))
-                        .ok()
-                        .unwrap();
-                    context.last_dist = cur_dist;
+                    SlotStatus::WillTrack => {
+                        // We start tracking this touch.
+                        println!("Touch down for #{}", slot.tracking_id);
+                        // Send a touchdown event.
+                        sender
+                            .send(Event::WindowEvent(WindowEvent::Touch(
+                                TouchEventType::Down,
+                                TouchId(slot.tracking_id),
+                                position,
+                            )))
+                            .ok()
+                            .unwrap();
+                        slot.status = SlotStatus::Tracked;
+                    }
+                    SlotStatus::Untracked => {}
                 }
             }
         }
-        (EV_SYN, _) => error!("Unknown SYN code {}", event.code),
+        (EV_SYN, _) => println!("Unknown SYN code={}, value={}", event.code, event.value),
         (EV_ABS, ABS_MT_SLOT) => if (event.value as usize) < context.slots.len() {
+            // println!("ABS_MT_SLOT {}", event.value);
             context.current_slot = event.value as usize;
         } else {
-            error!("Invalid slot! {}", event.value);
+            println!("Invalid slot! {}", event.value);
         },
         (EV_ABS, ABS_MT_TOUCH_MAJOR) => (),
         (EV_ABS, ABS_MT_TOUCH_MINOR) => (),
         (EV_ABS, ABS_MT_WIDTH_MAJOR) => (),
         (EV_ABS, ABS_MT_WIDTH_MINOR) => (),
         (EV_ABS, ABS_MT_ORIENTATION) => (),
+        (EV_ABS, ABS_MT_TOOL_TYPE) => (),
+        (EV_ABS, ABS_MT_PRESSURE) => (),
         (EV_ABS, ABS_MT_POSITION_X) => {
-            context.slots[context.current_slot].x = event.value - 0; // x_info.minimum;
+            context.slots[context.current_slot].x = event.value - context.x_min;
         }
         (EV_ABS, ABS_MT_POSITION_Y) => {
-            context.slots[context.current_slot].y = event.value - 0; // y_info.minimum;
+            context.slots[context.current_slot].y = event.value - context.y_min;
         }
         (EV_ABS, ABS_MT_TRACKING_ID) => {
-            let current_id = context.slots[context.current_slot].tracking_id;
-            if current_id != event.value && (current_id == -1 || event.value == -1) {
-                context.tracking_updated = true;
-                if event.value == -1 {
-                    context.touch_count -= 1;
-                } else {
-                    context.touch_count += 1;
-                }
+            // println!(
+            //     "ABS_MT_TRACKING_ID current={} value={}",
+            //     context.slots[context.current_slot].tracking_id, event.value
+            // );
+            let slot = &mut context.slots[context.current_slot];
+            if event.value == -1 {
+                slot.status = SlotStatus::WillUntrack;
+            } else {
+                slot.tracking_id = event.value;
+                slot.status = SlotStatus::WillTrack;
             }
-            context.slots[context.current_slot].tracking_id = event.value;
         }
-        (EV_ABS, _) => error!("Unknown ABS code {}", event.code),
-        (_, _) => error!("Unknown event: type={} code={}", event.evt_type, event.code),
+        (EV_ABS, _) => println!("Unknown ABS code {:x}", event.code),
+        (_, _) => println!(
+            "Unexpected event: type={} code={} value={}",
+            event.type_, event.code, event.value
+        ),
     }
 }
 
-fn process_key_event(event: &linux_input_event, sender: &Sender<Event>) {
+fn process_key_event(event: &input_event, sender: &Sender<Event>) {
     let key_state = if event.value == 1 {
         KeyState::Pressed
     } else {
@@ -302,7 +223,6 @@ fn process_key_event(event: &linux_input_event, sender: &Sender<Event>) {
         0x20b => Key::KpEqual,    // #
         _ => {
             println!("Unknown key: {} 0x{:x}", event.code, event.code);
-            error!("Unknown key: {} 0x{:x}", event.code, event.code);
             return;
         }
     };
@@ -311,68 +231,67 @@ fn process_key_event(event: &linux_input_event, sender: &Sender<Event>) {
     sender.send(Event::WindowEvent(event)).ok().unwrap();
 }
 
-fn process_events(device: &mut File, context: &mut TouchInputContext, sender: &Sender<Event>) {
-    let mut buf: [u8; (16 * size_of::<linux_input_event>())] = unsafe { zeroed() };
-
-    let read = match device.read(&mut buf) {
-        Ok(count) => {
-            assert!(
-                count % size_of::<linux_input_event>() == 0,
-                "Unexpected input device read length!"
-            );
-            count
+fn process_events(device: &mut MtDev, context: &mut TouchInputContext, sender: &Sender<Event>) {
+    if let Ok(events) = device.get_events() {
+        for event in events {
+            if event.type_ == EV_KEY {
+                process_key_event(&event, sender);
+            } else {
+                process_touch_event(&event, context, sender);
+            }
         }
-        Err(e) => {
-            error!("Couldn't read device {:?} : {}", device, e);
-            return;
-        }
-    };
-
-    let count = read / size_of::<linux_input_event>();
-    let events: *mut linux_input_event = unsafe { transmute(buf.as_mut_ptr()) };
-    for idx in 0..(count as isize) {
-        let event: &linux_input_event = unsafe { transmute(events.offset(idx)) };
-        if event.evt_type == EV_KEY {
-            process_key_event(event, sender);
-        } else {
-            process_touch_event(event, context, sender);
-        }
+    } else {
+        error!("get_events() failed.");
     }
 }
 
 const DEV_INPUT_EVENT_COUNT: usize = 3;
 
-pub fn run_input_loop(width: i32, height: i32, event_sender: &Sender<Event>) {
+pub fn run_input_loop(event_sender: &Sender<Event>) {
     let sender = event_sender.clone();
     thread::spawn(move || {
         let poll = Poll::new().unwrap();
         let mut mio_events = Events::with_capacity(1024);
 
+        let mut xmin = 0;
+        let mut ymin = 0;
+
         // Register input devices with the mio event loop.
-        let mut inputs: Vec<File> = Vec::new();
+        // We keep the File alive to prevent closing of the device.
+        let mut inputs: Vec<(File, MtDev)> = Vec::new();
         for i in 0..DEV_INPUT_EVENT_COUNT {
             let path = format!("/dev/input/event{}", i);
             if let Ok(file) = File::open(Path::new(&path)) {
                 let fd = file.as_raw_fd();
-                inputs.push(file);
-                poll.register(
-                    &EventedFd(&fd),
-                    Token(i),
-                    Ready::readable(),
-                    PollOpt::edge(),
-                ).unwrap();
-                info!("Registered input device {}", path);
+                if let Some(mtdev) = MtDev::new(fd) {
+                    // This fails on devices that don't provide touch events,
+                    // but that's fine.
+                    if let Some((x, y)) = mtdev.xmin_ymin() {
+                        xmin = x;
+                        ymin = y;
+                    }
+                    inputs.push((file, mtdev));
+                    poll.register(
+                        &EventedFd(&fd),
+                        Token(i),
+                        Ready::readable(),
+                        PollOpt::edge(),
+                    ).unwrap();
+                    debug!("Registered input device {}", path);
+                } else {
+                    error!("Failed to create MtDev for {}", path);
+                }
             }
         }
 
-        let mut context = TouchInputContext::new(width, height);
+        let mut context = TouchInputContext::new(xmin, ymin);
 
         loop {
             poll.poll(&mut mio_events, None).unwrap();
 
             for mio_event in mio_events.iter() {
                 let num: usize = mio_event.token().into();
-                process_events(&mut inputs[num], &mut context, &sender);
+                process_events(&mut inputs[num].1, &mut context, &sender);
             }
         }
     });

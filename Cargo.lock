@@ -893,7 +893,7 @@ dependencies = [
 [[package]]
 name = "gonk-gfx"
 version = "0.1.0"
-source = "git+https://github.com/fabricedesre/gonk-gfx-rs#783da0f32d1b5c8193b923d8ecdf94f44d5b61be"
+source = "git+https://github.com/fabricedesre/gonk-gfx-rs#c952bf1b81373f450390925a59700a79adeb2911"
 dependencies = [
  "android_logger 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "egl 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1576,6 +1576,14 @@ dependencies = [
  "nonzero 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "webrender_api 0.57.0 (git+https://github.com/servo/webrender)",
+]
+
+[[package]]
+name = "mtdev"
+version = "0.1.0"
+dependencies = [
+ "cc 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.33 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -2525,6 +2533,7 @@ dependencies = [
  "libservo 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "log 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "mio 0.6.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mtdev 0.1.0",
 ]
 
 [[package]]

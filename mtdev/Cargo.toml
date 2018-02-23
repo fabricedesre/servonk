@@ -1,0 +1,10 @@
+[package]
+name = "mtdev"
+version = "0.1.0"
+authors = ["Fabrice Desré <fabrice@desre.org>"]
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+cc = "1.0"

@@ -15,6 +15,7 @@ libc = "0.2"
 libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
 log = "0.3"
 mio = "0.6"
+mtdev = { path = "mtdev" }
 
 [patch.crates-io]
 # Fork of rust-webvr to make sure we don't pull in the android glue and jni.
@@ -30,4 +31,4 @@ rpath = false
 lto = true
 debug-assertions = false
 codegen-units = 1
-panic = 'abort'
+# panic = 'abort'

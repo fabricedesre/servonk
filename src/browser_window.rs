@@ -41,8 +41,12 @@ impl BrowserWindow {
     }
 
     /// Returns the (width, height) of the window.
-    pub fn dims(&self) -> (i32, i32) {
-        (self.native_window.width, self.native_window.height)
+    pub fn info(&self) -> (i32, i32, i32) {
+        (
+            self.native_window.width,
+            self.native_window.height,
+            self.native_window.dpi,
+        )
     }
 }
 
@@ -139,7 +143,7 @@ impl WindowMethods for BrowserWindow {
 
     /// Presents the window to the screen (perhaps by page flipping).
     fn present(&self) {
-        info!("present");
+        debug!("present");
         let _ = egl::swap_buffers(self.native_window.dpy, self.native_window.surf);
     }
 
@@ -192,7 +196,7 @@ impl WindowMethods for BrowserWindow {
     }
 
     fn prepare_for_composite(&self, _width: usize, _height: usize) -> bool {
-        info!("prepare_for_composite");
+        debug!("prepare_for_composite");
         true
     }
 
@@ -226,12 +230,12 @@ impl GonkEventLoopWaker {
 impl EventLoopWaker for GonkEventLoopWaker {
     // Use by servo to share the "event loop waker" across threads
     fn clone(&self) -> Box<EventLoopWaker + Send> {
-        info!("EventLoopWaker::clone");
+        debug!("EventLoopWaker::clone");
         Box::new(GonkEventLoopWaker::new(&self.sender.clone()))
     }
     // Called by servo when the main thread needs to wake up
     fn wake(&self) {
-        info!("EventLoopWaker::wake");
+        debug!("EventLoopWaker::wake");
         self.sender.send(Event::WakeUpEvent).ok().unwrap();
     }
 }

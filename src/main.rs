@@ -22,6 +22,7 @@ extern crate libc;
 #[macro_use]
 extern crate log;
 extern crate mio;
+extern crate mtdev;
 extern crate servo;
 
 mod browser_window;
@@ -42,6 +43,9 @@ use std::env;
 
 // This should vary by zoom level and maybe actual text size (focused or under cursor)
 const LINE_HEIGHT: f32 = 38.0;
+
+// Customize the UA to not show the Android Token.
+const USER_AGENT: &'static str = "Mozilla/5.0 (Mobile; rv:59.0) Servo/1.0 Firefox/59.0";
 
 fn main() {
     let mut log_level = log::LogLevel::Info;
@@ -71,6 +75,7 @@ fn main() {
     );
 
     let path = env::current_dir().unwrap().join("resources");
+    let certificate_path = path.join("ca-certificates.crt");
     let path = path.to_str().unwrap().to_string();
     set_resources_path(Some(path));
 
@@ -79,12 +84,32 @@ fn main() {
     if let Some(size) = init_size {
         opts.initial_window_size = size;
     }
-    opts::set_defaults(opts);
+    opts.user_agent = USER_AGENT.into();
+    opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
 
     // Setup the event loop and create the main objects.
     let looper = EventLoop::new();
     let window = browser_window::BrowserWindow::new(&looper.get_sender());
-    let (width, height) = window.dims();
+
+    let (_width, _height, dpi) = window.info();
+
+    // Choose the devive pixels ratio based on the real dpi.
+    opts.device_pixels_per_px = Some(if dpi < 200 {
+        1.0
+    } else if dpi < 280 {
+        2.0
+    } else {
+        dpi as f32 / 150.0 + 0.5
+    });
+
+    opts::set_defaults(opts);
+
+    let actual_opts = opts::get();
+    println!(
+        "Options configured as {:?} {:?}",
+        actual_opts.certificate_path, actual_opts.device_pixels_per_px
+    );
+
     let mut servo = servo::Servo::new(window);
 
     // Load the initial url in a new browser and select it.
@@ -95,16 +120,17 @@ fn main() {
     let browser_id = receiver.recv().unwrap();
     servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
 
-    input::run_input_loop(width, height, &looper.get_sender());
+    input::run_input_loop(&looper.get_sender());
 
     // Process events by reinjecting them into Servo's event loop.
     looper.run(|event| {
         match event {
             Event::WakeUpEvent => {
-                info!("Waking up Servo");
+                // Wake up servo.
                 servo.handle_events(vec![]);
             }
             Event::WindowEvent(WindowEvent::KeyEvent(char_, key, state, modifier)) => {
+                // Special processing for some key events.
                 println!("Key event: {:?} {:?}", state, key);
                 if key == Key::Home {
                     // Zoom out.
@@ -140,10 +166,10 @@ fn main() {
                     servo.handle_events(vec![WindowEvent::KeyEvent(char_, key, state, modifier)]);
                 }
             }
-            Event::WindowEvent(WindowEvent::Scroll(location, point, event_type)) => {
-                servo.handle_events(vec![WindowEvent::Scroll(location, point, event_type)]);
+            Event::WindowEvent(event) => {
+                // Relay other window events directly.
+                servo.handle_events(vec![event]);
             }
-            _ => info!("Unused event: {:?}", event),
         }
         ControlFlow::Continue
     });
