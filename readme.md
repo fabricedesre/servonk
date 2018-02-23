@@ -13,7 +13,7 @@ First, install [rustup](https://rustup.rs/) and then run `./build.sh --release`.
 ## Running
 
 - Push the bits to the device with `./push.sh`.
-- Run with `adb shell servo.sh https://duckduckgo.com`
+- Run with `adb shell servo.sh https://en.wikipedia.org/wiki/Special:Random`
 
 ## Supported devices
 
