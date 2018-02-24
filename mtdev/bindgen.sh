@@ -4,8 +4,8 @@ set -e
 
 mkdir -p src/generated
 
-bindgen --whitelist-function "mtdev_open" \
-        --whitelist-function "mtdev_close" \
+bindgen --whitelist-function "mtdev_new_open" \
+        --whitelist-function "mtdev_close_delete" \
         --whitelist-function "mtdev_get" \
         --whitelist-function "mtdev_get_abs_minimum" \
         --whitelist-function "mtdev_has_mt_event" \

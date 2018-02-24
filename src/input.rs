@@ -245,8 +245,6 @@ fn process_events(device: &mut MtDev, context: &mut TouchInputContext, sender: &
     }
 }
 
-const DEV_INPUT_EVENT_COUNT: usize = 3;
-
 pub fn run_input_loop(event_sender: &Sender<Event>) {
     let sender = event_sender.clone();
     thread::spawn(move || {
@@ -259,7 +257,8 @@ pub fn run_input_loop(event_sender: &Sender<Event>) {
         // Register input devices with the mio event loop.
         // We keep the File alive to prevent closing of the device.
         let mut inputs: Vec<(File, MtDev)> = Vec::new();
-        for i in 0..DEV_INPUT_EVENT_COUNT {
+        let mut i = 0;
+        loop {
             let path = format!("/dev/input/event{}", i);
             if let Ok(file) = File::open(Path::new(&path)) {
                 let fd = file.as_raw_fd();
@@ -277,10 +276,13 @@ pub fn run_input_loop(event_sender: &Sender<Event>) {
                         Ready::readable(),
                         PollOpt::edge(),
                     ).unwrap();
-                    debug!("Registered input device {}", path);
+                    println!("Registered input device {} {}", path, fd);
                 } else {
                     error!("Failed to create MtDev for {}", path);
                 }
+                i += 1;
+            } else {
+                break;
             }
         }
 

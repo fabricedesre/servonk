@@ -11,6 +11,7 @@ use generated::ffi::*;
 use libc::{fcntl, F_GETFL, F_SETFL, O_NONBLOCK};
 use std::os::raw::c_int;
 use std::os::unix::io::RawFd;
+use std::ptr::null_mut;
 
 pub use generated::ffi::input_event;
 
@@ -27,16 +28,15 @@ pub struct MtDev {
 impl MtDev {
     /// Creates a new mtdev manager if possible.
     pub fn new(fd: RawFd) -> Option<Self> {
-        let dev = Box::into_raw(Box::new(mtdev::default()));
-        let res = unsafe {
+        let dev = unsafe {
             // Set the fd to non blocking mode so that mtdev will not
             // block on the full event buffer.
             let flags = fcntl(fd, F_GETFL, 0);
             fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 
-            mtdev_open(dev, fd)
+            mtdev_new_open(fd)
         };
-        if res == 0 {
+        if dev != null_mut() {
             return Some(MtDev { mtdev: dev, fd });
         }
         None
@@ -73,9 +73,7 @@ impl MtDev {
 impl Drop for MtDev {
     fn drop(&mut self) {
         unsafe {
-            mtdev_close(self.mtdev);
-            // Get ownership again to drop mtdev.
-            let _box = Box::from_raw(self.mtdev);
+            mtdev_close_delete(self.mtdev);
         }
     }
 }
