@@ -20,15 +20,49 @@
     paired with the 500 weight, ensuring adequate contrast.
 -->
 <familyset version="22">
+<family name="fira-sans">
+    <font weight="80" style="normal">FiraSans-Regular.otf</font>
+    <font weight="200" style="bold italic">FiraSans-BoldItalic.otf</font>
+    <font weight="0" style="hair italic">FiraSans-HairItalic.otf</font>
+    <font weight="0" style="italic">FiraSans-HairItalic.otf</font>
+    <font weight="80" style="italic">FiraSans-Italic.otf</font>
+    <font weight="205" style="extrabold italic">FiraSans-ExtraBoldItalic.otf</font>
+    <font weight="205" style="italic">FiraSans-ExtraBoldItalic.otf</font>
+    <font weight="180" style="semibold italic">FiraSans-SemiBoldItalic.otf</font>
+    <font weight="180" style="italic">FiraSans-SemiBoldItalic.otf</font>
+    <font weight="40" style="ultralight">FiraSans-UltraLight.otf</font>
+    <font weight="40" style="normal">FiraSans-UltraLight.otf</font>
+    <font weight="50" style="light italic">FiraSans-LightItalic.otf</font>
+    <font weight="50" style="italic">FiraSans-LightItalic.otf</font>
+    <font weight="0" style="hair">FiraSans-Hair.otf</font>
+    <font weight="0" style="normal">FiraSans-Hair.otf</font>
+    <font weight="40" style="ultralight italic">FiraSans-UltraLightItalic.otf</font>
+    <font weight="40" style="italic">FiraSans-UltraLightItalic.otf</font>
+    <font weight="180" style="semibold">FiraSans-SemiBold.otf</font>
+    <font weight="180" style="normal">FiraSans-SemiBold.otf</font>
+    <font weight="210" style="heavy">FiraSans-Heavy.otf</font>
+    <font weight="210" style="normal">FiraSans-Heavy.otf</font>
+    <font weight="205" style="extrabold">FiraSans-ExtraBold.otf</font>
+    <font weight="205" style="normal">FiraSans-ExtraBold.otf</font>
+    <font weight="100" style="medium">FiraSans-Medium.otf</font>
+    <font weight="100" style="normal">FiraSans-Medium.otf</font>
+    <font weight="50" style="light">FiraSans-Light.otf</font>
+    <font weight="50" style="normal">FiraSans-Light.otf</font>
+    <font weight="100" style="medium italic">FiraSans-MediumItalic.otf</font>
+    <font weight="100" style="italic">FiraSans-MediumItalic.otf</font>
+    <font weight="210" style="heavy italic">FiraSans-HeavyItalic.otf</font>
+    <font weight="210" style="italic">FiraSans-HeavyItalic.otf</font>
+    <font weight="200" style="bold">FiraSans-Bold.otf</font>
+  </family>
     <!-- first font is default -->
     <family name="sans-serif">
-        <font weight="100" style="normal">Roboto-Regular.ttf</font>
+        <font weight="100" style="normal">FiraSans-Regular.ttf</font>
         <font weight="100" style="italic">Roboto-Italic.ttf</font>
-        <font weight="300" style="normal">Roboto-Regular.ttf</font>
+        <font weight="300" style="normal">FiraSans-Regular.ttf</font>
         <font weight="300" style="italic">Roboto-Italic.ttf</font>
-        <font weight="400" style="normal">Roboto-Regular.ttf</font>
+        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
         <font weight="400" style="italic">Roboto-Italic.ttf</font>
-        <font weight="500" style="normal">Roboto-Regular.ttf</font>
+        <font weight="500" style="normal">FiraSans-Regular.ttf</font>
         <font weight="500" style="italic">Roboto-Italic.ttf</font>
         <font weight="900" style="normal">Roboto-Bold.ttf</font>
         <font weight="900" style="italic">Roboto-BoldItalic.ttf</font>
@@ -47,11 +81,11 @@
     <alias name="verdana" to="sans-serif" />
 
     <family name="sans-serif-condensed">
-        <font weight="300" style="normal">Roboto-Regular.ttf</font>
+        <font weight="300" style="normal">FiraSans-Regular.ttf</font>
         <font weight="300" style="italic">Roboto-Italic.ttf</font>
-        <font weight="400" style="normal">Roboto-Regular.ttf</font>
+        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
         <font weight="400" style="italic">Roboto-Italic.ttf</font>
-        <font weight="500" style="normal">Roboto-Regular.ttf</font>
+        <font weight="500" style="normal">FiraSans-Regular.ttf</font>
         <font weight="500" style="italic">Roboto-Italic.ttf</font>
         <font weight="700" style="normal">Roboto-Bold.ttf</font>
         <font weight="700" style="italic">Roboto-BoldItalic.ttf</font>
@@ -87,16 +121,16 @@
     <alias name="courier new" to="serif-monospace" />
 
     <family name="casual">
-        <font weight="400" style="normal">Roboto-Regular.ttf</font>
+        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
     </family>
 
     <family name="cursive">
-        <font weight="400" style="normal">Roboto-Regular.ttf</font>
+        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
         <font weight="700" style="normal">Roboto-Bold.ttf</font>
     </family>
 
     <family name="sans-serif-smallcaps">
-        <font weight="400" style="normal">Roboto-Regular.ttf</font>
+        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
     </family>
 
 </familyset>

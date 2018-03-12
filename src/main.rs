@@ -102,7 +102,7 @@ fn main() {
         dpi as f32 / 150.0 + 0.5
     });
     // Hardcode for now...
-    opts.device_pixels_per_px = Some(1.5);
+    opts.device_pixels_per_px = Some(1.0);
 
     opts::set_defaults(opts);
 

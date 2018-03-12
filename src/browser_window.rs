@@ -174,7 +174,7 @@ impl WindowMethods for BrowserWindow {
     fn hidpi_factor(&self) -> TypedScale<f32, DeviceIndependentPixel, DevicePixel> {
         info!("hidpi_factor");
         // TODO: adjust based on the display's dpi.
-        TypedScale::new(1.5)
+        TypedScale::new(1.0)
     }
 
     fn handle_key(

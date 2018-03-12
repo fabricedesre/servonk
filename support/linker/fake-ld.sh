@@ -29,5 +29,6 @@ call_gcc()
     --sysroot="${ANDROID_SYSROOT}" ${_GCC_PARAMS} -lc++\
     -o "${TARGET_DIR}/servo"
 
+  cp  "${TARGET_DIR}/servo"  "${TARGET_DIR}/servo.unstripped"
   "${_ANDROID_EABI}-strip" "${TARGET_DIR}/servo"
 }
