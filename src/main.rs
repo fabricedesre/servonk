@@ -14,6 +14,7 @@ use std::heap::System;
 static ALLOCATOR: System = System;
 
 extern crate android_logger;
+// extern crate api_server;
 extern crate egl;
 extern crate errno;
 extern crate gleam;
@@ -111,6 +112,8 @@ fn main() {
         "Options configured as {:?} {:?}",
         actual_opts.certificate_path, actual_opts.device_pixels_per_px
     );
+
+    // api_server::start_api_server();
 
     let mut servo = servo::Servo::new(window);
 

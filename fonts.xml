@@ -1,27 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    WARNING: Parsing of this file by third-party apps is not supported. The
-    file, and the font files it refers to, will be renamed and/or moved out
-    from their respective location in the next Android release, and/or the
-    format or syntax of the file may change significantly. If you parse this
-    file for information about system fonts, do it at your own risk. Your
-    application will almost certainly break with the next major Android
-    release.
-
-    In this file, all fonts without names are added to the default list.
-    Fonts are chosen based on a match: full BCP-47 language tag including
-    script, then just language, and finally order (the first font containing
-    the glyph).
-
-    Order of appearance is also the tiebreaker for weight matching. This is
-    the reason why the 900 weights of Roboto precede the 700 weights - we
-    prefer the former when an 800 weight is requested. Since bold spans
-    effectively add 300 to the weight, this ensures that 900 is the bold
-    paired with the 500 weight, ensuring adequate contrast.
--->
 <familyset version="22">
-<family name="fira-sans">
-    <font weight="80" style="normal">FiraSans-Regular.otf</font>
+  <family name="droid sans ethiopic">
+    <font weight="200" style="bold">DroidSansEthiopic-Bold.ttf</font>
+    <font weight="80" style="regular">DroidSansEthiopic-Regular.ttf</font>
+  </family>
+  <family name="keyboard symbols">
+    <font weight="80" style="regular">hidden/Keyboard-Symbols.ttf</font>
+  </family>
+  <family name="fira sans condensed">
+    <font weight="180" style="semibold">FiraSansCondensed-SemiBold.otf</font>
+    <font weight="180" style="regular">FiraSansCondensed-SemiBold.otf</font>
+    <font weight="200" style="bold italic">FiraSansCondensed-BoldItalic.otf</font>
+    <font weight="80" style="regular">FiraSansCondensed-Regular.otf</font>
+    <font weight="180" style="semibold italic">FiraSansCondensed-SemiBoldItalic.otf</font>
+    <font weight="180" style="italic">FiraSansCondensed-SemiBoldItalic.otf</font>
+    <font weight="205" style="extrabold">FiraSansCondensed-ExtraBold.otf</font>
+    <font weight="205" style="regular">FiraSansCondensed-ExtraBold.otf</font>
+    <font weight="40" style="ultralight">FiraSansCondensed-UltraLight.otf</font>
+    <font weight="40" style="regular">FiraSansCondensed-UltraLight.otf</font>
+    <font weight="40" style="ultralight italic">FiraSansCondensed-UltraLightItalic.otf</font>
+    <font weight="40" style="italic">FiraSansCondensed-UltraLightItalic.otf</font>
+    <font weight="210" style="heavy">FiraSansCondensed-Heavy.otf</font>
+    <font weight="210" style="regular">FiraSansCondensed-Heavy.otf</font>
+    <font weight="50" style="light">FiraSansCondensed-Light.otf</font>
+    <font weight="50" style="regular">FiraSansCondensed-Light.otf</font>
+    <font weight="80" style="italic">FiraSansCondensed-Italic.otf</font>
+    <font weight="200" style="bold">FiraSansCondensed-Bold.otf</font>
+    <font weight="0" style="hair italic">FiraSansCondensed-HairItalic.otf</font>
+    <font weight="0" style="italic">FiraSansCondensed-HairItalic.otf</font>
+    <font weight="100" style="medium italic">FiraSansCondensed-MediumItalic.otf</font>
+    <font weight="100" style="italic">FiraSansCondensed-MediumItalic.otf</font>
+    <font weight="50" style="light italic">FiraSansCondensed-LightItalic.otf</font>
+    <font weight="50" style="italic">FiraSansCondensed-LightItalic.otf</font>
+    <font weight="0" style="hair">FiraSansCondensed-Hair.otf</font>
+    <font weight="0" style="regular">FiraSansCondensed-Hair.otf</font>
+    <font weight="210" style="heavy italic">FiraSansCondensed-HeavyItalic.otf</font>
+    <font weight="210" style="italic">FiraSansCondensed-HeavyItalic.otf</font>
+    <font weight="205" style="extrabold italic">FiraSansCondensed-ExtraBoldItalic.otf</font>
+    <font weight="205" style="italic">FiraSansCondensed-ExtraBoldItalic.otf</font>
+    <font weight="100" style="medium">FiraSansCondensed-Medium.otf</font>
+    <font weight="100" style="regular">FiraSansCondensed-Medium.otf</font>
+  </family>
+  <family name="motoyalcedar">
+    <font weight="80" style="w3 mono">MTLc3m.ttf</font>
+    <font weight="80" style="regular">MTLc3m.ttf</font>
+  </family>
+  <family name="padauk">
+    <font weight="200" style="bold">Padauk-bold.ttf</font>
+    <font weight="200" style="áá¬áá¯á¶á¸áá²">Padauk-bold.ttf</font>
+    <font weight="200" style="á??á?¬á??á?¯á?¶á?¸á??á??">Padauk-bold.ttf</font>
+    <font weight="80" style="regular">Padauk.ttf</font>
+  </family>
+  <family name="droid sans hebrew">
+    <font weight="80" style="regular">DroidSansHebrew-Regular.ttf</font>
+    <font weight="180" style="bold">DroidSansHebrew-Bold.ttf</font>
+  </family>
+  <family name="fira sans condensed hair">
+    <font weight="0" style="hair italic">FiraSansCondensed-HairItalic.otf</font>
+    <font weight="0" style="italic">FiraSansCondensed-HairItalic.otf</font>
+    <font weight="0" style="hair">FiraSansCondensed-Hair.otf</font>
+    <font weight="0" style="regular">FiraSansCondensed-Hair.otf</font>
+  </family>
+  <family name="droid sans mono">
+    <font weight="80" style="regular">DroidSansMono.ttf</font>
+  </family>
+  <family name="fira sans condensed semibold">
+    <font weight="180" style="semibold">FiraSansCondensed-SemiBold.otf</font>
+    <font weight="180" style="regular">FiraSansCondensed-SemiBold.otf</font>
+    <font weight="180" style="semibold italic">FiraSansCondensed-SemiBoldItalic.otf</font>
+    <font weight="180" style="italic">FiraSansCondensed-SemiBoldItalic.otf</font>
+  </family>
+  <family name="fira sans medium">
+    <font weight="100" style="medium">FiraSans-Medium.otf</font>
+    <font weight="100" style="regular">FiraSans-Medium.otf</font>
+    <font weight="100" style="medium italic">FiraSans-MediumItalic.otf</font>
+    <font weight="100" style="italic">FiraSans-MediumItalic.otf</font>
+  </family>
+  <family name="charis sil compact">
+    <font weight="80" style="italic">CharisSILCompact-I.ttf</font>
+    <font weight="200" style="bold italic">CharisSILCompact-BI.ttf</font>
+    <font weight="80" style="regular">CharisSILCompact-R.ttf</font>
+    <font weight="200" style="bold">CharisSILCompact-B.ttf</font>
+  </family>
+  <family name="éçégéñlé}éãéxéä3ìôïù">
+    <font weight="80" style="w3 mono">MTLmr3m.ttf</font>
+    <font weight="80" style="regular">MTLmr3m.ttf</font>
+  </family>
+  <family name="fira sans heavy">
+    <font weight="210" style="heavy">FiraSans-Heavy.otf</font>
+    <font weight="210" style="regular">FiraSans-Heavy.otf</font>
+    <font weight="210" style="heavy italic">FiraSans-HeavyItalic.otf</font>
+    <font weight="210" style="italic">FiraSans-HeavyItalic.otf</font>
+  </family>
+  <family name="noto sans">
+    <font weight="200" style="bold">NotoSansKhmerUI-Bold.ttf</font>
+    <font weight="80" style="regular">NotoSansKhmerUI-Regular.ttf</font>
+  </family>
+  <family name="droid sans fallback">
+    <font weight="80" style="regular">DroidSansFallback.ttf</font>
+  </family>
+  <family name="gaia-icons">
+    <font weight="100" style="icons">hidden/gaia-icons.ttf</font>
+  </family>
+  <family name="firefox emoji">
+    <font weight="80" style="regular">FirefoxEmoji.ttf</font>
+  </family>
+  <family name="fira sans condensed ultralight">
+    <font weight="40" style="ultralight">FiraSansCondensed-UltraLight.otf</font>
+    <font weight="40" style="regular">FiraSansCondensed-UltraLight.otf</font>
+    <font weight="40" style="ultralight italic">FiraSansCondensed-UltraLightItalic.otf</font>
+    <font weight="40" style="italic">FiraSansCondensed-UltraLightItalic.otf</font>
+  </family>
+  <family name="モトヤlシータ゛3等幅">
+    <font weight="80" style="w3 mono">MTLc3m.ttf</font>
+    <font weight="80" style="regular">MTLc3m.ttf</font>
+  </family>
+  <family name="fira sans extrabold">
+    <font weight="205" style="extrabold italic">FiraSans-ExtraBoldItalic.otf</font>
+    <font weight="205" style="italic">FiraSans-ExtraBoldItalic.otf</font>
+    <font weight="205" style="extrabold">FiraSans-ExtraBold.otf</font>
+    <font weight="205" style="regular">FiraSans-ExtraBold.otf</font>
+  </family>
+  <family name="fira sans condensed medium">
+    <font weight="100" style="medium italic">FiraSansCondensed-MediumItalic.otf</font>
+    <font weight="100" style="italic">FiraSansCondensed-MediumItalic.otf</font>
+    <font weight="100" style="medium">FiraSansCondensed-Medium.otf</font>
+    <font weight="100" style="regular">FiraSansCondensed-Medium.otf</font>
+  </family>
+  <family name="fira sans">
     <font weight="200" style="bold italic">FiraSans-BoldItalic.otf</font>
     <font weight="0" style="hair italic">FiraSans-HairItalic.otf</font>
     <font weight="0" style="italic">FiraSans-HairItalic.otf</font>
@@ -30,107 +136,163 @@
     <font weight="205" style="italic">FiraSans-ExtraBoldItalic.otf</font>
     <font weight="180" style="semibold italic">FiraSans-SemiBoldItalic.otf</font>
     <font weight="180" style="italic">FiraSans-SemiBoldItalic.otf</font>
+    <font weight="80" style="regular">FiraSans-Regular.otf</font>
     <font weight="40" style="ultralight">FiraSans-UltraLight.otf</font>
-    <font weight="40" style="normal">FiraSans-UltraLight.otf</font>
+    <font weight="40" style="regular">FiraSans-UltraLight.otf</font>
     <font weight="50" style="light italic">FiraSans-LightItalic.otf</font>
     <font weight="50" style="italic">FiraSans-LightItalic.otf</font>
     <font weight="0" style="hair">FiraSans-Hair.otf</font>
-    <font weight="0" style="normal">FiraSans-Hair.otf</font>
+    <font weight="0" style="regular">FiraSans-Hair.otf</font>
     <font weight="40" style="ultralight italic">FiraSans-UltraLightItalic.otf</font>
     <font weight="40" style="italic">FiraSans-UltraLightItalic.otf</font>
     <font weight="180" style="semibold">FiraSans-SemiBold.otf</font>
-    <font weight="180" style="normal">FiraSans-SemiBold.otf</font>
+    <font weight="180" style="regular">FiraSans-SemiBold.otf</font>
     <font weight="210" style="heavy">FiraSans-Heavy.otf</font>
-    <font weight="210" style="normal">FiraSans-Heavy.otf</font>
+    <font weight="210" style="regular">FiraSans-Heavy.otf</font>
     <font weight="205" style="extrabold">FiraSans-ExtraBold.otf</font>
-    <font weight="205" style="normal">FiraSans-ExtraBold.otf</font>
+    <font weight="205" style="regular">FiraSans-ExtraBold.otf</font>
     <font weight="100" style="medium">FiraSans-Medium.otf</font>
-    <font weight="100" style="normal">FiraSans-Medium.otf</font>
+    <font weight="100" style="regular">FiraSans-Medium.otf</font>
     <font weight="50" style="light">FiraSans-Light.otf</font>
-    <font weight="50" style="normal">FiraSans-Light.otf</font>
+    <font weight="50" style="regular">FiraSans-Light.otf</font>
     <font weight="100" style="medium italic">FiraSans-MediumItalic.otf</font>
     <font weight="100" style="italic">FiraSans-MediumItalic.otf</font>
     <font weight="210" style="heavy italic">FiraSans-HeavyItalic.otf</font>
     <font weight="210" style="italic">FiraSans-HeavyItalic.otf</font>
     <font weight="200" style="bold">FiraSans-Bold.otf</font>
   </family>
-    <!-- first font is default -->
-    <family name="sans-serif">
-        <font weight="100" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="100" style="italic">Roboto-Italic.ttf</font>
-        <font weight="300" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="300" style="italic">Roboto-Italic.ttf</font>
-        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="400" style="italic">Roboto-Italic.ttf</font>
-        <font weight="500" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="500" style="italic">Roboto-Italic.ttf</font>
-        <font weight="900" style="normal">Roboto-Bold.ttf</font>
-        <font weight="900" style="italic">Roboto-BoldItalic.ttf</font>
-        <font weight="700" style="normal">Roboto-Bold.ttf</font>
-        <font weight="700" style="italic">Roboto-BoldItalic.ttf</font>
-    </family>
-
-    <!-- Note that aliases must come after the fonts they reference. -->
-    <alias name="sans-serif-thin" to="sans-serif" weight="100" />
-    <alias name="sans-serif-light" to="sans-serif" weight="300" />
-    <alias name="sans-serif-medium" to="sans-serif" weight="500" />
-    <alias name="sans-serif-black" to="sans-serif" weight="900" />
-    <alias name="arial" to="sans-serif" />
-    <alias name="helvetica" to="sans-serif" />
-    <alias name="tahoma" to="sans-serif" />
-    <alias name="verdana" to="sans-serif" />
-
-    <family name="sans-serif-condensed">
-        <font weight="300" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="300" style="italic">Roboto-Italic.ttf</font>
-        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="400" style="italic">Roboto-Italic.ttf</font>
-        <font weight="500" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="500" style="italic">Roboto-Italic.ttf</font>
-        <font weight="700" style="normal">Roboto-Bold.ttf</font>
-        <font weight="700" style="italic">Roboto-BoldItalic.ttf</font>
-    </family>
-    <alias name="sans-serif-condensed-light" to="sans-serif-condensed" weight="300" />
-    <alias name="sans-serif-condensed-medium" to="sans-serif-condensed" weight="500" />
-
-    <family name="serif">
-        <font weight="400" style="normal">DroidSerif-Regular.ttf</font>
-        <font weight="700" style="normal">DroidSerif-Bold.ttf</font>
-        <font weight="400" style="italic">DroidSerif-Italic.ttf</font>
-        <font weight="700" style="italic">DroidSerif-BoldItalic.ttf</font>
-    </family>
-    <alias name="times" to="serif" />
-    <alias name="times new roman" to="serif" />
-    <alias name="palatino" to="serif" />
-    <alias name="georgia" to="serif" />
-    <alias name="baskerville" to="serif" />
-    <alias name="goudy" to="serif" />
-    <alias name="fantasy" to="serif" />
-    <alias name="ITC Stone Serif" to="serif" />
-
-    <family name="monospace">
-        <font weight="400" style="normal">DroidSansMono.ttf</font>
-    </family>
-    <alias name="sans-serif-monospace" to="monospace" />
-    <alias name="monaco" to="monospace" />
-
-    <family name="serif-monospace">
-        <font weight="400" style="normal">DroidSansMono.ttf</font>
-    </family>
-    <alias name="courier" to="serif-monospace" />
-    <alias name="courier new" to="serif-monospace" />
-
-    <family name="casual">
-        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
-    </family>
-
-    <family name="cursive">
-        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
-        <font weight="700" style="normal">Roboto-Bold.ttf</font>
-    </family>
-
-    <family name="sans-serif-smallcaps">
-        <font weight="400" style="normal">FiraSans-Regular.ttf</font>
-    </family>
-
+  <family name="lohit gujarati">
+    <font weight="80" style="regular">Lohit-Gujarati.ttf</font>
+  </family>
+  <family name="noto sans ethiopic">
+    <font weight="80" style="regular">NotoSansEthiopic-Regular.ttf</font>
+    <font weight="200" style="bold">NotoSansEthiopic-Bold.ttf</font>
+  </family>
+  <family name="fira sans ultralight">
+    <font weight="40" style="ultralight">FiraSans-UltraLight.otf</font>
+    <font weight="40" style="regular">FiraSans-UltraLight.otf</font>
+    <font weight="40" style="ultralight italic">FiraSans-UltraLightItalic.otf</font>
+    <font weight="40" style="italic">FiraSans-UltraLightItalic.otf</font>
+  </family>
+  <family name="モトヤlマルベリ3等幅">
+    <font weight="80" style="w3 mono">MTLmr3m.ttf</font>
+    <font weight="80" style="regular">MTLmr3m.ttf</font>
+  </family>
+  <family name="lohit telugu">
+    <font weight="80" style="regular">Lohit-Telugu.ttf</font>
+  </family>
+  <family name="noto sans tamil">
+    <font weight="200" style="bold">NotoSansTamil-Bold.ttf</font>
+    <font weight="80" style="regular">NotoSansTamil-Regular.ttf</font>
+  </family>
+  <family name="fira mono medium">
+    <font weight="100" style="medium">FiraMono-Medium.otf</font>
+    <font weight="100" style="regular">FiraMono-Medium.otf</font>
+  </family>
+  <family name="noto sans bengali">
+    <font weight="80" style="regular">NotoSansBengali-Regular.ttf</font>
+    <font weight="200" style="bold">NotoSansBengali-Bold.ttf</font>
+  </family>
+  <family name="fira sans condensed extrabold">
+    <font weight="205" style="extrabold">FiraSansCondensed-ExtraBold.otf</font>
+    <font weight="205" style="regular">FiraSansCondensed-ExtraBold.otf</font>
+    <font weight="205" style="extrabold italic">FiraSansCondensed-ExtraBoldItalic.otf</font>
+    <font weight="205" style="italic">FiraSansCondensed-ExtraBoldItalic.otf</font>
+  </family>
+  <family name="motoyalmaru">
+    <font weight="80" style="w3 mono">MTLmr3m.ttf</font>
+    <font weight="80" style="regular">MTLmr3m.ttf</font>
+  </family>
+  <family name="ddc uchen">
+    <font weight="80" style="regular">DDC_Uchen.ttf</font>
+  </family>
+  <family name="fira mono">
+    <font weight="200" style="bold">FiraMono-Bold.otf</font>
+    <font weight="100" style="medium">FiraMono-Medium.otf</font>
+    <font weight="100" style="regular">FiraMono-Medium.otf</font>
+    <font weight="80" style="regular">FiraMono-Regular.otf</font>
+  </family>
+  <family name="droid sans georgian">
+    <font weight="80" style="regular">DroidSansGeorgian.ttf</font>
+  </family>
+  <family name="meera">
+    <font weight="80" style="regular">Meera.ttf</font>
+  </family>
+  <family name="fira sans condensed heavy">
+    <font weight="210" style="heavy">FiraSansCondensed-Heavy.otf</font>
+    <font weight="210" style="regular">FiraSansCondensed-Heavy.otf</font>
+    <font weight="210" style="heavy italic">FiraSansCondensed-HeavyItalic.otf</font>
+    <font weight="210" style="italic">FiraSansCondensed-HeavyItalic.otf</font>
+  </family>
+  <family name="fira sans condensed light">
+    <font weight="50" style="light">FiraSansCondensed-Light.otf</font>
+    <font weight="50" style="regular">FiraSansCondensed-Light.otf</font>
+    <font weight="50" style="light italic">FiraSansCondensed-LightItalic.otf</font>
+    <font weight="50" style="italic">FiraSansCondensed-LightItalic.otf</font>
+  </family>
+  <family name="droid sans armenian">
+    <font weight="80" style="regular">DroidSansArmenian.ttf</font>
+  </family>
+  <family name="lohit punjabi">
+    <font weight="80" style="regular">Lohit-Punjabi.ttf</font>
+  </family>
+  <family name="lohit oriya">
+    <font weight="80" style="regular">Lohit-Oriya.ttf</font>
+  </family>
+  <family name="noto sans devanagari">
+    <font weight="200" style="bold">NotoSansDevanagari-Bold.ttf</font>
+    <font weight="80" style="regular">NotoSansDevanagari-Regular.ttf</font>
+  </family>
+  <family name="droid sans thai">
+    <font weight="80" style="regular">DroidSansThai.ttf</font>
+  </family>
+  <family name="fira sans semibold">
+    <font weight="180" style="semibold italic">FiraSans-SemiBoldItalic.otf</font>
+    <font weight="180" style="italic">FiraSans-SemiBoldItalic.otf</font>
+    <font weight="180" style="semibold">FiraSans-SemiBold.otf</font>
+    <font weight="180" style="regular">FiraSans-SemiBold.otf</font>
+  </family>
+  <family name="lohit kannada">
+    <font weight="80" style="regular">Lohit-Kannada.ttf</font>
+  </family>
+  <family name="roboto">
+    <font weight="200" style="bold">Roboto-Bold.ttf</font>
+    <font weight="80" style="regular">Roboto-Regular.ttf</font>
+    <font weight="80" style="italic">Roboto-Italic.ttf</font>
+    <font weight="200" style="bold italic">Roboto-BoldItalic.ttf</font>
+  </family>
+  <family name="droid serif">
+    <font weight="80" style="italic">DroidSerif-Italic.ttf</font>
+    <font weight="200" style="bold">DroidSerif-Bold.ttf</font>
+    <font weight="80" style="regular">DroidSerif-Regular.ttf</font>
+    <font weight="200" style="bold italic">DroidSerif-BoldItalic.ttf</font>
+  </family>
+  <family name="fira sans hair">
+    <font weight="0" style="hair italic">FiraSans-HairItalic.otf</font>
+    <font weight="0" style="italic">FiraSans-HairItalic.otf</font>
+    <font weight="0" style="hair">FiraSans-Hair.otf</font>
+    <font weight="0" style="regular">FiraSans-Hair.otf</font>
+  </family>
+  <family name="droid naskh shift alt">
+    <font weight="80" style="regular">DroidNaskhUI-Regular.ttf</font>
+  </family>
+  <family name="éçégéñlévå[é^åj3ìôïù">
+    <font weight="80" style="w3 mono">MTLc3m.ttf</font>
+    <font weight="80" style="regular">MTLc3m.ttf</font>
+  </family>
+  <family name="fira sans light">
+    <font weight="50" style="light italic">FiraSans-LightItalic.otf</font>
+    <font weight="50" style="italic">FiraSans-LightItalic.otf</font>
+    <font weight="50" style="light">FiraSans-Light.otf</font>
+    <font weight="50" style="regular">FiraSans-Light.otf</font>
+  </family>
+  <family name="noto sans ui khmer">
+    <font weight="200" style="bold">NotoSansKhmerUI-Bold.ttf</font>
+    <font weight="80" style="regular">NotoSansKhmerUI-Regular.ttf</font>
+  </family>
+  <alias name="helvetica" to="fira sans" weight="400"/>
+  <alias name="arial" to="fira sans" weight="400"/>
+  <alias name="sans-serif" to="fira sans" weight="400" />
+  <alias name="Droid Sans" to="fira sans" weight="400" />
+  <alias name="serif" to="droid serif" weight="200" />
 </familyset>
