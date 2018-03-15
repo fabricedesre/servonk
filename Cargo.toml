@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Fabrice Desré <fabrice@desre.org>"]
 
 [dependencies]
-# actix-web = "0.4"
+api_server = { path = "./api-server" }
 android_logger = "0.3"
 egl = "0.2"
 errno = "0.2"
@@ -13,8 +13,8 @@ gonk-gfx = { git = "https://github.com/fabricedesre/gonk-gfx-rs" }
 libc = "0.2"
 # The gonk branch of Servo adds a feature to turn off the unimplemented web-bluetooth
 # and provides gonk support for the config.
-libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
-# libservo = { path = "../servo/components/servo", features = ["gonk"] }
+# libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
+libservo = { path = "../servo/components/servo", features = ["gonk"] }
 log = "0.3"
 mio = "0.6"
 mtdev = { path = "mtdev" }

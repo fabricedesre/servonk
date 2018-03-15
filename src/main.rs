@@ -14,7 +14,7 @@ use std::heap::System;
 static ALLOCATOR: System = System;
 
 extern crate android_logger;
-// extern crate api_server;
+extern crate api_server;
 extern crate egl;
 extern crate errno;
 extern crate gleam;
@@ -88,6 +88,9 @@ fn main() {
     opts.user_agent = USER_AGENT.into();
     opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
 
+    // TODO: set things up properly to support being forked.
+    opts.multiprocess = false;
+
     // Setup the event loop and create the main objects.
     let looper = EventLoop::new();
     let window = browser_window::BrowserWindow::new(&looper.get_sender());
@@ -109,11 +112,11 @@ fn main() {
 
     let actual_opts = opts::get();
     println!(
-        "Options configured as {:?} {:?}",
-        actual_opts.certificate_path, actual_opts.device_pixels_per_px
+        "Options configured as {:?} {:?} {:?}",
+        actual_opts.certificate_path, actual_opts.device_pixels_per_px, opts::multiprocess()
     );
 
-    // api_server::start_api_server();
+    api_server::start_api_server();
 
     let mut servo = servo::Servo::new(window);
 

@@ -1,4 +1,5 @@
 /target/
+/api-server/target/
 **/*.rs.bk
 _virtualenv
 .servo

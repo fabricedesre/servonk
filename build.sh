@@ -15,6 +15,9 @@ export RUST_TARGET=armv7-linux-androideabi
 
 ./bootstrap.sh
 
+# Build the host version of backtrace-sys without any custom CFLAGS
+cargo build -p backtrace-sys --release
+
 export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
 
 SYSROOT=$GONK_DIR/prebuilts/ndk/current/platforms/android-18/arch-arm/
