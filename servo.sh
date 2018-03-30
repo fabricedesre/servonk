@@ -4,4 +4,6 @@
 # resources/* files properly.
 cd /data/local/servo
 
+export RUST_BACKTRACE=1
+
 ./servo $@

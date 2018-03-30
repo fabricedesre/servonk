@@ -13,11 +13,6 @@ use std::thread;
 /// Starts the local server.
 /// TODO: add parameters.
 pub fn start_api_server() {
-    #[cfg(unix)]
-    {
-        println!("We are unix like");
-    }
-
     thread::spawn(move || {
         let sys = actix::System::new("api-server");
 

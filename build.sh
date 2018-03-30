@@ -16,7 +16,7 @@ export RUST_TARGET=armv7-linux-androideabi
 ./bootstrap.sh
 
 # Build the host version of backtrace-sys without any custom CFLAGS
-cargo build -p backtrace-sys --release
+cargo build -p backtrace-sys $@
 
 export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
 
@@ -70,7 +70,7 @@ OPENSSL_DIR=`pwd`/target/$RUST_TARGET/native/openssl
 mkdir -p $OPENSSL_DIR
 cp support/android/openssl.makefile $OPENSSL_DIR
 cp support/android/openssl.sh $OPENSSL_DIR
-export OPENSSL_VERSION="1.0.2k"
+export OPENSSL_VERSION="1.0.2o"
 export CROSS_COMPILE="arm-linux-androideabi-"
 
 HERE=`pwd`

@@ -26,10 +26,12 @@ extern crate mio;
 extern crate mtdev;
 extern crate servo;
 
+mod browser;
 mod browser_window;
 mod events_loop;
 mod input;
 
+use android_logger::Filter;
 use events_loop::*;
 use servo::compositing::windowing::WindowEvent;
 use servo::euclid::{TypedPoint2D, TypedSize2D, TypedVector2D};
@@ -46,12 +48,13 @@ use std::env;
 const LINE_HEIGHT: f32 = 38.0;
 
 // Customize the UA to not show the Android Token.
-const USER_AGENT: &'static str = "Mozilla/5.0 (Mobile; rv:59.0) Servo/1.0 Firefox/59.0";
+const USER_AGENT: &'static str = "Mozilla/5.0 (Mobile; rv:60.0) Servo/1.0 Firefox/60.0";
 
 fn main() {
-    let mut log_level = log::LogLevel::Info;
+    let mut log_level = log::Level::Info;
 
     let mut init_size = None;
+    let mut next_is_multiprocess_token = false;
     for arg in ::std::env::args() {
         // Parse the --resolution=wxh argument.
         if arg.starts_with("--resolution=") {
@@ -62,11 +65,16 @@ fn main() {
                 .collect();
             init_size = Some(TypedSize2D::new(res[0], res[1]));
         } else if arg == "--debug" {
-            log_level = log::LogLevel::Debug;
+            log_level = log::Level::Debug;
+        } else if arg == "--content-process" {
+            next_is_multiprocess_token = true;
+        } else if next_is_multiprocess_token {
+            println!("-> multiprocess token is {}", arg);
+            return servo::run_content_process(arg);
         }
     }
 
-    android_logger::init_once(log_level);
+    android_logger::init_once(Filter::default().with_min_level(log_level));
 
     let start_url = env::args().nth(1).unwrap_or_else(|| "index.html".into());
     info!(
@@ -88,7 +96,7 @@ fn main() {
     opts.user_agent = USER_AGENT.into();
     opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
 
-    // TODO: set things up properly to support being forked.
+    // TODO: figure out failure to start child process.
     opts.multiprocess = false;
 
     // Setup the event loop and create the main objects.
@@ -113,10 +121,14 @@ fn main() {
     let actual_opts = opts::get();
     println!(
         "Options configured as {:?} {:?} {:?}",
-        actual_opts.certificate_path, actual_opts.device_pixels_per_px, opts::multiprocess()
+        actual_opts.certificate_path,
+        actual_opts.device_pixels_per_px,
+        opts::multiprocess()
     );
 
     api_server::start_api_server();
+
+    let mut browser = browser::Browser::new(&looper.get_sender());
 
     let mut servo = servo::Servo::new(window);
 
@@ -132,6 +144,10 @@ fn main() {
 
     // Process events by reinjecting them into Servo's event loop.
     looper.run(|event| {
+        let servo_events = servo.get_events();
+        browser.handle_servo_events(servo_events);
+
+        let mut res = ControlFlow::Continue;
         match event {
             Event::WakeUpEvent => {
                 // Wake up servo.
@@ -178,7 +194,10 @@ fn main() {
                 // Relay other window events directly.
                 servo.handle_events(vec![event]);
             }
+            Event::ShutdownEvent => {
+                res = ControlFlow::Break;
+            }
         }
-        ControlFlow::Continue
+        res
     });
 }

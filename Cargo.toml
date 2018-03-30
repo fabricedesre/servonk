@@ -5,7 +5,7 @@ authors = ["Fabrice Desré <fabrice@desre.org>"]
 
 [dependencies]
 api_server = { path = "./api-server" }
-android_logger = "0.3"
+android_logger = "0.5"
 egl = "0.2"
 errno = "0.2"
 gleam = "0.4"
@@ -13,9 +13,9 @@ gonk-gfx = { git = "https://github.com/fabricedesre/gonk-gfx-rs" }
 libc = "0.2"
 # The gonk branch of Servo adds a feature to turn off the unimplemented web-bluetooth
 # and provides gonk support for the config.
-libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
-# libservo = { path = "../servo/components/servo", features = ["gonk"] }
-log = "0.3"
+# libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
+libservo = { path = "../servo/components/servo", features = ["gonk"] }
+log = "0.4"
 mio = "0.6"
 mtdev = { path = "mtdev" }
 
@@ -26,11 +26,11 @@ rust-webvr-api = { git = "https://github.com/fabricedesre/rust-webvr.git", branc
 # Fork of mozjs_sys to bypass the Android NDK detection
 mozjs_sys = { git = "https://github.com/fabricedesre/mozjs.git" }
 
-[profile.release]
-opt-level = 3
-debug = false
-rpath = false
-lto = true
-debug-assertions = false
-codegen-units = 1
+# [profile.release]
+# opt-level = 3
+# debug = false
+# rpath = false
+# lto = true
+# debug-assertions = false
+# codegen-units = 1
 # panic = 'abort'

@@ -12,6 +12,7 @@ use std::sync::mpsc::*;
 pub enum Event {
     WindowEvent(WindowEvent),
     WakeUpEvent,
+    ShutdownEvent,
 }
 
 pub enum ControlFlow {

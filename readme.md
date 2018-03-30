@@ -2,8 +2,6 @@
 
 ## Dependencies
 
-You need a version of cmake that can cross compile Angle. The version shipped with Ubuntu 17.10 is *not* working, so I downgraded to cmake 3.5.2.
-
 Do a b2g build first for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet.
 
 ## Building
