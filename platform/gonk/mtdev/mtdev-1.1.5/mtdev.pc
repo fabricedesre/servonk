@@ -1,0 +1,10 @@
+prefix=/home/fabrice/dev/servonk/ports/gonk/target/armv7-linux-androideabi/release/build/mtdev-2e3c109e97ee937b/out
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: mtdev
+Description: Multitouch Protocol Translation Library
+Version: 1.1.5
+Libs: -L${libdir} -lmtdev
+Cflags: -I${includedir}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Servonk</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Gaia Keyboard -->
+    <!-- <link href="gaia_keyboard/gaia_keyboard.css" rel="stylesheet">
+    <script src="gaia_keyboard/layouts_list.js"></script>
+    <script src="gaia_keyboard/input_method.js"></script>
+    <script src="gaia_keyboard/settings.js"></script>
+    <script src="gaia_keyboard/gaia_keyboard.js"></script> -->
+
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/window_manager.css" rel="stylesheet">
+    <link href="css/lockscreen.css" rel="stylesheet">
+    <link href="css/statusbar.css" rel="stylesheet">
+    <link href="css/navbar.css" rel="stylesheet">
+    <link href="css/virtual_keyboard.css" rel="stylesheet">
+
+    <script src="../shared/hyper_html.js"></script>
+    <script src="js/lockscreen.js"></script>
+    <script src="js/virtual_keyboard.js"></script>
+    <script src="js/statusbar.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/window_manager.js"></script>
+    <script src="js/web_view.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <lock-screen id="lock-screen"></lock-screen>
+
+    <div id="screen">
+        <status-bar></status-bar>
+
+        <drag-panel class="left"> </drag-panel>
+        <drag-panel class="right"> </drag-panel>
+        <window-manager id="windows"></window-manager>
+
+        <!-- <virtual-keyboard id="virtual-keyboard"></virtual-keyboard> -->
+        <nav-bar></nav-bar>
+    </div>
+</body>
+
+</html>

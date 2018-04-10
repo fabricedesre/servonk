@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        html,
+        body {
+            font-family: "fira-sans";
+            color: lightgray;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #screen {
+            background-color: teal;
+            width: 100%;
+            height: 100%;
+        }
+
+        #header {
+            position: absolute;
+            height: 80px;
+            top: 0px;
+
+            background-color: rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+
+        #footer {
+            position: absolute;
+            height: 80px;
+            bottom: 0px;
+
+            background-color: rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+
+        #content {
+            position: absolute;
+            top: 80px;
+            bottom: 80px;
+            width: 100%;
+        }
+
+        #content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="screen">
+        <div id="header">
+            <h1>Transparent Header</h1>
+        </div>
+
+        <div id="content">
+            <iframe src="content.html"></iframe>
+        </div>
+
+        <div id="footer">
+            <h1>Transparent Footer</h1>
+        </div>
+    </div>
+</body>
+
+</html>

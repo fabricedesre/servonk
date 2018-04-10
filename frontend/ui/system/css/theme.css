@@ -1,0 +1,11 @@
+/*
+ * CSS variables for the system UI.
+ */
+
+:root {
+    /* Status bar */
+    --statusbar-height: 50px;
+
+    /* Navigation bar */
+    --navbar-height: 90px;
+}

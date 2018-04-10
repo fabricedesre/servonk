@@ -1,0 +1,73 @@
+window-manager {
+    position: absolute;
+    top: var(--statusbar-height);
+    bottom: var(--navbar-height);
+    left: 0px;
+    width: 100%;
+    /* transition: transform 0.25s; */
+}
+
+window-manager.dragging {
+    /* transition: none; */
+}
+
+window-manager web-view,
+window-manager frame-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    /* transition: transform 0.25s; */
+}
+
+window-manager web-view.exposed {
+    box-shadow: rgba(128,128,128,1) 0px 20px 30px, inset rgba(128,128,128,1) 0px -10px 20px;
+}
+
+window-manager web-view iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.frame-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* transition: transform 0.25s; */
+}
+
+.overlay-title {
+    background-color: rgb(64, 64, 64);
+    color: white;
+    padding: 0.25em;
+    text-overflow: ellipsis;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+drag-panel {
+    position: absolute;
+    top: var(--statusbar-height);
+    bottom: var(--navbar-height);
+    width: 50px;
+    /* background-color: rgba(0, 255, 255, 0.5); */
+    z-index: 10;
+}
+
+drag-panel.wide {
+    width: 100%;
+}
+
+drag-panel.left {
+    left: 0px;
+}
+
+drag-panel.right {
+    right: 0px;
+}

@@ -1,13 +1,12 @@
-/target/
-/api-server/target/
+**/target/
 **/*.rs.bk
 _virtualenv
 .servo
-/.cargo/*
-!/.cargo/config
+**/.cargo/*
+!**/.cargo/config
 **/*.o
 **/*.lo
 **/*.la
 **/.deps/*
 **/.libs/*
-mtdev/src/generated
+ports/gonk/mtdev/src/generated

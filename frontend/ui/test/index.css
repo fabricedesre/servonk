@@ -1,0 +1,46 @@
+html, body {
+    font-family: "fira-sans";
+    color: lightgray;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#screen {
+    /* background-image: url(background.jpg); */
+    background-color: teal;
+    width: 100%;
+    height: 100%;
+}
+
+#header {
+    position: absolute;
+    height: 80px;
+    top: 0px;
+    
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+}
+
+#footer {
+    position: absolute;
+    height: 80px;
+    bottom: 0px;
+
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+}
+
+#content {
+    position: absolute;
+    top: 80px;
+    bottom: 80px;
+    width: 100%;
+}
+
+#content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: white;
+}

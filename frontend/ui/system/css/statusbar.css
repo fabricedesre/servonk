@@ -1,0 +1,24 @@
+status-bar {
+    position: absolute;
+    height: var(--statusbar-height);
+    top: 0px;
+    font-size: 28px;
+    
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    align-items: center;
+}
+
+status-bar div {
+    margin-left: 0.5em;
+}
+
+status-bar div.title {
+    border-right: 3px solid rgba(255, 255, 255, 0.3);
+    padding-right: 5px;
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

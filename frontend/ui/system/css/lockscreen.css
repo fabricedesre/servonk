@@ -1,0 +1,84 @@
+lock-screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-image: url(../assets/wallpapers/lock3.jpg);
+    /* background-color: rgb(48, 48, 48); */
+    
+    color: beige;
+    text-shadow: 1px 1px 2px black;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    z-index: 100000;
+
+    /* transition: transform 0.5s; */
+
+    font-family: "fira mono", monospace;
+}
+
+lock-screen div.filler {
+    flex: 1;
+    height: 250px;
+}
+
+lock-screen div.lock-keyboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 96px;
+    background-color: rgba(0, 0, 0, 0.20);
+    padding: 0.5em;
+}
+
+.lock-row {
+    border-top: 5px solid lightgray;
+}
+
+.lock-row span {
+    padding: 0.1em;
+    transition: background-color 0.1s;
+}
+
+.lock-row span:not(:last-child) {
+    border-right: 5px solid lightgray;
+}
+
+.lock-row span.active {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+lock-screen div.lock-keyboard div.lock-row {
+    flex: 1;
+    display: flex;
+}
+
+lock-screen div.lock-keyboard div.lock-row span {
+    flex: 1;
+    text-align: center;
+}
+
+lock-screen div.lock-keyboard div.lock-row span.flex2 {
+    flex: 2;
+    border-right: none;
+}
+
+lock-screen div.lock-keyboard div.lock-row span.keyboard {
+    font-family: "keyboard symbols";
+}
+
+lock-screen.offscreen {
+    transform: translateX(100%);
+    /* transition: transform 0.5s; */
+}
+
+lock-screen.error div.lock-keyboard div.lock-row span.flex2 {
+    background-color: rgba(255, 0, 0, 0.5);
+    transition: background-color 0.5s;
+}

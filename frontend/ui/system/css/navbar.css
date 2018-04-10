@@ -1,0 +1,44 @@
+
+.nav-left {
+    flex: 1;
+}
+
+.nav-right {
+    flex: 1;
+}
+
+.nav-center {
+    flex: 1;
+    text-align: center;
+}
+
+.menu, .notifs {
+    /* Center these 36px icons */
+    padding: calc((var(--navbar-height) - 36px) / 2);
+}
+
+.back, .forward, .stop, .refresh {
+    /* Center these 48px icons */
+    padding-top: calc((var(--navbar-height) - 48px) / 2);
+    padding-bottom: calc((var(--navbar-height) - 48px) / 2);
+}
+
+nav-bar {
+    position: absolute;
+    height: var(--navbar-height);
+    bottom: 0px;
+
+    font-size: 36px;
+    
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    align-items: stretch;
+    justify-content: center;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.spin {
+    animation: spin 1s linear infinite;
+}

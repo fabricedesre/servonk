@@ -1,0 +1,123 @@
+.gaia-keyboard-button {
+  position: absolute;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  margin: 0 5px;
+  background: transparent url('../gaia/apps/keyboard/style/icons/keyboard_84.png') center center no-repeat;
+  background-size: 42px 42px;
+  border: none;
+
+  opacity: 1;
+  visibility: visible;
+
+  -webkit-transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.gaia-keyboard-button[disabled] {
+  opacity: 0.2;
+  visibility: hidden;
+}
+
+.gaia-keyboard-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(236, 236, 236, 0.9);
+
+  z-index: 1000;
+}
+
+/* Make sure a hidden container remain rendered but out of screen */
+.gaia-keyboard-container[hidden] {
+  display: block;
+  top: -100%;
+  bottom: 100%;
+}
+
+.gaia-keyboard-inner-container {
+  /* We would set min-height of this div to the size of the document,
+     the document height would get bigger from the size of the input
+     and the bottom padding */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: #333 solid 2px;
+
+  /* Workaround iOS scrolling perfromance issue */
+  /*overflow-y: scroll; /* has to be scroll, not auto */
+  /* -webkit-overflow-scrolling: touch; */
+}
+
+.gaia-keyboard-inner-container > h2 {
+  font-size: 1.2em;
+  float: left;
+  margin-left: 0.4166em;
+  margin-right: 2em;
+}
+
+.gaia-keyboard-inner-container > button {
+  float: right;
+  font-size: 1.2em;
+  margin: 0.4166em 0.2083em 0 0;
+
+  position: relative;
+  z-index: 200;
+}
+
+.gaia-keyboard-inputarea {
+  font-size: 140%;
+  outline: none;
+
+  clear: both;
+
+  margin: 0.5em;
+  padding: 0.25em;
+  border: 1px solid #000;
+  background-color: white;
+  border-radius: 0.25em;
+  min-height: 2.5em;
+}
+
+@-webkit-keyframes gaia-keyboard-blink-caret {
+  from, to { border-color: black }
+  50% { border-color: transparent }
+}
+
+@keyframes gaia-keyboard-blink-caret {
+  from, to { border-color: black }
+  50% { border-color: transparent }
+}
+
+.gaia-keyboard-composition {
+  border-right: 2px solid;
+
+  -webkit-animation: gaia-keyboard-blink-caret 1s step-end infinite;
+  animation: gaia-keyboard-blink-caret 1s step-end infinite;
+}
+
+.gaia-keyboard-container > iframe {
+  min-width: 100vw;
+  height: 100vh;
+  width: 1px;
+
+  border: none;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+
+  z-index: 100;
+}
+
+.gaia-keyboard-container[hidden] > iframe {
+  position: absolute;
+}

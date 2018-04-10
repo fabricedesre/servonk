@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#eeeeee">
+  <title>Keyboard Settings</title>
+  <!-- <link rel="stylesheet" type="text/css" href="../shared/elements/gaia-icons/gaia-icons.css" /> -->
+  <link rel="stylesheet" type="text/css" href="../shared/elements/gaia-theme/gaia-theme.css">
+  <link rel="stylesheet" type="text/css" href="../shared/style/headers.css">
+  <link rel="stylesheet" type="text/css" href="../shared/style/lists.css">
+  <link rel="stylesheet" type="text/css" href="../shared/style/buttons.css">
+  <link rel="stylesheet" type="text/css" href="../shared/style/input_areas.css">
+  <link rel="stylesheet" type="text/css" href="style/settings.css">
+  <meta name="defaultLanguage" content="en-US">
+  <meta name="availableLanguages" content="en-US:201801272241, fr-x-psaccent:201801272241, ar-x-psbidi:201801272241">
+  <link rel="localization" href="locales-obj/settings.{locale}.json">
+  
+
+  <!-- Web Components -->
+  <script defer="" src="../shared/elements/config.js"></script>
+
+  <script defer="" src="../shared/js/component_utils.js"></script>
+  <script defer="" src="../shared/elements/gaia-header/dist/gaia-header.js"></script>
+  <script defer="" src="../shared/elements/gaia-component/gaia-component.js"></script>
+  <script defer="" src="../shared/elements/gaia-toast/gaia-toast.js"></script>
+  <script defer="" src="../shared/elements/gaia_subheader/script.js"></script>
+  <script defer="" src="../shared/elements/gaia_buttons/script.js"></script>
+  <script defer="" src="../shared/elements/gaia_checkbox/script.js"></script>
+  <script defer="" src="../shared/elements/gaia_confirm/script.js"></script>
+
+  <!-- L10n -->
+  <script defer="" src="shared/js/intl/l20n.js"></script>
+  <script defer="" src="shared/js/moz_intl.js"></script>
+
+  <!-- general settings -->
+  <script defer="" src="js/keyboard/settings.js"></script>
+  <script defer="" src="js/shared/promise_storage.js"></script>
+  <script defer="" src="js/settings/close_locks.js"></script>
+  <script defer="" src="js/settings/base_view.js"></script><script src="js/settings/user_dictionary.js" defer=""></script><script src="js/settings/word_list_converter.js" defer=""></script><script src="js/settings/user_dictionary_list_panel.js" defer=""></script><script src="js/settings/user_dictionary_edit_dialog.js" defer=""></script>
+  <script defer="" src="js/settings/settings_view.js"></script>
+  <script defer="" src="js/settings/general_settings_view.js"></script>
+  <script defer="" src="js/settings/general_panel.js"></script>
+  <script defer="" src="js/settings/panel_controller.js"></script>
+
+  <!-- installable keyboard settings -->
+  <script defer="" src="js/settings/layout_dictionary_downloader.js"></script>
+  <script defer="" src="js/settings/layout_dictionary.js"></script>
+  <script defer="" src="js/settings/layout_dictionary_list.js"></script>
+  <script defer="" src="js/settings/layout_item.js"></script>
+  <script defer="" src="js/settings/layout_item_list.js"></script>
+  <script defer="" src="js/settings/layout_item_view.js"></script>
+  <script defer="" src="js/settings/layout_item_list_view.js"></script>
+
+  <script defer="" src="js/settings/keyboard_preferences.js"></script>
+  <script defer="" src="js/settings/keyboard_settings_app.js"></script>
+  <script defer="" src="js/settings/bootstrap.js"></script>
+<meta content="2.5" name="appVersion"></head>
+<body class="skin-organic theme-settings">
+  <section role="region" id="general" class="current">
+    <gaia-header id="general-header" action="back">
+      <h1 data-l10n-id="settingsPageTitle">Built-in Keyboard</h1>
+    </gaia-header>
+    <!-- Don't change the div.id attribute below, if you want to modify it,
+         you should modify build/settings-config.js to keep consistence.
+         Handwriting settings will be added at the end of it. -->
+    <div id="general-container">
+      <section data-type="list" id="general-settings">
+        <ul>
+          <li>
+            <gaia-checkbox data-setting="keyboard.vibration" disabled="" checked="" id="cb-vibration">
+              <label data-l10n-id="vibration">Vibration</label>
+            </gaia-checkbox>
+          </li>
+
+          <li>
+            <gaia-checkbox data-setting="keyboard.clicksound" disabled="" checked="" id="cb-clickSound">
+              <label data-l10n-id="clickSound">Click Sound</label>
+            </gaia-checkbox>
+          </li>
+
+          <li>
+            <gaia-checkbox data-setting="keyboard.autocorrect" disabled="" checked="" id="cb-autoCorrect">
+              <label data-l10n-id="autoCorrect">Auto Correction</label>
+            </gaia-checkbox>
+          </li>
+
+          <li>
+            <gaia-checkbox data-setting="keyboard.wordsuggestion" disabled="" checked="" id="cb-wordSuggestion">
+              <label data-l10n-id="wordSuggestion">Word Suggestion</label>
+            </gaia-checkbox>
+          </li>
+
+          <!-- User dictionary settings <li> will be added here. -->
+                  <li>
+            <a class="menu-item" id="menu-userdict" href="#ud-wordlist">
+              <span data-l10n-id="userDictionary">User Dictionary</span>
+            </a>
+          </li>
+</ul>
+      </section>
+      <div id="installable-keyboard" hidden="">
+        <gaia-subheader skin="organic">
+          <span data-l10n-id="installed-keyboards-title">Installed Keyboards</span>
+        </gaia-subheader>
+        <section data-type="list">
+          <ul id="installed-keyboards-list">
+          </ul>
+        </section>
+        <gaia-subheader skin="organic">
+          <span data-l10n-id="more-keyboards-title">More Keyboards</span>
+        </gaia-subheader>
+        <section data-type="list">
+          <ul id="installable-keyboards-list">
+          </ul>
+          <template id="installable-keyboard-list-item">
+            <li class="installable-keyboard-item">
+              <aside class="pack-end">
+                <button class="download" data-action="download" data-l10n-id="downloadButton"></button>
+                <button class="cancel-download" data-action="cancelDownload" data-l10n-id="cancelDownloadButton"></button>
+                <button class="remove" data-action="remove" data-l10n-id="removeButton"></button>
+              </aside>
+              <p class="label" dir="auto"></p>
+              <p><small class="status"></small></p>
+              <progress class="progress" hidden="">
+            </progress></li>
+          </template>
+          <gaia-confirm id="installable-keyboards-removal-dialog" hidden="">
+            <p id="installable-keyboards-removal-prompt" data-l10n-id="removePrompt">Remove keyboard ⁨{{ keyboard }}⁩?</p>
+            <gaia-buttons skin="dark">
+              <button data-l10n-id="removePromptCancel" class="cancel">Cancel</button>
+              <button data-l10n-id="removePromptRemove" class="confirm danger">Remove</button>
+            </gaia-buttons>
+          </gaia-confirm>
+          <gaia-confirm id="installable-keyboards-mobile-download-dialog" hidden="">
+            <p data-l10n-id="dataConnectionPrompt">When using a data connection, additional costs may apply. Do you want to continue?</p>
+            <p>
+              <label>
+                <input id="installable-keyboards-remember" type="checkbox">
+                <span data-l10n-id="rememberMyChoice">Remember my choice</span>
+              </label>
+            </p>
+            <gaia-buttons skin="dark">
+              <button data-l10n-id="dataConnectionPromptCancel" class="cancel">Cancel</button>
+              <button data-l10n-id="dataConnectionPromptContinue" class="confirm">Continue</button>
+            </gaia-buttons>
+          </gaia-confirm>
+          <gaia-confirm id="installable-keyboards-enable-dialog" hidden="">
+            <p data-l10n-id="enablePrompt">Enable ⁨{{ keyboard }}⁩ now?</p>
+            <gaia-buttons skin="dark">
+              <button data-l10n-id="enablePromptNotNow" class="cancel">Not Now</button>
+              <button data-l10n-id="enablePromptEnable" class="confirm">Enable</button>
+            </gaia-buttons>
+          </gaia-confirm>
+          <gaia-toast id="installable-keyboards-download-error-toast" data-l10n-id="downloadFailed">Download failed.</gaia-toast>
+        </section>
+      </div>
+      <!-- Handwriting settings section will be added here. -->
+    </div>
+  </section>
+  <section role="region" id="panel-ud-wordlist">
+    <gaia-header id="ud-wordlist-header" action="back">
+      <h1 data-l10n-id="userDictionaryPanelHeader">User Dictionary</h1>
+      <button aria-label="add word" id="ud-addword-btn" data-icon="add" data-href="#ud-editword" data-l10n-id="userDictionaryAddButton"></button>
+    </gaia-header>
+    <div id="ud-wordlist-container">
+      <div id="ud-wordlist-noword">
+        <div data-l10n-id="userDictionaryNoWord">No words in the user dictionary.</div>
+        <div data-l10n-id="userDictionaryAddNow">Add a word now.</div>
+      </div>
+      <section data-type="list">
+        <ul id="ud-wordlist-list"></ul>
+      </section>
+    </div>
+  </section>
+  <section role="dialog" id="panel-ud-editword">
+    <gaia-header id="ud-editword-header" action="close">
+      <h1 data-l10n-id="userDictionaryAdd" id="ud-editword-add-header">Add Word</h1>
+      <h1 data-l10n-id="userDictionaryEdit" id="ud-editword-edit-header">Edit Word</h1>
+      <button id="ud-saveword-btn" data-l10n-id="userDictionarySaveButton">Save</button>
+    </gaia-header>
+    <div id="ud-editword-container">
+      <div>
+        <input id="ud-editword-input" x-inputmode="verbatim" type="text">
+      </div>
+      <div>
+        <button id="ud-editword-delete-btn" class="danger" data-l10n-id="userDictionaryDeleteButton">Delete</button>
+      </div>
+    </div>
+    <gaia-confirm id="ud-editword-delete-dialog" hidden="">
+      <h1 data-l10n-id="userDictionary">User Dictionary</h1>
+      <p id="ud-editword-delete-prompt"></p>
+      <gaia-buttons skin="dark">
+        <button data-l10n-id="cancel" id="ud-editword-dialog-cancel-btn">Cancel</button>
+        <button data-l10n-id="delete" class="danger" id="ud-editword-dialog-delete-btn">Delete</button>
+      </gaia-buttons>
+    </gaia-confirm>
+  </section>
+
+
+
+
+
+
+</body>
+</html>
