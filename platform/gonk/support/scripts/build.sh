@@ -2,9 +2,6 @@
 
 set -e
 
-HERE=`pwd`
-ROOT=`pwd`/../../
-
 # Check that the GONK_DIR environment variable is set.
 if [ -z ${GONK_DIR+x} ];
 then
@@ -16,9 +13,7 @@ fi
 
 export RUST_TARGET=armv7-linux-androideabi
 
-cd $ROOT && ./bootstrap.sh
-
-cd $HERE
+cd ../..
 
 # Build the host version of backtrace-sys without any custom CFLAGS
 cargo build -p backtrace-sys $@

@@ -32,6 +32,7 @@ mod events_loop;
 mod input;
 
 use android_logger::Filter;
+use api_server::server::MessageToSystemApp;
 use events_loop::*;
 use servo::compositing::windowing::WindowEvent;
 use servo::euclid::{TypedPoint2D, TypedSize2D, TypedVector2D};
@@ -43,6 +44,7 @@ use servo::servo_config::opts;
 use servo::servo_url::ServoUrl;
 use servo::webrender_api::ScrollLocation;
 use std::env;
+use std::sync::mpsc;
 
 // This should vary by zoom level and maybe actual text size (focused or under cursor)
 const LINE_HEIGHT: f32 = 38.0;
@@ -126,7 +128,11 @@ fn main() {
         opts::multiprocess()
     );
 
-    api_server::start_api_server();
+    let (ws_sender, ws_receiver) = mpsc::channel();
+    api_server::start_api_server(ws_sender);
+    let api_server = ws_receiver
+        .recv()
+        .expect("Failed to get the api server address");
 
     let mut browser = browser::Browser::new(&looper.get_sender());
 
@@ -145,7 +151,17 @@ fn main() {
     // Process events by reinjecting them into Servo's event loop.
     looper.run(|event| {
         let servo_events = servo.get_events();
-        browser.handle_servo_events(servo_events);
+
+        // Filter the events that will be sent out to the system app.
+        let mut final_servo_events = vec![];
+        for event in servo_events {
+            if let Some(system_event) = MessageToSystemApp::from_embedder_msg(&event) {
+                api_server.do_send(system_event);
+            } else {
+                final_servo_events.push(event);
+            }
+        }
+        browser.handle_servo_events(final_servo_events);
 
         let mut res = ControlFlow::Continue;
         match event {

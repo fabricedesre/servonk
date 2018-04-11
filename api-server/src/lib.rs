@@ -120,7 +120,10 @@ pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
             let state = WsSessionState { addr: server.clone() };
 
             // Serve the ui from $UI_ROOT if set or `./ui/` by default.
-            let ui_root = env::var("UI_ROOT").map_err(|_| Some("./ui/")).unwrap().clone();
+            let ui_root = match env::var("UI_ROOT") {
+                Ok(path) => path,
+                Err(_) => "./ui/".to_owned()
+            };
             
             Application::with_state(state)
                 // enable logger

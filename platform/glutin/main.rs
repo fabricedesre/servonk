@@ -21,22 +21,28 @@
 extern crate android_injected_glue;
 extern crate api_server;
 extern crate backtrace;
-#[macro_use] extern crate bitflags;
+#[macro_use]
+extern crate bitflags;
 extern crate euclid;
-#[cfg(target_os = "windows")] extern crate gdi32;
+#[cfg(target_os = "windows")]
+extern crate gdi32;
 extern crate gleam;
 extern crate glutin;
 // The window backed by glutin
-#[macro_use] extern crate log;
-#[cfg(any(target_os = "linux", target_os = "macos"))] extern crate osmesa_sys;
+#[macro_use]
+extern crate log;
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+extern crate osmesa_sys;
 extern crate servo;
 #[cfg(all(feature = "unstable", not(target_os = "android")))]
 #[macro_use]
 extern crate sig;
 extern crate tinyfiledialogs;
+#[cfg(target_os = "windows")]
+extern crate user32;
+#[cfg(target_os = "windows")]
+extern crate winapi;
 extern crate winit;
-#[cfg(target_os = "windows")] extern crate winapi;
-#[cfg(target_os = "windows")] extern crate user32;
 
 mod glutin_app;
 
@@ -46,7 +52,7 @@ use servo::Servo;
 use servo::compositing::windowing::WindowEvent;
 #[cfg(target_os = "android")]
 use servo::config;
-use servo::config::opts::{self, ArgumentParsingResult, parse_url_or_filename};
+use servo::config::opts::{self, parse_url_or_filename, ArgumentParsingResult};
 use servo::config::servo_version;
 use servo::ipc_channel::ipc;
 use servo::servo_config::prefs::PREFS;
@@ -121,21 +127,21 @@ fn main() {
         warn!("Panic hook called.");
         let msg = match info.payload().downcast_ref::<&'static str>() {
             Some(s) => *s,
-            None => {
-                match info.payload().downcast_ref::<String>() {
-                    Some(s) => &**s,
-                    None => "Box<Any>",
-                }
+            None => match info.payload().downcast_ref::<String>() {
+                Some(s) => &**s,
+                None => "Box<Any>",
             },
         };
         let current_thread = thread::current();
         let name = current_thread.name().unwrap_or("<unnamed>");
         if let Some(location) = info.location() {
-            println!("{} (thread {}, at {}:{})",
-                     msg,
-                     name,
-                     location.file(),
-                     location.line());
+            println!(
+                "{} (thread {}, at {}:{})",
+                msg,
+                name,
+                location.file(),
+                location.line()
+            );
         } else {
             println!("{} (thread {})", msg, name);
         }
@@ -159,7 +165,9 @@ fn main() {
 
     let (ws_sender, ws_receiver) = mpsc::channel();
     api_server::start_api_server(ws_sender);
-    let api_server = ws_receiver.recv().unwrap();
+    let api_server = ws_receiver
+        .recv()
+        .expect("Failed to get the api server address");
 
     let window = glutin_app::create_window();
 
@@ -169,7 +177,9 @@ fn main() {
     // or a blank page in case the homepage is not set either.
     let cwd = env::current_dir().unwrap();
     let cmdline_url = opts::get().url.clone();
-    let pref_url = PREFS.get("shell.homepage").as_string()
+    let pref_url = PREFS
+        .get("shell.homepage")
+        .as_string()
         .and_then(|str| parse_url_or_filename(&cwd, str).ok());
     let blank_url = ServoUrl::parse("about:blank").ok();
 
@@ -268,13 +278,18 @@ fn args() -> Vec<String> {
                 }
             }
             vec
-        },
+        }
         Err(e) => {
-            debug!("Failed to open params file '{}': {}",
-                   params_file.to_str().unwrap(),
-                   Error::description(&e));
-            vec!["servo".to_owned(), "http://en.wikipedia.org/wiki/Rust".to_owned()]
-        },
+            debug!(
+                "Failed to open params file '{}': {}",
+                params_file.to_str().unwrap(),
+                Error::description(&e)
+            );
+            vec![
+                "servo".to_owned(),
+                "http://en.wikipedia.org/wiki/Rust".to_owned(),
+            ]
+        }
     }
 }
 
@@ -283,7 +298,6 @@ fn args() -> Vec<String> {
     use std::env;
     env::args().collect()
 }
-
 
 #[cfg(target_os = "android")]
 #[no_mangle]
