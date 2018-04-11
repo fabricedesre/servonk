@@ -1,7 +1,5 @@
 **/target/
 **/*.rs.bk
-_virtualenv
-.servo
 **/.cargo/*
 !**/.cargo/config
 **/*.o
@@ -9,4 +7,10 @@ _virtualenv
 **/*.la
 **/.deps/*
 **/.libs/*
-ports/gonk/mtdev/src/generated
+platform/gonk/mtdev/src/generated
+platform/gonk/mtdev/mtdev-1.1.5/Makefile
+platform/gonk/mtdev/mtdev-1.1.5/config.log
+platform/gonk/mtdev/mtdev-1.1.5/config.status
+platform/gonk/mtdev/mtdev-1.1.5/mtdev.pc
+platform/gonk/mtdev/mtdev-1.1.5/src/Makefile
+platform/gonk/mtdev/mtdev-1.1.5/test/Makefile
