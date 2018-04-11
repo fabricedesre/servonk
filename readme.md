@@ -26,6 +26,8 @@ On desktop, just run `./servonk.sh run glutin`. On Gonk, you first need to flash
 1. `./servonk.sh flash gonk`
 2. `./servonk.sh run gonk`
 
+The lockscreen code is 4242.
+
 ## Supported devices
 
 - The L port of the Sony Z3C is currently the only tested device.
