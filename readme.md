@@ -15,7 +15,7 @@ You need to do a b2g build for your device (eng or userdebug to get root access)
 
 ## Building
 
-First, install [rustup](https://rustup.rs/) and then run `./bootstrap.sh` to install the Rust toolchain.
+First, install [rustup](https://rustup.rs/) and then run `./bootstrap.sh` to install the Rust toolchain. Configure the Gonk build by setting the `GONK_DIR` environment variable to the path of your b2g repository, and the `GONK_PRODUCT_NAME` to the Android product name (eg. "aries" for a Sony Z3C).
 
 You can then build for the platform of your choice by running:
 `./servonk.sh build gonk --release` for a Gonk build, or `./servonk.sh build glutin --release` for a desktop version.
