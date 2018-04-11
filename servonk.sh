@@ -3,7 +3,7 @@
 set -e
 
 function usage {
-    echo "Usage: $0 {build|run} {gonk|glutin} <opts>"
+    echo "Usage: $0 {build|flash|run} {gonk|glutin} <opts>"
     exit 1
 }
 
