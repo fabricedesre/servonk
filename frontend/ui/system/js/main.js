@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function init_window_manager() {
-    console.log(`init_window_manager dom_ready=${dom_ready} embedding_ready=${embedding_ready}`);
+    // Only really start when all stars are aligned.
     if (!dom_ready || !embedding_ready) {
         return;
     }

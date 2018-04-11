@@ -11,14 +11,12 @@ class WebView extends HTMLElement {
         this.title = "";
         this.render = hyperHTML.bind(this);
         this.src = this.getAttribute("src");
-        // this.id = `webview${__web_view_id}`;
-        // __web_view_id += 1;
         this.update();
         this.frame = this.firstElementChild;
         this.active = false;
 
         let webview_id = this.frame.getAttribute("webviewid");
-        console.log(`webview id is ${webview_id}`);
+        // console.log(`webview id is ${webview_id}`);
         MessageRouter.add_listener(`webview-${webview_id}`, this.on_webview_event.bind(this));
     }
 
