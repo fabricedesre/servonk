@@ -9,10 +9,9 @@ class NavBar extends HTMLElement {
         this.active_frame = null;
         this.update();
 
-        ["menu", "notifs", "back", "forward", "stop", "refresh"].forEach(e => {
+        ["menu", "notifs", "back", "forward", "refresh"].forEach(e => {
             this[e] = this.querySelector(`.${e}`);
         });
-
 
         this.refresh.addEventListener("click", () => {
             if (!this.active_frame) {
@@ -49,10 +48,6 @@ class NavBar extends HTMLElement {
             MessageRouter.dispatch(message);
         });
 
-        MessageRouter.add_listener("set-active-frame", (message) => {
-            this.active_frame = message.frame;
-        });
-
         this.forward.addEventListener("click", () => {
             if (!this.active_frame) {
                 console.error("Can't go forward: no active frame.");
@@ -85,6 +80,10 @@ class NavBar extends HTMLElement {
             let w_m = document.getElementById("windows");
             w_m.toggle_expose();
         });
+
+        MessageRouter.add_listener("set-active-frame", (message) => {
+            this.active_frame = message.frame;
+        });
     }
 
     disconnectedCallback() {
@@ -102,7 +101,6 @@ class NavBar extends HTMLElement {
     <div class="nav-right">
         <img class="back" src="assets/icons/go-back-48.png">
         <img class="forward" src="assets/icons/go-forward-48.png">
-        <img class="stop" src="assets/icons/stop-48.png">
         <img class="refresh" src="assets/icons/refresh-48.png">
     </div>
      `;

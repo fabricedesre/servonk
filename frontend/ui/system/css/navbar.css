@@ -5,6 +5,7 @@
 
 .nav-right {
     flex: 1;
+    text-align: end;
 }
 
 .nav-center {
@@ -17,7 +18,7 @@
     padding: calc((var(--navbar-height) - 36px) / 2);
 }
 
-.back, .forward, .stop, .refresh {
+.back, .forward, .refresh {
     /* Center these 48px icons */
     padding-top: calc((var(--navbar-height) - 48px) / 2);
     padding-bottom: calc((var(--navbar-height) - 48px) / 2);
