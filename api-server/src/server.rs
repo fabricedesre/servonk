@@ -4,48 +4,46 @@
 
 use actix::prelude::*;
 use rand::{self, Rng, ThreadRng};
-use servo::compositing::compositor_thread::EmbedderMsg;
-use servo::msg::constellation_msg::{BrowsingContextId, TopLevelBrowsingContextId};
+use servo::compositing::compositor_thread::{EmbedderMsg, EventLoopWaker};
+use servo::compositing::windowing::WindowEvent;
+use servo::msg::constellation_msg::{BrowsingContextId, BrowsingContextIndex, PipelineNamespaceId,
+                                    TopLevelBrowsingContextId, TraversalDirection};
 use servo::servo_url::ServoUrl;
-use std::collections::HashMap;
 use std::cell::RefCell;
+use std::collections::HashMap;
+use std::mem;
+use std::sync::mpsc;
 
-/// Wrapping structure that will be able to carry messages from different services.
-// #[derive(Debug, Message, Serialize)]
-// pub struct ServiceMessage {
-//     service: String,
-//     message: ServiceMessagePayload,
-// }
-
-#[derive(Debug, Message, Serialize)]
+#[derive(Debug, Deserialize, Message, Serialize)]
 #[serde(tag = "service")]
 #[serde(rename_all = "snake_case")]
 pub enum ServiceMessage {
     ToSystemApp(MessageToSystemApp),
+    FromSystemApp(MessageFromSystemApp),
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct StatusMsg {
     webview_id: String,
     status: Option<String>,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ChangePageTitleMsg {
     webview_id: String,
     title: Option<String>,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct NewFaviconMsg {
     webview_id: String,
     url: ServoUrl,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct HistoryChangedMsg {
     webview_id: String,
@@ -53,14 +51,14 @@ pub struct HistoryChangedMsg {
     current: usize,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct SetFullscreenStateMsg {
     webview_id: String,
     state: bool,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ProgressEvent {
     HeadParsed,
@@ -68,7 +66,7 @@ pub enum ProgressEvent {
     LoadComplete,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub struct ProgressMsg {
     webview_id: String,
@@ -76,7 +74,7 @@ pub struct ProgressMsg {
 }
 
 /// The set of messages that can be sent to the system app.
-#[derive(Clone, Debug, Message, Serialize)]
+#[derive(Clone, Debug, Deserialize, Message, Serialize)]
 #[serde(tag = "type")]
 #[serde(rename_all = "snake_case")]
 pub enum MessageToSystemApp {
@@ -173,6 +171,15 @@ pub struct Disconnect {
 pub struct ApiServer {
     sessions: HashMap<usize, Recipient<Syn, ServiceMessage>>,
     rng: RefCell<ThreadRng>,
+    event_queue: Vec<MessageFromSystemApp>,
+    servo: Option<mpsc::Sender<MessageFromSystemApp>>,
+    waker: Option<Box<EventLoopWaker>>,
+}
+
+impl ApiServer {
+    pub fn get_events(&mut self) -> Vec<MessageFromSystemApp> {
+        mem::replace(&mut self.event_queue, Vec::new())
+    }
 }
 
 impl Default for ApiServer {
@@ -180,6 +187,9 @@ impl Default for ApiServer {
         ApiServer {
             sessions: HashMap::new(),
             rng: RefCell::new(rand::thread_rng()),
+            event_queue: Vec::new(),
+            servo: None,
+            waker: None,
         }
     }
 }
@@ -232,5 +242,116 @@ impl Handler<Disconnect> for ApiServer {
 
         // Remove address from the session list.
         self.sessions.remove(&msg.id);
+    }
+}
+
+/// Signals that we need to queue a message coming from the transport layer.
+#[derive(Debug, Message)]
+pub struct QueueMessage {
+    pub message: MessageFromSystemApp,
+}
+
+/// Handler for the QueueMessage message.
+impl Handler<QueueMessage> for ApiServer {
+    type Result = ();
+
+    fn handle(&mut self, msg: QueueMessage, _: &mut Context<Self>) {
+        debug!("Queuing {:?}", msg);
+        match self.servo {
+            Some(ref sender) => {
+                sender.send(msg.message).expect("failed to send message");
+                if let Some(ref waker) = self.waker {
+                    waker.wake();
+                } else {
+                    error!("No waker available to notify the event loop!");
+                }
+            }
+            None => self.event_queue.push(msg.message),
+        }
+    }
+}
+
+#[derive(Message)]
+pub struct SetServoSender {
+    pub sender: mpsc::Sender<MessageFromSystemApp>,
+    pub waker: Box<EventLoopWaker>,
+}
+
+/// Handler for the GetServoSender message.
+impl Handler<SetServoSender> for ApiServer {
+    type Result = ();
+
+    fn handle(&mut self, msg: SetServoSender, _: &mut Context<Self>) {
+        // Drain the queue if we had events waiting.
+        self.event_queue.drain(0..).for_each(|queued| {
+            msg.sender.send(queued).expect("failed to send message");
+        });
+        msg.waker.wake();
+
+        self.servo = Some(msg.sender);
+        self.waker = Some(msg.waker);
+    }
+}
+
+/// The set of messages that can be sent from the system app.
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum NavigationDirection {
+    Forward(usize),
+    Back(usize),
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub struct NavigateMsg {
+    webview_id: String,
+    direction: NavigationDirection,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub struct ReloadMsg {
+    webview_id: String,
+}
+
+#[derive(Clone, Debug, Message, Deserialize, Serialize)]
+#[serde(tag = "type")]
+#[serde(rename_all = "snake_case")]
+pub enum MessageFromSystemApp {
+    Navigate(NavigateMsg),
+    Reload(ReloadMsg),
+}
+
+/// Converts a stringified browsing context ID into a native type.
+fn browser_context_from_string(id_s: &str) -> TopLevelBrowsingContextId {
+    use nonzero::NonZeroU32;
+    use std::str::FromStr;
+
+    let splitted: Vec<u32> = id_s.split('-')
+        .map(|item| u32::from_str(item).unwrap())
+        .collect();
+    let id = BrowsingContextId {
+        namespace_id: PipelineNamespaceId(splitted[0]),
+        index: BrowsingContextIndex(NonZeroU32::new(splitted[1]).unwrap()),
+    };
+
+    id.into()
+}
+
+impl Into<WindowEvent> for MessageFromSystemApp {
+    fn into(self) -> WindowEvent {
+        match self {
+            MessageFromSystemApp::Navigate(nav) => {
+                let traversal = match nav.direction {
+                    NavigationDirection::Forward(n) => TraversalDirection::Forward(n),
+                    NavigationDirection::Back(n) => TraversalDirection::Back(n),
+                };
+                WindowEvent::Navigation(browser_context_from_string(&nav.webview_id), traversal)
+            }
+            MessageFromSystemApp::Reload(reload) => {
+                WindowEvent::Reload(browser_context_from_string(&reload.webview_id))
+            }
+        }
     }
 }

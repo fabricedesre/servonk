@@ -2,10 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#![feature(nonzero)]
+
 extern crate actix;
 extern crate actix_web;
 #[macro_use]
 extern crate log;
+extern crate nonzero;
 extern crate rand;
 #[macro_use]
 extern crate serde_derive;
@@ -30,7 +33,7 @@ struct WsSessionState {
 
 // Do the websocket handshake and start an actor to manage this connection.
 fn ws_index(req: HttpRequest<WsSessionState>) -> Result<HttpResponse, Error> {
-    println!("Got WS connection!");
+    debug!("Got WS connection!");
     ws::start(req, WsSession { id: 0 })
 }
 
@@ -94,7 +97,21 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
         match msg {
             ws::Message::Ping(msg) => ctx.pong(&msg),
-            ws::Message::Text(text) => ctx.text(text),
+            ws::Message::Text(text) => {
+                debug!("Text ws message: {}", text);
+                let sys_msg: Result<ServiceMessage, serde_json::Error> =
+                    serde_json::from_str(&text);
+
+                match sys_msg {
+                    Ok(msg) => match msg {
+                        ServiceMessage::FromSystemApp(from) => {
+                            ctx.state().addr.do_send(server::QueueMessage { message: from });
+                        }
+                        _ => error!("Unexpected message: {}", text),
+                    },
+                    Err(e) => error!("Failed to parse json: {:?}", e),
+                }
+            }
             ws::Message::Binary(bin) => ctx.binary(bin),
             ws::Message::Close(_) => {
                 ctx.stop();
@@ -106,15 +123,14 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
 
 /// Starts the local server.
 pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
-    // let sys = actix::System::new("api-server");
-    // let server: Addr<Syn, _> = Arbiter::start(|_| ApiServer::default());
-
     thread::spawn(move || {
         let sys = actix::System::new("api-ws-server");
 
         let server: Addr<Syn, _> = Arbiter::start(|_| ApiServer::default());
 
-        sender.send(server.clone()).expect("Failed to send back server address!");
+        sender
+            .send(server.clone())
+            .expect("Failed to send back server address!");
 
         HttpServer::new(move || {
             let state = WsSessionState { addr: server.clone() };

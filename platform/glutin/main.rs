@@ -49,7 +49,8 @@ mod glutin_app;
 use api_server::server::MessageToSystemApp;
 use backtrace::Backtrace;
 use servo::Servo;
-use servo::compositing::windowing::WindowEvent;
+use servo::compositing::windowing::{WindowEvent, WindowMethods};
+
 #[cfg(target_os = "android")]
 use servo::config;
 use servo::config::opts::{self, parse_url_or_filename, ArgumentParsingResult};
@@ -60,8 +61,8 @@ use servo::servo_url::ServoUrl;
 use std::env;
 use std::panic;
 use std::process;
-use std::thread;
 use std::sync::mpsc;
+use std::thread;
 
 mod browser;
 
@@ -195,6 +196,10 @@ fn main() {
 
     servo.setup_logging();
 
+    let waker = window.create_event_loop_waker();
+    let (sender, api_receiver) = mpsc::channel();
+    api_server.do_send(api_server::server::SetServoSender { waker, sender });
+
     window.run(|| {
         let win_events = window.get_events();
 
@@ -203,6 +208,25 @@ fn main() {
         let need_resize = win_events.iter().any(|e| match *e {
             WindowEvent::Resize => true,
             _ => false,
+        });
+
+        // Check if we have a `Idle` event and in this case
+        // drain any message from the web socket server.
+        win_events.iter().for_each(|event| {
+            match *event {
+                WindowEvent::Idle => {
+                    let mut events = Vec::new();
+                    while let Ok(msg) = api_receiver.try_recv() {
+                        debug!("Frontend message: {:?}", msg);
+                        // Build a Servo event and queue it.
+                        events.push(msg.into());
+                    }
+                    if !events.is_empty() {
+                        servo.handle_events(events);
+                    }
+                }
+                _ => {}
+            }
         });
 
         browser.handle_window_events(win_events);
