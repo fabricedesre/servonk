@@ -120,6 +120,12 @@ let EmbeddingApi = {
 
         this.ws.onopen = () => {
             console.log(`EmbeddingApi websocket open`);
+
+            MessageRouter.add_listener("ws-message", (msg) => {
+                let json = JSON.stringify(msg.data);
+                console.log(`Sending ${json}`);
+                this.ws.send(json);
+            });
             embedding_ready = true;
             init_window_manager();
         }

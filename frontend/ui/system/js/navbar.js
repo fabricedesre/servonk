@@ -6,21 +6,13 @@ class NavBar extends HTMLElement {
     connectedCallback() {
         console.log('Adding nav bar');
         this.render = hyperHTML.bind(this);
+        this.active_frame = null;
         this.update();
 
         ["menu", "notifs", "back", "forward", "stop", "refresh"].forEach(e => {
             this[e] = this.querySelector(`.${e}`);
         });
 
-        MessageRouter.add_listener("page-load-start", (message) => {
-            // console.log(`message: ${JSON.stringify(message)}`)
-            this.refresh.classList.add("spin");
-        });
-
-        MessageRouter.add_listener("page-load-end", (message) => {
-            // console.log(`message: ${JSON.stringify(message)}`)
-            this.refresh.classList.remove("spin");
-        });
 
         this.refresh.addEventListener("click", () => {
             let message = {
@@ -32,9 +24,19 @@ class NavBar extends HTMLElement {
 
         this.back.addEventListener("click", () => {
             let message = {
-                name: "history-back"
+                name: "ws-message",
+                data: {
+                    service: "from_system_app",
+                    type: "navigate",
+                    webview_id: this.active_frame.frame.getAttribute("webviewid"),
+                    direction: { back: 1 }
+                }
             };
             MessageRouter.dispatch(message)
+        });
+
+        MessageRouter.add_listener("set-active-frame", (message) => {
+            this.active_frame = message.frame;
         });
 
         this.forward.addEventListener("click", () => {
