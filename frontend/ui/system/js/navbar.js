@@ -15,11 +15,20 @@ class NavBar extends HTMLElement {
 
 
         this.refresh.addEventListener("click", () => {
+            if (!this.active_frame) {
+                console.error("Can't reload: no active frame.");
+                return;
+            }
+
             let message = {
-                name: "refresh-active-page",
-                forced: false
+                name: "ws-message",
+                data: {
+                    service: "from_system_app",
+                    type: "reload",
+                    webview_id: this.active_frame.frame.getAttribute("webviewid")
+                }
             };
-            MessageRouter.dispatch(message)
+            MessageRouter.dispatch(message);
         });
 
         this.back.addEventListener("click", () => {
@@ -37,7 +46,7 @@ class NavBar extends HTMLElement {
                     direction: { back: 1 }
                 }
             };
-            MessageRouter.dispatch(message)
+            MessageRouter.dispatch(message);
         });
 
         MessageRouter.add_listener("set-active-frame", (message) => {
@@ -45,10 +54,21 @@ class NavBar extends HTMLElement {
         });
 
         this.forward.addEventListener("click", () => {
+            if (!this.active_frame) {
+                console.error("Can't go forward: no active frame.");
+                return;
+            }
+
             let message = {
-                name: "history-forward"
+                name: "ws-message",
+                data: {
+                    service: "from_system_app",
+                    type: "navigate",
+                    webview_id: this.active_frame.frame.getAttribute("webviewid"),
+                    direction: { forward: 1 }
+                }
             };
-            MessageRouter.dispatch(message)
+            MessageRouter.dispatch(message);
         });
 
         // this.notifs.addEventListener("click", () => {
