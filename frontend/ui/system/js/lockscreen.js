@@ -6,6 +6,7 @@ class LockScreen extends HTMLElement {
         this.input = "";
         this.display = "";
         this.locked = true;
+        this.timer = null;
 
         // Support both touch and mouse.
         this.addEventListener("touchstart", (event) => {
@@ -58,11 +59,18 @@ class LockScreen extends HTMLElement {
                 if (this.input.length == 4) {
                     return;
                 }
+                if (this.timer) {
+                    window.clearTimeout(this.timer);
+                    this.display = this.display.slice(0, -1) + '*';
+                    this.timer = null;
+                    this.update();
+                }
                 this.input = this.input + content;
                 this.display = this.display + content;
                 // Replace the last digit by a * after 300ms.
-                window.setTimeout(() => {
+                this.timer = window.setTimeout(() => {
                     this.display = this.display.slice(0, -1) + '*';
+                    this.timer = null;
                     this.update();
                 }, 300);
                 break;
