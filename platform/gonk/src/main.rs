@@ -34,13 +34,13 @@ mod input;
 use android_logger::Filter;
 use api_server::server::MessageToSystemApp;
 use events_loop::*;
-use servo::compositing::windowing::WindowEvent;
+use servo::compositing::windowing::{WindowEvent, WindowMethods};
 use servo::euclid::{TypedPoint2D, TypedSize2D, TypedVector2D};
 use servo::ipc_channel::ipc;
 use servo::msg::constellation_msg::{Key, KeyState};
 use servo::script_traits::TouchEventType;
-use servo::servo_config::resource_files::set_resources_path;
 use servo::servo_config::opts;
+use servo::servo_config::resource_files::set_resources_path;
 use servo::servo_url::ServoUrl;
 use servo::webrender_api::ScrollLocation;
 use std::env;
@@ -136,7 +136,7 @@ fn main() {
 
     let mut browser = browser::Browser::new(&looper.get_sender());
 
-    let mut servo = servo::Servo::new(window);
+    let mut servo = servo::Servo::new(window.clone());
 
     // Load the initial url in a new browser and select it.
     info!("About to load {}", start_url);
@@ -147,6 +147,10 @@ fn main() {
     servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
 
     input::run_input_loop(&looper.get_sender());
+
+    let waker = window.create_event_loop_waker();
+    let (sender, api_receiver) = mpsc::channel();
+    api_server.do_send(api_server::server::SetServoSender { waker, sender });
 
     // Process events by reinjecting them into Servo's event loop.
     looper.run(|event| {
@@ -166,6 +170,18 @@ fn main() {
         let mut res = ControlFlow::Continue;
         match event {
             Event::WakeUpEvent => {
+                // When getting an Idle event, check if we have pending messages from
+                // the WebSocket connection since the WebSocket side wakes up the event loop.
+                let mut events = Vec::new();
+                while let Ok(msg) = api_receiver.try_recv() {
+                    println!("Frontend message: {:?}", msg);
+                    // Build a Servo event and queue it.
+                    events.push(msg.into());
+                }
+                if !events.is_empty() {
+                    servo.handle_events(events);
+                }
+    
                 // Wake up servo.
                 servo.handle_events(vec![]);
             }
