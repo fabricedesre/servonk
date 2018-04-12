@@ -23,6 +23,11 @@ class NavBar extends HTMLElement {
         });
 
         this.back.addEventListener("click", () => {
+            if (!this.active_frame) {
+                console.error("Can't go back: no active frame.");
+                return;
+            }
+
             let message = {
                 name: "ws-message",
                 data: {
