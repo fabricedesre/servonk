@@ -25,7 +25,7 @@ see attachResizeListener
 - [ ] basic grid of bookmarked sites.
 
 ## Menu (short press on the menu icon)
-- [ ] opens a panel with the search field on the bottom and quick settings on top.
+- [ ] opens a panel with the search field at the bottom and quick settings on top.
 - [ ] search results replace settings once we start searching.
 
 ## Frame list (long press on the menu icon)
@@ -36,7 +36,7 @@ see attachResizeListener
 ## API server
 - [x] web-view bridge
   - [x] get title & favicon.
-  - [ ] commands: back, forward, reload, stop.
+  - [x] commands: back, forward, reload.
 - [ ] inputMethod API
 - [ ] hardware key handling
 - [ ] basic HAL
