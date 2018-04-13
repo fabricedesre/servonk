@@ -49,6 +49,9 @@ Current icons are from https://icons8.com/icon/set/stop/small
   - [ ] vibration?
   - [ ] lights?
 
+## WebView
+- [ ] Make the special iframe proper top-level windows.
+
 ## Multiprocess support
 - [x] Enable on Glutin.
 - [ ] Enable on Gonk (see https://github.com/servo/ipc-channel/issues/143).
