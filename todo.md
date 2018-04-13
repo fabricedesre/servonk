@@ -10,16 +10,17 @@ Current icons are from https://icons8.com/icon/set/stop/small
 - [ ] lock after 1min of inactivity or when pressing the power button.
 
 ## Keyboard
-see attachResizeListener
+(see attachResizeListener)
 - [ ] script injection to listen to focus/blur events for now.
 - [ ] open keyboard... how to send back events?
 
 ## Window manager
-- [x] frames are layout side by side
-- [x] the homescreen is a frame like any other
+- [x] frames are layout side by side.
+- [x] the homescreen is a frame like any other.
 - [x] Side swipes to change app with snapping.
 - [x] the window title is displayed in the status bar.
-- [ ] pressing the status bar opens details/action for the site (eg. bookmarking)
+- [ ] the favicon is displayed in the status bar.
+- [ ] pressing the status bar opens details/action for the site (eg. bookmarking).
 
 ## Homescreen
 - [ ] basic grid of bookmarked sites.
@@ -32,17 +33,21 @@ see attachResizeListener
 - [x] grid.
 - [x] display title and (x) to close frames.
 - [x] tapping on a frame selects it.
+- [ ] display favicon.
 
 ## API server
 - [x] web-view bridge
   - [x] get title & favicon.
   - [x] commands: back, forward, reload.
-- [ ] inputMethod API
-- [ ] hardware key handling
+- [ ] inputMethod API.
+- [ ] hardware key handling.
+- [ ] data store for the homescreen.
+- [ ] data store for the global search.
 - [ ] basic HAL
   - [ ] turning screen on/off, sleep mode.
-  - [ ] wifi (open and wpa/wpa2)
-  - [ ] vibration
+  - [ ] wifi (open and wpa/wpa2).
+  - [ ] vibration?
+  - [ ] lights?
 
 ## Multiprocess support
 - [ ] Check `--content-process` command line flag.
@@ -57,8 +62,8 @@ see attachResizeListener
 ## Desktop dev version
 - [x] Embedding api implementation.
 - [ ] subset of the HAL to demo multi platform support.
-- [ ] Keyboard support.
+- [ ] Keyboard support (bindings to actions).
 
 ## Packaging
-- [ ] Z3C manifest
-- [ ] Desktop packages
+- [ ] Z3C manifest.
+- [ ] Desktop packages.
