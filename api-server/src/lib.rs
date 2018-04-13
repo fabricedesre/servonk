@@ -17,8 +17,8 @@ extern crate servo;
 
 use actix::prelude::*;
 use actix::{fut, Actor, StreamHandler};
-use actix_web::{fs, middleware, ws, Application, Error, HttpRequest, HttpResponse, HttpServer,
-                Method};
+use actix_web::{fs, middleware, ws, App, Error, HttpRequest, HttpResponse, server as ActixServer};
+use actix_web::http;
 use std::env;
 use std::sync::mpsc::Sender;
 use std::thread;
@@ -132,7 +132,7 @@ pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
             .send(server.clone())
             .expect("Failed to send back server address!");
 
-        HttpServer::new(move || {
+        ActixServer::new(move || {
             let state = WsSessionState { addr: server.clone() };
 
             // Serve the ui from $UI_ROOT if set or `./ui/` by default.
@@ -141,13 +141,13 @@ pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
                 Err(_) => "./ui/".to_owned()
             };
             
-            Application::with_state(state)
+            App::with_state(state)
                 // enable logger
                 .middleware(middleware::Logger::default())
                 // websocket route
-                .resource("/api/v1/", |r| r.method(Method::GET).f(ws_index))
+                .resource("/api/v1/", |r| r.method(http::Method::GET).f(ws_index))
                 // static files
-                .handler("/", fs::StaticFiles::new(ui_root, true))
+                .handler("/", fs::StaticFiles::new(ui_root))
             })
         .disable_signals() // TODO: figure out why this is actually preventing shutdown.
         .bind("127.0.0.1:8000").expect("Can not bind to 127.0.0.1:8000")

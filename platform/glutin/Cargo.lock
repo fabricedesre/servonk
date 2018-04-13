@@ -22,7 +22,7 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "0.4.10"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -42,6 +42,7 @@ dependencies = [
  "http-range 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "httparse 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "language-tags 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "mime 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -54,6 +55,7 @@ dependencies = [
  "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.13 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_urlencoded 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sha1 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "skeptic 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -123,7 +125,7 @@ name = "api_server"
 version = "0.1.0"
 dependencies = [
  "actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "actix-web 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix-web 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "libservo 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nonzero 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -3042,6 +3044,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_urlencoded"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "dtoa 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "itoa 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
+ "url 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "servo"
 version = "0.0.1"
 dependencies = [
@@ -4309,7 +4322,7 @@ dependencies = [
 
 [metadata]
 "checksum actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)" = "29d85dc76d055498ef65ecf556df154393f94f55d325a05be20c676432536ce7"
-"checksum actix-web 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)" = "a6477a2dd082fe35e89b3a5b154ac841d0041f786b3d119a8c89776fdca47ae1"
+"checksum actix-web 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "5c6fd8fa3f10cbca9b0050801181e739f045ecd47f3ebeacb150ef7cb81f5ab1"
 "checksum actix_derive 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c4b1dc922654b9aca7a8a31eab875fde804fa9fbd67f220f2e457787b23590f2"
 "checksum adler32 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "3ff33fe13a08dbce05bcefa2c68eea4844941437e33d6f808240b54d7157b9cd"
 "checksum advapi32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e06588080cb19d0acb6739808aafa5f26bfb2ca015b2b6370028b44cf7cb8a9a"
@@ -4604,6 +4617,7 @@ dependencies = [
 "checksum serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)" = "f4ba7591cfe93755e89eeecdbcc668885624829b020050e6aec99c2a03bd3fd0"
 "checksum serde_derive_internals 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)" = "6e03f1c9530c3fb0a0a5c9b826bdd9246a5921ae995d75f512ac917fc4dd55b5"
 "checksum serde_json 1.0.13 (registry+https://github.com/rust-lang/crates.io-index)" = "5c508584d9913df116b91505eec55610a2f5b16e9ed793c46e4d0152872b3e74"
+"checksum serde_urlencoded 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "ce0fd303af908732989354c6f02e05e2e6d597152870f2c6990efb0577137480"
 "checksum servo-egl 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "21069a884c33fe6ee596975e1f3849ed88c4ec857fbaf11d33672d8ebe051217"
 "checksum servo-fontconfig 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "93f799b649b4a2bf362398910eca35240704c7e765e780349b2bb1070d892262"
 "checksum servo-fontconfig-sys 4.0.4 (registry+https://github.com/rust-lang/crates.io-index)" = "38b494f03009ee81914b0e7d387ad7c145cafcd69747c2ec89b0e17bb94f303a"

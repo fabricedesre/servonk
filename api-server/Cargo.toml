@@ -5,7 +5,7 @@ authors = ["Fabrice Desré <fabrice@desre.org>"]
 
 [dependencies]
 actix = "0.5"
-actix-web = "0.4"
+actix-web = "0.5"
 libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
 nonzero = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
 log = "0.4"
