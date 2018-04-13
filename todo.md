@@ -50,7 +50,8 @@ Current icons are from https://icons8.com/icon/set/stop/small
   - [ ] lights?
 
 ## Multiprocess support
-- [ ] Check `--content-process` command line flag.
+- [x] Enable on Glutin.
+- [ ] Enable on Gonk.
 
 ## Themes
 - [ ] Reorganize css and asset files.
