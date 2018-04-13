@@ -51,7 +51,7 @@ Current icons are from https://icons8.com/icon/set/stop/small
 
 ## Multiprocess support
 - [x] Enable on Glutin.
-- [ ] Enable on Gonk.
+- [ ] Enable on Gonk (see https://github.com/servo/ipc-channel/issues/143).
 
 ## Themes
 - [ ] Reorganize css and asset files.
