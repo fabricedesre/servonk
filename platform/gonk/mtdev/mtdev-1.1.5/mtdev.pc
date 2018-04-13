@@ -1,4 +1,4 @@
-prefix=/home/fabrice/dev/servonk/ports/gonk/target/armv7-linux-androideabi/release/build/mtdev-2e3c109e97ee937b/out
+prefix=/home/fabrice/dev/servonk/platform/gonk/target/armv7-linux-androideabi/release/build/mtdev-8874efd43194bc08/out
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

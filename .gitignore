@@ -7,10 +7,10 @@
 **/*.la
 **/.deps/*
 **/.libs/*
-platform/gonk/mtdev/src/generated
-platform/gonk/mtdev/mtdev-1.1.5/Makefile
-platform/gonk/mtdev/mtdev-1.1.5/config.log
-platform/gonk/mtdev/mtdev-1.1.5/config.status
-platform/gonk/mtdev/mtdev-1.1.5/mtdev.pc
-platform/gonk/mtdev/mtdev-1.1.5/src/Makefile
-platform/gonk/mtdev/mtdev-1.1.5/test/Makefile
+**/mtdev/src/generated
+**/mtdev/mtdev-1.1.5/Makefile
+**/mtdev/mtdev-1.1.5/config.log
+**/mtdev/mtdev-1.1.5/config.status
+**/mtdev/mtdev-1.1.5/mtdev.pc
+**/mtdev/mtdev-1.1.5/src/Makefile
+**/mtdev/mtdev-1.1.5/test/*
