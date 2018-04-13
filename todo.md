@@ -3,7 +3,7 @@ Servonk MVP feature list
 
 ## General
 Current icons are from https://icons8.com/icon/set/stop/small
-- [ ] switch to fontawesome.
+- [x] switch to fontawesome.
 
 ## Lockscreen
 - [x] always start with screen locked.
