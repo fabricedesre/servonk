@@ -14,6 +14,9 @@ class WebView extends HTMLElement {
         this.update();
         this.frame = this.firstElementChild;
         this.active = false;
+        this.loading = false;
+        this.can_go_back = false;
+        this.can_go_forward = false;
 
         let webview_id = this.frame.getAttribute("webviewid");
         // console.log(`webview id is ${webview_id}`);
@@ -21,23 +24,55 @@ class WebView extends HTMLElement {
     }
 
     set_active(val) {
-        console.log(`Changing "${this.title}" active status to ${val}`);
+        // console.log(`Changing "${this.title}" active status to ${val}`);
         this.active = val;
-        let event = new CustomEvent("active-state-change", { detail: { active: val }});
+        let event = new CustomEvent("active-state-change", { detail: { active: val } });
         this.dispatchEvent(event);
+    }
+
+    state() {
+        return {
+            loading: this.loading,
+            can_go_back: this.can_go_back,
+            can_go_forward: this.can_go_forward
+        }
     }
 
     active() {
         return this.active;
     }
 
+    dispatch_state() {
+        let event = new CustomEvent("state-change", {
+            detail: {
+                loading: this.loading,
+                can_go_back: this.can_go_back,
+                can_go_forward: this.can_go_forward
+            }
+        });
+        this.dispatchEvent(event);
+    }
+
     on_webview_event(message) {
         let msg = message.data;
-        
+
         if (msg.type === "change_page_title") {
             this.title = msg.title;
-            let event = new CustomEvent("title-change", { detail: { title: msg.title }});
+            let event = new CustomEvent("title-change", { detail: { title: msg.title } });
             this.dispatchEvent(event);
+        } else if (msg.type === "progress") {
+            if (msg.event === "load_complete") {
+                this.loading = false;
+                this.dispatch_state();
+            } else if (msg.event === "load_start") {
+                this.loading = false;
+                this.dispatch_state();
+            }
+        } else if (msg.type === "history_changed") {
+            this.can_go_back = msg.current !== 0;
+            this.can_go_forward = msg.current + 1 !== msg.urls.length;
+            this.dispatch_state();
+            this.update();
         }
     }
 

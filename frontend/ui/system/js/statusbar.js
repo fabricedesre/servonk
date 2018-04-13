@@ -15,12 +15,10 @@ class StatusBar extends HTMLElement {
         }
 
         MessageRouter.add_listener("set-active-frame", (message) => {
-            let frame = message.frame;
-            console.log(`statusbar change active frame to ${frame.getAttribute("id")}`);
             if (this.active_frame) {
                 this.active_frame.removeEventListener("title-change", title_change);
             }
-            this.active_frame = frame;
+            this.active_frame = message.frame;
             this.active_frame.addEventListener("title-change", title_change);
             this.set_title(this.active_frame.title);
         });

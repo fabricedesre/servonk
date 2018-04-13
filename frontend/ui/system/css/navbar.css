@@ -43,3 +43,7 @@ nav-bar {
 .spin {
     animation: spin 1s linear infinite;
 }
+
+img.disabled {
+    opacity: 0.2;
+}

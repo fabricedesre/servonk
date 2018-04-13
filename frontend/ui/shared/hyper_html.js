@@ -942,7 +942,9 @@ var setAttribute = function setAttribute(node, name, original) {
       // update only the value, set it as node only when/if needed
       else {
           var owner = false;
-          var attribute = original.cloneNode(true);
+          var attribute = document.createAttribute(name);
+          attribute.value = original.value;
+
           return function (newValue) {
             if (oldValue !== newValue) {
               oldValue = newValue;
