@@ -16,6 +16,8 @@ let dom_ready = false;
 let embedding_ready = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("lock-screen").unlock();
+    
     // Bind the backspace key to some action.
     document.addEventListener("keydown", (event) => {
         console.log(`Keydown event: ${event.key}`);
@@ -131,7 +133,7 @@ let EmbeddingApi = {
         }
 
         this.ws.onmessage = (e) => {
-            // console.log(`EmbeddingApi message ${e.data}`);
+            console.log(`EmbeddingApi message ${e.data}`);
             let msg = JSON.parse(e.data);
 
             // Only process the messages targeted to the system app.

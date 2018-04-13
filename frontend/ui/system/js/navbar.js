@@ -118,21 +118,30 @@ class NavBar extends HTMLElement {
     }
 
     update() {
-        let can_go_back = this.frame_state.can_go_back ? "back" : "back disabled";
-        let can_go_forward = this.frame_state.can_go_forward ? "forward" : "forward disabled";
-        let loading = this.frame_state.loading ? "refresh spin" : "refresh";
+        let can_go_back = "back fa-fw fas fa-arrow-alt-circle-left";
+        if (!this.frame_state.can_go_back) {
+            can_go_back += " disabled";
+        }
+        let can_go_forward = "forward fa-fw fas fa-arrow-alt-circle-right";
+        if (!this.frame_state.can_go_forward) {
+            can_go_forward += " disabled";
+        }
+        let loading = "refresh fa-fw fa fa-sync-alt";
+        if (this.frame_state.loading) {
+            loading += " fa-spin";
+        }
         
         this.render`
     <div class="nav-left">
-        <img class="notifs" src="assets/icons/notification-gray-36.png">
+        <i class="notifs fas fa-bell"></i>
     </div>
     <div class="nav-center">
-        <img class="menu" src="assets/icons/menu-gray-36.png">
+        <i class="menu fas fa-dot-circle"></i>
     </div>
     <div class="nav-right">
-        <img class=${can_go_back} src="assets/icons/go-back-48.png">
-        <img class=${can_go_forward} src="assets/icons/go-forward-48.png">
-        <img class=${loading} src="assets/icons/refresh-48.png">
+        <i class=${can_go_back}></i>
+        <i class=${can_go_forward}></i>
+        <i class=${loading}></i>
     </div>
      `;
     }

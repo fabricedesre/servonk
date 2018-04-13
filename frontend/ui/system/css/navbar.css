@@ -14,14 +14,18 @@
 }
 
 .menu, .notifs {
+    font-size: 36px;
     /* Center these 36px icons */
     padding: calc((var(--navbar-height) - 36px) / 2);
+    /* border: 1px solid yellow; */
 }
 
 .back, .forward, .refresh {
+    font-size: 48px;
     /* Center these 48px icons */
     padding-top: calc((var(--navbar-height) - 48px) / 2);
     padding-bottom: calc((var(--navbar-height) - 48px) / 2);
+    /* border: 1px solid yellow; */
 }
 
 nav-bar {
@@ -38,12 +42,7 @@ nav-bar {
     justify-content: center;
 }
 
-@keyframes spin { 100% { transform: rotate(360deg); } }
-
-.spin {
-    animation: spin 1s linear infinite;
-}
-
-img.disabled {
+i.disabled {
     opacity: 0.2;
+    transition: opacity 0.3s ease;
 }
