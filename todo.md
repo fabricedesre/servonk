@@ -1,5 +1,5 @@
-Servonk MVP feature list
-========================
+Servonk feature list
+====================
 
 ## General
 - [x] switch to fontawesome.
@@ -23,6 +23,9 @@ Servonk MVP feature list
 
 ## Homescreen
 - [ ] basic grid of bookmarked sites.
+- [ ] reorganize icons by dragging them around.
+- [ ] grouping by folders / sections?
+- [ ] automatic grouping by origin?
 
 ## Menu (short press on the menu icon)
 - [ ] opens a panel with the search field at the bottom and quick settings on top.
@@ -48,6 +51,10 @@ Servonk MVP feature list
   - [ ] vibration?
   - [ ] lights?
 
+# Notifications
+- [ ] from the desktop notifications api.
+- [ ] when the title or favicon of a frame changes after load complete?
+
 ## WebView
 - [ ] Make the special iframe proper top-level windows.
 
@@ -61,6 +68,11 @@ Servonk MVP feature list
 
 ## l18n & l10n
 - [ ] include l20n.js
+
+## Content Filtering & Adaptation
+- [ ] https everywhere.
+- [ ] tracking protection.
+- [ ] reader mode.
 
 ## Desktop dev version
 - [x] Embedding api implementation.
