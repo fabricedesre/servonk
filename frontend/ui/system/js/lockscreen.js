@@ -118,6 +118,10 @@ class LockScreen extends HTMLElement {
         }
     }
 
+    is_locked() {
+        return this.locked;
+    }
+
     unlock() {
         this.locked = false;
         this.classList.add("offscreen");

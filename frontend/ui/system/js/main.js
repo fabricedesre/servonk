@@ -3,9 +3,16 @@
 window.addEventListener("idle", (event) => {
     let idle = event.detail.idle;
     console.log(`Changing idle state to: ${idle}`);
+    let lockscreen = document.getElementById("lock-screen");
+
     if (idle) {
-        document.getElementById("lock-screen").lock();
-        // TODO: turn off the screen.
+        lockscreen.lock();
+        // TODO: turn off the screen properly.
+        document.body.style.opacity = 0;
+    } else if (lockscreen.is_locked()) {
+        // When  leaving the idle state with the screen locked, turn on the screen.
+        // TODO: turn on the screen properly;
+        document.body.style.opacity = 1;
     }
 });
 // Set the idle delay to 30s.
@@ -111,7 +118,7 @@ let EmbeddingApi = {
 
     connect() {
         this.ws = new WebSocket("ws://localhost:8000/api/v1/");
-        
+
         console.log(`EmbeddingApi ws is ${this.ws}`);
 
         this.ws.onopen = () => {
