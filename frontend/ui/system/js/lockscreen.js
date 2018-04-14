@@ -5,7 +5,7 @@ class LockScreen extends HTMLElement {
         this.expected = "4242";
         this.input = "";
         this.display = "";
-        this.locked = true;
+        this.locked = false;
         this.timer = null;
 
         // Support both touch and mouse.
@@ -14,25 +14,6 @@ class LockScreen extends HTMLElement {
             this.process_click_or_touch(event);
         });
         this.addEventListener("mousedown", this.process_click_or_touch.bind(this));
-
-        // document.addEventListener("keydown", (event) => {
-        //     let content = "";
-        //     if (event.key == "Backspace") {
-        //         content = "back";
-        //     } else if (event.key == "Enter") {
-        //         content = "ok";
-        //     } else if ("0123456789".indexOf(event.key) != -1) {
-        //         content = event.key;
-        //     }
-
-        //     if (content !== "") {
-        //         this.process_input(content);
-        //     }
-        // });
-
-        window.addEventListener("inactive", () => {
-            this.lock();
-        });
     }
 
     process_input(content) {
@@ -124,6 +105,9 @@ class LockScreen extends HTMLElement {
         console.log('Adding lockscreen');
         this.render = hyperHTML.bind(this);
         this.update();
+
+        // Start with the lockscreen unlocked.
+        this.unlock();
     }
 
     toggle_lock() {
@@ -135,19 +119,15 @@ class LockScreen extends HTMLElement {
     }
 
     unlock() {
-        console.log("Unlocking...");
         this.locked = false;
         this.classList.add("offscreen");
         window.dispatchEvent(new CustomEvent("lockscreen-unlocked"));
-        console.log("Unlocked!");
     }
 
     lock() {
-        console.log("Locking...");
         this.locked = true;
         this.classList.remove("offscreen");
         window.dispatchEvent(new CustomEvent("lockscreen-locked"));
-        console.log("Locked!");
     }
 }
 

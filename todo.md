@@ -2,20 +2,19 @@ Servonk MVP feature list
 ========================
 
 ## General
-Current icons are from https://icons8.com/icon/set/stop/small
 - [x] switch to fontawesome.
 
 ## Lockscreen
-- [x] always start with screen locked.
-- [ ] lock after 1min of inactivity or when pressing the power button.
+- [x] lock after 1min of inactivity or when pressing the power button.
 
-## Keyboard
+## Virtual Keyboard
 (see attachResizeListener)
 - [ ] script injection to listen to focus/blur events for now.
 - [ ] open keyboard... how to send back events?
 
 ## Window manager
 - [x] frames are layout side by side.
+- [ ] split frames horizontally or vertically (subtiles), with one active at a time.
 - [x] the homescreen is a frame like any other.
 - [x] Side swipes to change app with snapping.
 - [x] the window title is displayed in the status bar.

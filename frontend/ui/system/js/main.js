@@ -1,33 +1,27 @@
 
 // TODO: replace by a proper signal from the Servo side.
-let active_timeout = null;
-
-function reset_active_timer() {
-    if (active_timeout) {
-        clearTimeout(active_timeout);
-    }
-    active_timeout = setTimeout(() => {
+window.addEventListener("idle", (event) => {
+    let idle = event.detail.idle;
+    console.log(`Changing idle state to: ${idle}`);
+    if (idle) {
         document.getElementById("lock-screen").lock();
-    }, 60000);
-}
+        // TODO: turn off the screen.
+    }
+});
+// Set the idle delay to 30s.
+Utils.addIdleEvent(window, 30000);
 
 // Guards to check when we are ready to create the initial web views.
 let dom_ready = false;
 let embedding_ready = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("lock-screen").unlock();
-    
     // Bind the backspace key to some action.
     document.addEventListener("keydown", (event) => {
         console.log(`Keydown event: ${event.key}`);
         if (event.key == "Backspace") {
             document.getElementById("lock-screen").toggle_lock();
         }
-    });
-
-    window.addEventListener("lockscreen-unlocked", () => {
-        reset_active_timer();
     });
 
     dom_ready = true;
