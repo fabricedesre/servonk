@@ -312,7 +312,7 @@ class FrameOverlay extends HTMLElement {
 
     update() {
         let size = 48 * this.scale;
-        let style = `width:${size}px; height:${size}px`;
+        let style = `font-size:${size}px`;
         if (!this.closable) {
             style = style + "; display: none";
         }
@@ -322,11 +322,7 @@ class FrameOverlay extends HTMLElement {
             <div class="filler"> </div>
             <div class="overlay-title">
               <div class="filler">${this.title}</div>
-              <div>
-                <img class="close-button"
-                     src="assets/icons/stop-48.png"
-                     style="${style}"/>
-              </div>
+              <i class="close-button far fa-window-close" style=${style}></i>
             </div>
         </div>
         `;
