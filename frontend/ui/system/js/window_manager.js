@@ -95,6 +95,22 @@ class WindowManager extends HTMLElement {
         return wm_id_s;
     }
 
+    is_in_expose() {
+        return this.expose;
+    }
+    
+    enter_expose() {
+        if (!this.expose) {
+            this.toggle_expose();
+        }
+    }
+
+    exit_expose() {
+        if (this.expose) {
+            this.toggle_expose();
+        }
+    }
+
     toggle_expose() {
         this.expose = !this.expose;
         this.update_expose();

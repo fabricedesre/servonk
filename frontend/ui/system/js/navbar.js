@@ -1,6 +1,7 @@
 class NavBar extends HTMLElement {
     constructor() {
         super();
+        this.MENU_LONG_PRESS_DELAY = 500; // ms
     }
 
     connectedCallback() {
@@ -92,9 +93,26 @@ class NavBar extends HTMLElement {
         //     w_m.set_pos(npos);
         // });
 
-        this.menu.addEventListener("click", () => {
+        Utils.addLongPressEvent(this.menu, this.MENU_LONG_PRESS_DELAY);
+        this.menu.addEventListener("longpress", () => {
             let w_m = document.getElementById("windows");
-            w_m.toggle_expose();
+            w_m.enter_expose();
+        });
+
+        Utils.addTimedClickEvent(this.menu);
+        this.menu.addEventListener("timedclick", (event) => {
+            if (event.detail.delay > this.MENU_LONG_PRESS_DELAY) {
+                return;
+            }
+
+            let w_m = document.getElementById("windows");
+
+            if (w_m.is_in_expose()) {
+                // When in expose mode, return to normal view.
+                w_m.exit_expose();
+            } else {
+                // When in normal view, open the search panel.
+            }
         });
 
         let state_change = (event) => {
