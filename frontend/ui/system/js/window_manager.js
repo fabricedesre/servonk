@@ -322,7 +322,7 @@ class FrameOverlay extends HTMLElement {
             <div class="filler"> </div>
             <div class="overlay-title">
               <div class="filler">${this.title}</div>
-              <i class="close-button far fa-window-close" style=${style}></i>
+              <i class="close-button far fa-times-circle" style=${style}></i>
             </div>
         </div>
         `;

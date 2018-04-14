@@ -144,7 +144,7 @@ class NavBar extends HTMLElement {
         if (!this.frame_state.can_go_forward) {
             can_go_forward += " disabled";
         }
-        let loading = "refresh fa-fw fa fa-sync-alt";
+        let loading = "refresh fa-fw fas fa-sync-alt";
         if (this.frame_state.loading) {
             loading += " fa-spin";
         }
