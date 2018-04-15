@@ -65,7 +65,7 @@ class WebView extends HTMLElement {
                 this.loading = false;
                 this.dispatch_state();
             } else if (msg.event === "load_start") {
-                this.loading = false;
+                this.loading = true;
                 this.dispatch_state();
             }
         } else if (msg.type === "history_changed") {
