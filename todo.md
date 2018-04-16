@@ -81,4 +81,5 @@ Servonk feature list
 
 ## Packaging
 - [ ] Z3C manifest.
-- [ ] Desktop packages.
+- [x] Desktop packages (Linux).
+- [ ] Desktop packages (Windows & Mac).
