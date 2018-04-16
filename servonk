@@ -3,7 +3,7 @@
 set -e
 
 function usage {
-    echo "Usage: $0 {build|clean|flash|run} {gonk|glutin} <opts>"
+    echo "Usage: $0 {build|clean|flash|package|run} {gonk|glutin} <opts>"
     exit 1
 }
 
@@ -28,14 +28,17 @@ case "$cmd" in
     build)
         script build $@
         ;;
-    run)
-        script run $@
+    clean)
+        script clean $@
         ;;
     flash)
         script flash $@
         ;;
-    clean)
-        script clean $@
+    package)
+        script package $@
+        ;;
+    run)
+        script run $@
         ;;
     *)
         usage

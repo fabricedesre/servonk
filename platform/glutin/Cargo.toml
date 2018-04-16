@@ -69,3 +69,8 @@ osmesa-src = {git = "https://github.com/servo/osmesa-src"}
 
 [target.x86_64-unknown-linux-gnu.dependencies]
 osmesa-src = {git = "https://github.com/servo/osmesa-src"}
+
+# Configuration for final builds/
+[profile.release]
+lto = true
+codegen-units = 1
