@@ -13,7 +13,7 @@ It is in very early stages and not really usable yet. There is an incomplete [to
 
 Since we depend on Servo, first check that you have everything set up [as explained](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment).
 
-You need to do a b2g build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet.
+You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet.
 
 ## Building
 
