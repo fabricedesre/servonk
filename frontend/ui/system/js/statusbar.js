@@ -22,6 +22,11 @@ class StatusBar extends HTMLElement {
             this.active_frame.addEventListener("title-change", title_change);
             this.set_title(this.active_frame.title);
         });
+
+        this.update();
+        this.querySelector(".title").addEventListener("click", () => {
+            window.dispatchEvent(new CustomEvent("open-search", { detail: { content: this.active_frame.src, target: this.active_frame } }));
+        });
     }
 
     disconnectedCallback() {

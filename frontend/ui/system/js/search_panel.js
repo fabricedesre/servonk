@@ -13,6 +13,7 @@ class SearchPanel extends HTMLElement {
 
         window.addEventListener("open-search", event => {
             let content = (event.detail && event.detail.content) || "";
+            this.target = (event.detail && event.detail.target) || null;
             this.open(content);
         });
 
@@ -25,11 +26,14 @@ class SearchPanel extends HTMLElement {
         if (event.key == "Enter") {
             // Open a new page.
             let url = Utils.fixup_url(event.target.value.trim());
-            console.log(`Will open ${url}`);
-            let window_manager = document.getElementById("windows");
-            let frame_id = window_manager.add_frame(url);
             this.close();
-            window_manager.select_frame(frame_id);
+            if (this.target) {
+                this.target.setAttribute("src", url);
+            } else {
+                let window_manager = document.getElementById("windows");
+                let frame_id = window_manager.add_frame(url);
+                window_manager.select_frame(frame_id);
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 let __web_view_id = 0;
 
 class WebView extends HTMLElement {
+    static get observedAttributes() { return ["src"]; }
+
     constructor() {
         super();
     }
@@ -21,6 +23,14 @@ class WebView extends HTMLElement {
         let webview_id = this.frame.getAttribute("webviewid");
         // console.log(`webview id is ${webview_id}`);
         MessageRouter.add_listener(`webview-${webview_id}`, this.on_webview_event.bind(this));
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        // console.log(`attributeChangedCallback ${name} ${newValue}`);
+        if (name === "src") {
+            this.src = newValue;
+            this.update();
+        }
     }
 
     set_active(val) {
