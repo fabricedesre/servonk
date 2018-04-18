@@ -4,7 +4,7 @@
 
     // Add a long press event on a DOM target. Works both for mouse
     // or touch interactions.
-    let addLongPressEvent = (target, delay) => {
+    let add_longpress_event = (target, delay) => {
         delay = delay || 1000; // Default to 1000ms of delay.
         let timer = null;
 
@@ -37,7 +37,7 @@
 
     // Will dispatch a custom "timedclick" event on the target, letting the
     // user decide wheter that should be recognized as a click or not.
-    let addTimedClickEvent = (target) => {
+    let add_timed_click_event = (target) => {
         let start = null;
         let touch_start = () => {
             start = Date.now();
@@ -62,7 +62,7 @@
     }
 
     // Dispatch an "idle" event when no input even has been received for more than `delay`.
-    let addIdleEvent = (target, delay) => {
+    let add_idle_event = (target, delay) => {
         let timer = null;
         let idle = false;
 
@@ -118,9 +118,9 @@
     }
 
     global.Utils = {
-        addLongPressEvent,
-        addTimedClickEvent,
-        addIdleEvent,
+        add_longpress_event,
+        add_timed_click_event,
+        add_idle_event,
         fixup_url,
     }
 })(window);

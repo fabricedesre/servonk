@@ -16,7 +16,7 @@ window.addEventListener("idle", (event) => {
     }
 });
 // Set the idle delay to 30s.
-Utils.addIdleEvent(window, 30000);
+Utils.add_idle_event(window, 30000);
 
 // Guards to check when we are ready to create the initial web views.
 let dom_ready = false;

@@ -93,13 +93,13 @@ class NavBar extends HTMLElement {
         //     w_m.set_pos(npos);
         // });
 
-        Utils.addLongPressEvent(this.menu, this.MENU_LONG_PRESS_DELAY);
+        Utils.add_longpress_event(this.menu, this.MENU_LONG_PRESS_DELAY);
         this.menu.addEventListener("longpress", () => {
             let w_m = document.getElementById("windows");
             w_m.enter_expose();
         });
 
-        Utils.addTimedClickEvent(this.menu);
+        Utils.add_timed_click_event(this.menu);
         this.menu.addEventListener("timedclick", (event) => {
             if (event.detail.delay > this.MENU_LONG_PRESS_DELAY) {
                 return;
