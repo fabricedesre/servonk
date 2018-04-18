@@ -101,9 +101,26 @@
         start_timer();
     }
 
+    // Tries to convert a string to a valid url.
+    let fixup_url = (val) => {
+        // No '.' in the url, convert the request to a search.
+        // TODO: don't hardcode Google as the search engine.
+        if (val.indexOf(".") === -1) {
+            return `https://www.google.com/search?q=${encodeURIComponent(val)}`;
+        }
+    
+        try {
+            let url = new URL(val);
+            return url.toString();
+        } catch(e) {
+            return "http://" + val;
+        }
+    }
+
     global.Utils = {
         addLongPressEvent,
         addTimedClickEvent,
-        addIdleEvent
+        addIdleEvent,
+        fixup_url,
     }
 })(window);

@@ -1,0 +1,24 @@
+search-panel {
+    position: absolute;
+    bottom: 0px;
+    left: 0%;
+    right: 0%;
+    transform: translateY(100%);
+
+    background-color: rgba(127, 127, 127, 0.5);
+    font-size: 36px;
+}
+
+search-panel.open {
+    transform: translateY(0);
+    bottom: var(--navbar-height);
+}
+
+search-panel ul {
+    /* border: 1px solid yellow; */
+}
+
+search-panel input {
+    margin: 1em;
+    width: calc(100% - 2em);
+}

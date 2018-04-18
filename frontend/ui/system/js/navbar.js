@@ -111,7 +111,13 @@ class NavBar extends HTMLElement {
                 // When in expose mode, return to normal view.
                 w_m.exit_expose();
             } else {
-                // When in normal view, open the search panel.
+                // When in normal view, open or close the search panel.
+                let spanel = document.getElementById("search");
+                if (spanel.is_open()) {
+                    window.dispatchEvent(new CustomEvent("close-search"));
+                } else {
+                    window.dispatchEvent(new CustomEvent("open-search"));
+                }
             }
         });
 
