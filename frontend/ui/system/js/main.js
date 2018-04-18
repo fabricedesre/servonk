@@ -24,12 +24,12 @@ let embedding_ready = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     // Bind the backspace key to some action.
-    document.addEventListener("keydown", (event) => {
-        console.log(`Keydown event: ${event.key}`);
-        if (event.key == "Backspace") {
-            document.getElementById("lock-screen").toggle_lock();
-        }
-    });
+    // document.addEventListener("keydown", (event) => {
+    //     console.log(`Keydown event: ${event.key}`);
+    //     if (event.key == "Backspace") {
+    //         document.getElementById("lock-screen").toggle_lock();
+    //     }
+    // });
 
     dom_ready = true;
     init_window_manager();
@@ -47,7 +47,7 @@ function init_window_manager() {
     // window_manager.add_frame("https://duckduckgo.com");
     window_manager.add_frame("https://wikipedia.org");
     // window_manager.add_frame("https://google.com");
-    window_manager.add_frame("https://duckduckgo.com");
+    window_manager.add_frame("https://www.google.com/");
     window_manager.set_pos(0);
 }
 
