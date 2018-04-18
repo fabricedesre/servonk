@@ -45,10 +45,15 @@ window-manager web-view iframe {
     background-color: rgb(64, 64, 64);
     color: white;
     padding: 0.25em;
-    text-overflow: ellipsis;
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.overlay-title div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 drag-panel {
