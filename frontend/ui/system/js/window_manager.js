@@ -228,6 +228,15 @@ class WindowManager extends HTMLElement {
 
         // Update the expose view.
         this.update_expose();
+
+        // Ensure that if we removed the last frame while it was active,
+        // we still select a valid frame.
+        if (this.pos >= this.frames.length) {
+            this.pos = this.frames.length - 1;
+            let active_frame = this.current_frame();
+            active_frame.set_active(true);
+            MessageRouter.dispatch({ name: "set-active-frame", frame: active_frame });
+        }
     }
 
     on_drag_start() {
