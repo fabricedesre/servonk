@@ -5,7 +5,7 @@ search-panel {
     right: 0%;
     transform: translateY(100%);
 
-    background-color: rgba(127, 127, 127, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     font-size: 36px;
 }
 
@@ -21,4 +21,7 @@ search-panel ul {
 search-panel input {
     margin: 1em;
     width: calc(100% - 2em);
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid gray;
+    color: white;
 }
