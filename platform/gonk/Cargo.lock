@@ -1,6 +1,6 @@
 [[package]]
 name = "actix"
-version = "0.5.5"
+version = "0.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "actix_derive 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -22,10 +22,10 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "0.5.1"
+version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "base64 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "brotli2 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -54,15 +54,13 @@ dependencies = [
  "rand 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_urlencoded 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sha1 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "skeptic 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-core 0.1.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-io 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "trust-dns-resolver 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "url 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "version_check 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -82,6 +80,15 @@ dependencies = [
 name = "adler32"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "advapi32-sys"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "aho-corasick"
@@ -125,15 +132,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "api_server"
 version = "0.1.0"
 dependencies = [
- "actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "actix-web 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix-web 0.5.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "libservo 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nonzero 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "rand 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -214,7 +221,7 @@ dependencies = [
  "cfg-if 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-demangle 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -281,7 +288,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "bluetooth_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -346,7 +353,7 @@ dependencies = [
 [[package]]
 name = "canvas"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "azure 0.28.0 (git+https://github.com/servo/rust-azure)",
  "canvas_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -354,7 +361,7 @@ dependencies = [
  "cssparser 0.23.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "fnv 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "num-traits 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -368,7 +375,7 @@ dependencies = [
 [[package]]
 name = "canvas_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "cssparser 0.23.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -393,7 +400,7 @@ dependencies = [
  "semver 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -420,7 +427,7 @@ name = "cgl"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -450,7 +457,7 @@ name = "clipboard-win"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -481,11 +488,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "compositing"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "gfx_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "image 0.18.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -508,7 +515,7 @@ dependencies = [
 [[package]]
 name = "constellation"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "backtrace 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "bluetooth_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -753,7 +760,7 @@ dependencies = [
 [[package]]
 name = "debugger"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "ws 0.7.3 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -771,7 +778,7 @@ dependencies = [
 [[package]]
 name = "deny_public_fields"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "syn 0.12.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "synstructure 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -780,7 +787,7 @@ dependencies = [
 [[package]]
 name = "devtools"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "devtools_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "hyper 0.10.13 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -789,14 +796,14 @@ dependencies = [
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "msg 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "devtools_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "hyper 0.10.13 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -821,12 +828,12 @@ dependencies = [
 [[package]]
 name = "dom_struct"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 
 [[package]]
 name = "domobject_derive"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "quote 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 0.12.12 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1032,7 +1039,7 @@ dependencies = [
 [[package]]
 name = "fallible"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "hashglobe 0.1.0 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1161,7 +1168,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "gfx"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1207,7 +1214,7 @@ dependencies = [
 [[package]]
 name = "gfx_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "malloc_size_of 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "malloc_size_of_derive 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -1236,7 +1243,7 @@ dependencies = [
 
 [[package]]
 name = "gleam"
-version = "0.4.29"
+version = "0.4.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "gl_generator 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1264,7 +1271,7 @@ dependencies = [
  "osmesa-sys 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "shared_library 0.1.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "wayland-client 0.12.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "winit 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "x11-dl 2.17.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1286,7 +1293,7 @@ dependencies = [
  "android_logger 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "egl 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "errno 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1327,7 +1334,7 @@ dependencies = [
 [[package]]
 name = "hashglobe"
 version = "0.1.0"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1515,7 +1522,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cgl 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "core-foundation 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "leaky-cow 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -1546,14 +1553,14 @@ dependencies = [
 
 [[package]]
 name = "ipconfig"
-version = "0.1.6"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "error-chain 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "socket2 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "socket2 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "widestring 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "winreg 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winreg 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1586,7 +1593,7 @@ dependencies = [
 [[package]]
 name = "jstraceable_derive"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "quote 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 0.12.12 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1616,6 +1623,15 @@ version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "ktmw32-sys"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "language-tags"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1623,7 +1639,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "layout"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "atomic_refcell 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1649,7 +1665,7 @@ dependencies = [
  "script_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "selectors 0.19.0 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_arc 0.1.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_atoms 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_config 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -1667,7 +1683,7 @@ dependencies = [
 [[package]]
 name = "layout_thread"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "atomic_refcell 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1695,7 +1711,7 @@ dependencies = [
  "script_layout_interface 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "script_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "selectors 0.19.0 (git+https://github.com/fabricedesre/servo?branch=gonk)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_allocator 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_arc 0.1.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_atoms 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -1711,7 +1727,7 @@ dependencies = [
 [[package]]
 name = "layout_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "gfx 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1768,13 +1784,13 @@ version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cc 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "libservo"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bluetooth_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "canvas 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -1788,7 +1804,7 @@ dependencies = [
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "gaol 0.0.1 (git+https://github.com/servo/gaol)",
  "gfx 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "layout_thread 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1872,7 +1888,7 @@ dependencies = [
 [[package]]
 name = "malloc_size_of"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "cssparser 0.23.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1885,7 +1901,7 @@ dependencies = [
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_bytes 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_arc 0.1.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
- "smallbitvec 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "smallbitvec 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1898,7 +1914,7 @@ dependencies = [
 [[package]]
 name = "malloc_size_of_derive"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "quote 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 0.12.12 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1914,7 +1930,7 @@ dependencies = [
  "phf_codegen 0.7.21 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache_codegen 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tendril 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1939,7 +1955,7 @@ version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1955,7 +1971,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "metrics"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "gfx_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2109,7 +2125,7 @@ dependencies = [
 [[package]]
 name = "msg"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "malloc_size_of 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -2130,7 +2146,7 @@ dependencies = [
 [[package]]
 name = "net"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "base64 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "brotli 1.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2154,7 +2170,7 @@ dependencies = [
  "openssl 0.9.24 (registry+https://github.com/rust-lang/crates.io-index)",
  "profile_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo-websocket 0.21.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_allocator 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_arc 0.1.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -2184,7 +2200,7 @@ dependencies = [
 [[package]]
 name = "net_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "cookie 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "hyper 0.10.13 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2214,7 +2230,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "nonzero"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -2308,14 +2324,14 @@ dependencies = [
  "core-foundation 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "gl_generator 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "libloading 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "objc 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "osmesa-sys 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "x11 2.17.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -2410,7 +2426,7 @@ dependencies = [
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -2501,7 +2517,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "profile"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "heartbeats-simple 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "influent 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2511,7 +2527,7 @@ dependencies = [
  "profile_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_config 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "task_info 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2520,7 +2536,7 @@ dependencies = [
 [[package]]
 name = "profile_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bincode 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2574,13 +2590,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "fuchsia-zircon 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "range"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "malloc_size_of 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "malloc_size_of_derive 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -2659,10 +2675,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "remove_dir_all"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -2752,7 +2768,7 @@ name = "same-file"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -2773,7 +2789,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "script"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "audio-video-metadata 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2794,7 +2810,7 @@ dependencies = [
  "encoding_rs 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "fnv 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "half 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "html5ever 0.22.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "hyper 0.10.13 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2832,7 +2848,7 @@ dependencies = [
  "selectors 0.19.0 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "serde 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_bytes 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "servo_allocator 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_arc 0.1.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_atoms 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -2858,7 +2874,7 @@ dependencies = [
 [[package]]
 name = "script_layout_interface"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "atomic_refcell 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2890,12 +2906,12 @@ dependencies = [
 [[package]]
 name = "script_plugins"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 
 [[package]]
 name = "script_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bluetooth_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "canvas_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -2926,7 +2942,7 @@ dependencies = [
 [[package]]
 name = "selectors"
 version = "0.19.0"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "cssparser 0.23.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -2996,7 +3012,7 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.14"
+version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "dtoa 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3061,7 +3077,7 @@ dependencies = [
  "cmake 0.1.29 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "expat-sys 2.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "glutin 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "glx 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "io-surface 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3090,7 +3106,7 @@ dependencies = [
 [[package]]
 name = "servo_allocator"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -3098,7 +3114,7 @@ dependencies = [
 [[package]]
 name = "servo_arc"
 version = "0.1.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "nodrop 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "stable_deref_trait 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3107,7 +3123,7 @@ dependencies = [
 [[package]]
 name = "servo_atoms"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "string_cache 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache_codegen 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3116,7 +3132,7 @@ dependencies = [
 [[package]]
 name = "servo_config"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.14 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3134,7 +3150,7 @@ dependencies = [
 [[package]]
 name = "servo_geometry"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3147,7 +3163,7 @@ dependencies = [
 [[package]]
 name = "servo_rand"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3158,7 +3174,7 @@ dependencies = [
 [[package]]
 name = "servo_remutex"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3168,7 +3184,7 @@ dependencies = [
 [[package]]
 name = "servo_url"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "malloc_size_of 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "malloc_size_of_derive 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -3187,7 +3203,7 @@ dependencies = [
  "api_server 0.1.0",
  "egl 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "errno 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "gonk-gfx 0.1.0 (git+https://github.com/fabricedesre/gonk-gfx-rs)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
  "libservo 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -3235,7 +3251,7 @@ dependencies = [
  "error-chain 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "glob 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "pulldown-cmark 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "tempdir 0.3.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "walkdir 1.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -3252,7 +3268,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "smallbitvec"
-version = "1.0.6"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -3262,12 +3278,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "socket2"
-version = "0.3.4"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cfg-if 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.39 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ws2_32-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -3313,7 +3331,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "style"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "arrayvec 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3350,7 +3368,7 @@ dependencies = [
  "servo_atoms 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_config 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "servo_url 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
- "smallbitvec 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "smallbitvec 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "style_derive 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -3366,7 +3384,7 @@ dependencies = [
 [[package]]
 name = "style_derive"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "darling 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "quote 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3377,7 +3395,7 @@ dependencies = [
 [[package]]
 name = "style_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "app_units 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "bitflags 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3448,7 +3466,7 @@ dependencies = [
 [[package]]
 name = "task_info"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "cc 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -3459,7 +3477,7 @@ version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "rand 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "remove_dir_all 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "remove_dir_all 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -3631,7 +3649,7 @@ dependencies = [
  "mio-uds 0.6.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-core 0.1.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio-io 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -3724,7 +3742,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "error-chain 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures 0.1.21 (registry+https://github.com/rust-lang/crates.io-index)",
- "ipconfig 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ipconfig 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "lru-cache 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3887,7 +3905,7 @@ version = "2.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "same-file 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -3969,7 +3987,7 @@ dependencies = [
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "freetype 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "fxhash 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "num-traits 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -4005,7 +4023,7 @@ dependencies = [
 [[package]]
 name = "webvr"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "canvas_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "euclid 0.17.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -4021,7 +4039,7 @@ dependencies = [
 [[package]]
 name = "webvr_traits"
 version = "0.0.1"
-source = "git+https://github.com/fabricedesre/servo?branch=gonk#cdc4795a57d0c23700b197131cbbb71fd3118c96"
+source = "git+https://github.com/fabricedesre/servo?branch=gonk#32765b8d1fe12ac492c2fecdf33fefc198c7e9ad"
 dependencies = [
  "ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "msg 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -4041,11 +4059,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "winapi"
-version = "0.3.4"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi-i686-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi-x86_64-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi-i686-pc-windows-gnu 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi-x86_64-pc-windows-gnu 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -4055,12 +4073,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "winapi-i686-pc-windows-gnu"
-version = "0.4.0"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "winapi-x86_64-pc-windows-gnu"
-version = "0.4.0"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -4068,7 +4086,7 @@ name = "wincolor"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -4088,16 +4106,20 @@ dependencies = [
  "wayland-kbd 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "wayland-protocols 0.12.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "wayland-window 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "x11-dl 2.17.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "winreg"
-version = "0.5.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "advapi32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ktmw32-sys 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.24 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -4105,7 +4127,7 @@ name = "winutil"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -4200,10 +4222,11 @@ dependencies = [
 ]
 
 [metadata]
-"checksum actix 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)" = "29d85dc76d055498ef65ecf556df154393f94f55d325a05be20c676432536ce7"
-"checksum actix-web 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "5c6fd8fa3f10cbca9b0050801181e739f045ecd47f3ebeacb150ef7cb81f5ab1"
+"checksum actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)" = "e767e3170dc7cdec50fe1b74d22fd9d2f4b78b97b2052a254b5acb07dae68634"
+"checksum actix-web 0.5.4 (registry+https://github.com/rust-lang/crates.io-index)" = "9948406e3d13d44d43987e1e2050809a415f752a8096e5dff3a879c9714a9871"
 "checksum actix_derive 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c4b1dc922654b9aca7a8a31eab875fde804fa9fbd67f220f2e457787b23590f2"
 "checksum adler32 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "3ff33fe13a08dbce05bcefa2c68eea4844941437e33d6f808240b54d7157b9cd"
+"checksum advapi32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e06588080cb19d0acb6739808aafa5f26bfb2ca015b2b6370028b44cf7cb8a9a"
 "checksum aho-corasick 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)" = "500909c4f87a9e52355b26626d890833e9e1d53ac566db76c36faa984b889699"
 "checksum alloc-no-stdlib 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b21f6ad9c9957eb5d70c3dee16d31c092b3cab339628f821766b05e6833d72b8"
 "checksum android_glue 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "000444226fcff248f2bc4c7625be32c63caccfecc2723a2b9f78a7487a49c407"
@@ -4322,7 +4345,7 @@ dependencies = [
 "checksum gfx_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)" = "<none>"
 "checksum gif 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)" = "8a80d6fe9e52f637df9afd4779449a7be17c39cc9c35b01589bb833f956ba596"
 "checksum gl_generator 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7a795170cbd85b5a7baa58d6d7525cae6a03e486859860c220f7ebbbdd379d0a"
-"checksum gleam 0.4.29 (registry+https://github.com/rust-lang/crates.io-index)" = "b74def65dc2902b459fc7dd258b10695130408b79fd8f8beb59f475b1536ed81"
+"checksum gleam 0.4.34 (registry+https://github.com/rust-lang/crates.io-index)" = "b4e5e2cdcadecdf3886e7808b6a38eae0a48dfe98c5c12b776fc861b80edf4a2"
 "checksum glob 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)" = "8be18de09a56b60ed0edf84bc9df007e30040691af7acd1c41874faac5895bfb"
 "checksum glutin 0.13.1 (registry+https://github.com/rust-lang/crates.io-index)" = "90de8e0391e57098acfbfe693b23065e9186255d370ebae12c933b7d77df8424"
 "checksum glx 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "63a6e7c2846e12626455f45ebaff9d92161436dd0fa703d9d198012e528ca7b9"
@@ -4353,7 +4376,7 @@ dependencies = [
 "checksum io-surface 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)" = "623ace1e5f7de3512ec45302572a72349fdadcbef650c3dfc5d8244209be7653"
 "checksum iovec 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "dbe6e417e7d0975db6512b90796e8ce223145ac4e33c377e4a42882a0e88bb08"
 "checksum ipc-channel 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)" = "db9daf099728ac5390c73f54e6e3708f0c514d2b51f24373830f568702eadfca"
-"checksum ipconfig 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)" = "9ec4e18c0a0d4340870c14284293632d8421f419008371422dd327892b88877c"
+"checksum ipconfig 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "5d6bee4e17f904d45932c5399270880e5952a2c1db671f6eed2311e98f97e586"
 "checksum itertools 0.7.6 (registry+https://github.com/rust-lang/crates.io-index)" = "b07332223953b5051bceb67e8c4700aa65291535568e1f12408c43c4a42c0394"
 "checksum itoa 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "eb2f404fbc66fd9aac13e998248505e7ecb2ad8e44ab6388684c5fb11c6c251c"
 "checksum itoa 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "c069bbec61e1ca5a596166e55dfe4773ff745c3d16b700013bcaff9a6df2c682"
@@ -4362,6 +4385,7 @@ dependencies = [
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum khronos 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "c0711aaa80e6ba6eb1fa8978f1f46bfcb38ceb2f3f33f3736efbff39dac89f50"
 "checksum khronos_api 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d9ef23fcc4059260c5936f638c9805ebfc87cb172fa6661d130cba7f97d58f55"
+"checksum ktmw32-sys 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "3e7bd349909cb66100a2e177e5ad59fbcba0628f1a1b1f2e2e78d0ead03bbb05"
 "checksum language-tags 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a91d884b6667cd606bb5a69aa0c99ba811a115fc68915e7056ec08a46e93199a"
 "checksum layout 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)" = "<none>"
 "checksum layout_thread 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)" = "<none>"
@@ -4462,7 +4486,7 @@ dependencies = [
 "checksum ref_slice 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "825740057197b7d43025e7faf6477eaabc03434e153233da02d1f44602f71527"
 "checksum regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "1731164734096285ec2a5ec7fea5248ae2f5485b3feeb0115af4fda2183b2d1b"
 "checksum regex-syntax 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "ad890a5eef7953f55427c50575c680c42841653abd2b028b68cd223d157f62db"
-"checksum remove_dir_all 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "dfc5b3ce5d5ea144bb04ebd093a9e14e9765bcfec866aecda9b6dec43b3d1e24"
+"checksum remove_dir_all 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "3488ba1b9a2084d38645c4c08276a1752dcbf2c7130d74f1569681ad5d2799c5"
 "checksum resolv-conf 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8e1b086bb6a2659d6ba66e4aa21bde8a53ec03587cd5c80b83bdc3a330f35cab"
 "checksum ring 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)" = "6f7d28b30a72c01b458428e0ae988d4149c20d902346902be881e3edc4bb325c"
 "checksum ron 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)" = "da06feaa07f69125ab9ddc769b11de29090122170b402547f64b86fe16ebc399"
@@ -4489,7 +4513,7 @@ dependencies = [
 "checksum serde_bytes 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7a73f5ad9bb83e1e407254c7a355f4efdaffe3c1442fc0657ddb8b9b6b225655"
 "checksum serde_derive 1.0.27 (registry+https://github.com/rust-lang/crates.io-index)" = "f4ba7591cfe93755e89eeecdbcc668885624829b020050e6aec99c2a03bd3fd0"
 "checksum serde_derive_internals 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)" = "6e03f1c9530c3fb0a0a5c9b826bdd9246a5921ae995d75f512ac917fc4dd55b5"
-"checksum serde_json 1.0.14 (registry+https://github.com/rust-lang/crates.io-index)" = "8f6f1f77b969caa064f347544d703efacaf4854b84831096a5dc206a8aedbc27"
+"checksum serde_json 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)" = "7bf1cbb1387028a13739cb018ee0d9b3db534f22ca3c84a5904f7eadfde14e75"
 "checksum serde_urlencoded 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "ce0fd303af908732989354c6f02e05e2e6d597152870f2c6990efb0577137480"
 "checksum servo-egl 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "21069a884c33fe6ee596975e1f3849ed88c4ec857fbaf11d33672d8ebe051217"
 "checksum servo-fontconfig 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "93f799b649b4a2bf362398910eca35240704c7e765e780349b2bb1070d892262"
@@ -4513,9 +4537,9 @@ dependencies = [
 "checksum skeptic 0.13.2 (registry+https://github.com/rust-lang/crates.io-index)" = "c8431f8fca168e2db4be547bd8329eac70d095dff1444fee4b0fa0fabc7df75a"
 "checksum slab 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "17b4fcaed89ab08ef143da37bc52adbcc04d4a69014f4c1208d6b51f0c47bc23"
 "checksum slab 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fdeff4cd9ecff59ec7e3744cbca73dfe5ac35c2aedb2cfba8a1c715a18912e9d"
-"checksum smallbitvec 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "79b776f00dfe01df905fa3b2eaa1659522e99e3fc4a7b1334171622205c4bdcf"
+"checksum smallbitvec 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "665fbc8384f961eb55c548daa2a4b1efff1f9d03b7a10f162ac6ad6a781ca966"
 "checksum smallvec 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "44db0ecb22921ef790d17ae13a3f6d15784183ff5f2a01aa32098c7498d2b4b9"
-"checksum socket2 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "71ebbe82fcdd697244ba7fe6e05e63b5c45910c3927e28469a04947494ff48d8"
+"checksum socket2 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "36b4896961171cd3317c7e9603d88f379f8c6e45342212235d356496680c68fd"
 "checksum stable_deref_trait 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "15132e0e364248108c5e2c02e3ab539be8d6f5d52a01ca9bbf27ed657316f02b"
 "checksum string 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "31f98b200e7caca9efca50fc0aa69cd58a5ec81d5f6e75b2f3ecaad2e998972a"
 "checksum string_cache 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)" = "39cb4173bcbd1319da31faa5468a7e3870683d7a237150b0b0aaafd546f6ad12"
@@ -4592,13 +4616,13 @@ dependencies = [
 "checksum webvr_traits 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)" = "<none>"
 "checksum widestring 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7157704c2e12e3d2189c507b7482c52820a16dfa4465ba91add92f266667cadb"
 "checksum winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)" = "167dc9d6949a9b857f3451275e911c3f44255842c1f7a76f33c55103a909087a"
-"checksum winapi 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "04e3bd221fcbe8a271359c04f21a76db7d0c6028862d1bb5512d85e1e2eb5bb3"
+"checksum winapi 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "b09fb3b6f248ea4cd42c9a65113a847d612e17505d6ebd1f7357ad68a8bf8693"
 "checksum winapi-build 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "2d315eee3b34aca4797b2da6b13ed88266e6d612562a0c46390af8299fc699bc"
-"checksum winapi-i686-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-"checksum winapi-x86_64-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+"checksum winapi-i686-pc-windows-gnu 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "ec6667f60c23eca65c561e63a13d81b44234c2e38a6b6c959025ee907ec614cc"
+"checksum winapi-x86_64-pc-windows-gnu 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "98f12c52b2630cd05d2c3ffd8e008f7f48252c042b4871c72aed9dc733b96668"
 "checksum wincolor 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)" = "eeb06499a3a4d44302791052df005d5232b927ed1a9658146d842165c4de7767"
 "checksum winit 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)" = "f1a29847ed6928d6cbabe6b2d5b11dd0ce63380af53a8dcd41775d27d104d285"
-"checksum winreg 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "9338067aba07889a38beaad4dbb77fa2e62e87c423b770824b3bdf412874bd2c"
+"checksum winreg 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "cbf285379f20d7f26abd990d9a566be9d31ab7a9d335299baaa1f0604f5f96af"
 "checksum winutil 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "7daf138b6b14196e3830a588acf1e86966c694d3e8fb026fb105b8b5dca07e6e"
 "checksum ws 0.7.3 (registry+https://github.com/rust-lang/crates.io-index)" = "89c48c53bf9dee34411a08993c10b879c36e105d609b46e25673befe3a5c1320"
 "checksum ws2_32-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "d59cefebd0c892fa2dd6de581e937301d8552cb44489cdff035c6187cb63fa5e"

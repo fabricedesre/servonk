@@ -284,11 +284,11 @@ impl Browser {
                 EmbedderMsg::LoadComplete(_browser_id) => {
                     self.loading_state = Some(LoadingState::Loaded);
                 }
+                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => { }
                 EmbedderMsg::Shutdown => {
                     self.shutdown_requested = true;
-                },
-                EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {
                 }
+                EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => { }
             }
         }
     }

@@ -79,6 +79,7 @@ impl Browser {
                 EmbedderMsg::LoadComplete(_browser_id) => {
                     // self.loading_state = Some(LoadingState::Loaded);
                 }
+                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => { }
                 EmbedderMsg::Shutdown => {
                     self.event_sender
                         .send(Event::ShutdownEvent)

@@ -26,6 +26,7 @@ shift
 
 case "$cmd" in
     build)
+        ./bootstrap.sh
         script build $@
         ;;
     clean)
