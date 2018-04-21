@@ -5,13 +5,13 @@ class WebView extends HTMLElement {
 
     constructor() {
         super();
+        this.render = hyperHTML.bind(this);
     }
 
     connectedCallback() {
         console.log('Adding WebView');
 
         this.title = "";
-        this.render = hyperHTML.bind(this);
         this.src = this.getAttribute("src");
         this.update();
         this.frame = this.firstElementChild;
