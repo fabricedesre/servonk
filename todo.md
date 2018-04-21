@@ -56,7 +56,7 @@ Servonk feature list
 - [ ] when the title or favicon of a frame changes after load complete?
 
 ## WebView
-- [ ] Make the special iframe proper top-level windows.
+- [x] Make the special iframe proper top-level windows.
 
 ## Multiprocess support
 - [x] Enable on Glutin.
@@ -83,3 +83,8 @@ Servonk feature list
 - [ ] Z3C manifest.
 - [x] Desktop packages (Linux).
 - [ ] Desktop packages (Windows & Mac).
+
+
+## Tests
+- [ ] Embedding tests.
+- [ ] Frontend tests.
