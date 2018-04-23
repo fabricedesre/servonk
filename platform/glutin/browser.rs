@@ -288,6 +288,12 @@ impl Browser {
                 EmbedderMsg::Shutdown => {
                     self.shutdown_requested = true;
                 }
+                EmbedderMsg::ShowIME(_browser_id, _kind) => {
+
+                }
+                EmbedderMsg::HideIME(_browser_id) => {
+
+                }
                 EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => { }
             }
         }

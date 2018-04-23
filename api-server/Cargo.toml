@@ -8,6 +8,9 @@ actix = "0.5"
 actix-web = "0.5"
 libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
 nonzero = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
+# libservo = { path = "/home/fabrice/dev/servo/components/servo" }
+# nonzero = { path = "/home/fabrice/dev/servo/components/nonzero" }
+
 log = "0.4"
 rand = "0.4"
 serde = "1.0"

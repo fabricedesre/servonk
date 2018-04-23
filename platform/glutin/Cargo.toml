@@ -42,6 +42,7 @@ euclid = "0.17"
 gleam = "0.4.29"
 glutin = "0.13"
 libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk" }
+# libservo = { path = "/home/fabrice/dev/servo/components/servo" }
 log = "0.4"
 tinyfiledialogs = "3.0"
 winit = "0.11.2"

@@ -14,6 +14,7 @@ libc = "0.2"
 # The gonk branch of Servo adds a feature to turn off the unimplemented web-bluetooth
 # and provides gonk support for the config.
 libservo = { git = "https://github.com/fabricedesre/servo", branch = "gonk", features = ["gonk"] }
+# libservo = { path = "/home/fabrice/dev/servo/components/servo", features = ["gonk"] }
 log = "0.4"
 mio = "0.6"
 mtdev = { path = "mtdev" }

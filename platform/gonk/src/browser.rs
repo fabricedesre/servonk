@@ -85,6 +85,12 @@ impl Browser {
                         .send(Event::ShutdownEvent)
                         .expect("Failed to send shutdown event");
                 }
+                EmbedderMsg::ShowIME(_browser_id, _kind) => {
+
+                }
+                EmbedderMsg::HideIME(_browser_id) => {
+
+                }
                 EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {}
             }
         }
