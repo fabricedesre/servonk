@@ -134,7 +134,7 @@ let EmbeddingApi = {
         }
 
         this.ws.onmessage = (e) => {
-            console.log(`EmbeddingApi message ${e.data}`);
+            // console.log(`EmbeddingApi message ${e.data}`);
             let msg = JSON.parse(e.data);
 
             // Only process the messages targeted to the system app.

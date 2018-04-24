@@ -6,6 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- <link href="../shared/fontawesome/css/fontawesome-all.min.css" rel="stylesheet"> -->
+
+    <meta name="availableLanguages" content="en-US">
+    <meta name="defaultLanguage" content="en-US">
+
+    <link rel="localization" href="locales/{locale}.ftl">
+    
+    <script src="/shared/fluent/runtime.js"></script>
+    <script src="/shared/fluent/fluent-web.js"></script>
+    <!-- <script src="/shared/fluent/fluent-dom.js"></script> -->
    <style>
     html {
         color: white;
@@ -26,12 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     data = data + "-" + data.length;
     localStorage.setItem("servonk", data);
+
+    document.body.firstElementChild.textContent = `Language set to ${navigator.language}`;
 });
     </script>
 </head>
 
 <body>
-    <h1>Welcome Home</h1>
+    <h1>...</h1>
+    <h1 data-l10n-id="welcome"></h1>
     <h1><a href="page2.html">Page 2</a></h1>
     <h2 id="out"></h2>
 
