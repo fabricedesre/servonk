@@ -19,6 +19,8 @@ extern crate egl;
 extern crate errno;
 extern crate gleam;
 extern crate gonk_gfx;
+#[macro_use]
+extern crate lazy_static;
 extern crate libc;
 #[macro_use]
 extern crate log;
@@ -30,6 +32,7 @@ mod browser;
 mod browser_window;
 mod events_loop;
 mod input;
+mod resources;
 
 use android_logger::Filter;
 use api_server::server::MessageToSystemApp;
@@ -40,7 +43,6 @@ use servo::ipc_channel::ipc;
 use servo::msg::constellation_msg::{Key, KeyState};
 use servo::script_traits::TouchEventType;
 use servo::servo_config::opts;
-use servo::servo_config::resource_files::set_resources_path;
 use servo::servo_url::ServoUrl;
 use servo::webrender_api::ScrollLocation;
 use std::env;
@@ -85,10 +87,7 @@ fn main() {
         start_url
     );
 
-    let path = env::current_dir().unwrap().join("resources");
-    let certificate_path = path.join("ca-certificates.crt");
-    let path = path.to_str().unwrap().to_string();
-    set_resources_path(Some(path));
+    resources::init();
 
     let mut opts = opts::default_opts();
     // Set the window size.
@@ -96,7 +95,7 @@ fn main() {
         opts.initial_window_size = size;
     }
     opts.user_agent = USER_AGENT.into();
-    opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
+    // opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
 
     // TODO: figure out failure to start child process.
     opts.multiprocess = false;

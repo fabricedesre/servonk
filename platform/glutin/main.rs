@@ -30,6 +30,8 @@ extern crate gleam;
 extern crate glutin;
 // The window backed by glutin
 #[macro_use]
+extern crate lazy_static;
+#[macro_use]
 extern crate log;
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 extern crate osmesa_sys;
@@ -45,6 +47,7 @@ extern crate winapi;
 extern crate winit;
 
 mod glutin_app;
+mod resources;
 
 use api_server::server::MessageToSystemApp;
 use backtrace::Backtrace;
@@ -57,7 +60,6 @@ use servo::config::opts::{self, parse_url_or_filename, ArgumentParsingResult};
 use servo::config::servo_version;
 use servo::ipc_channel::ipc;
 use servo::servo_config::prefs::PREFS;
-use servo::servo_config::resource_files::set_resources_path;
 use servo::servo_url::ServoUrl;
 use std::env;
 use std::panic;
@@ -110,22 +112,16 @@ fn install_crash_handler() {}
 fn main() {
     install_crash_handler();
 
+    resources::init();
+
     // Parse the command line options and store them globally
     let opts_result = opts::from_cmdline_args(&*args());
-
-    // Needed for the content process since the --resources-path flag is not
-    // set in the command line and the resources path is not part of Opts.
-    let res_path = match env::var("SERVO_RESOURCES") {
-        Ok(path) => path,
-        Err(_) => "./".to_owned()
-    };
-    set_resources_path(Some(res_path));
 
     let content_process_token = if let ArgumentParsingResult::ContentProcess(token) = opts_result {
         Some(token)
     } else {
-        if opts::get().is_running_problem_test && ::std::env::var("RUST_LOG").is_err() {
-            ::std::env::set_var("RUST_LOG", "compositing::constellation");
+        if opts::get().is_running_problem_test && env::var("RUST_LOG").is_err() {
+            env::set_var("RUST_LOG", "compositing::constellation");
         }
 
         None
@@ -277,7 +273,7 @@ fn main() {
 #[cfg(target_os = "android")]
 fn setup_logging() {
     // Piping logs from stdout/stderr to logcat happens in android_injected_glue.
-    ::std::env::set_var("RUST_LOG", "error");
+    env::set_var("RUST_LOG", "error");
 
     unsafe { android_injected_glue::ffi::app_dummy() };
 }
@@ -328,7 +324,6 @@ fn args() -> Vec<String> {
 
 #[cfg(not(target_os = "android"))]
 fn args() -> Vec<String> {
-    use std::env;
     env::args().collect()
 }
 

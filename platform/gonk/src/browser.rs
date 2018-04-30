@@ -79,18 +79,15 @@ impl Browser {
                 EmbedderMsg::LoadComplete(_browser_id) => {
                     // self.loading_state = Some(LoadingState::Loaded);
                 }
-                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => { }
+                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => {}
                 EmbedderMsg::Shutdown => {
                     self.event_sender
                         .send(Event::ShutdownEvent)
                         .expect("Failed to send shutdown event");
                 }
-                EmbedderMsg::ShowIME(_browser_id, _kind) => {
-
-                }
-                EmbedderMsg::HideIME(_browser_id) => {
-
-                }
+                EmbedderMsg::ShowIME(_browser_id, _kind) => {}
+                EmbedderMsg::HideIME(_browser_id) => {}
+                EmbedderMsg::SelectFiles(_, _, _) => {}
                 EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {}
             }
         }

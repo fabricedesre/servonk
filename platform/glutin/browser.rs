@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use euclid::{TypedPoint2D, TypedVector2D};
-use glutin_app::keyutils::{CMD_OR_CONTROL, CMD_OR_ALT};
+use glutin_app::keyutils::{CMD_OR_ALT, CMD_OR_CONTROL};
 use glutin_app::window::{Window, LINE_HEIGHT};
 use servo::compositing::compositor_thread::EmbedderMsg;
 use servo::compositing::windowing::{WebRenderDebugOption, WindowEvent};
@@ -67,7 +67,7 @@ impl Browser {
             match event {
                 WindowEvent::KeyEvent(ch, key, state, mods) => {
                     self.handle_key_from_window(ch, key, state, mods);
-                },
+                }
                 event => {
                     self.event_queue.push(event);
                 }
@@ -80,7 +80,13 @@ impl Browser {
     }
 
     /// Handle key events before sending them to Servo.
-    fn handle_key_from_window(&mut self, ch: Option<char>, key: Key, state: KeyState, mods: KeyModifiers) {
+    fn handle_key_from_window(
+        &mut self,
+        ch: Option<char>,
+        key: Key,
+        state: KeyState,
+        mods: KeyModifiers,
+    ) {
         match (mods, ch, key) {
             (CMD_OR_CONTROL, Some('r'), _) => {
                 if let Some(id) = self.browser_id {
@@ -109,11 +115,13 @@ impl Browser {
                 self.event_queue.push(WindowEvent::CaptureWebRender);
             }
             (KeyModifiers::CONTROL, None, Key::F10) => {
-                let event = WindowEvent::ToggleWebRenderDebug(WebRenderDebugOption::RenderTargetDebug);
+                let event =
+                    WindowEvent::ToggleWebRenderDebug(WebRenderDebugOption::RenderTargetDebug);
                 self.event_queue.push(event);
             }
             (KeyModifiers::CONTROL, None, Key::F11) => {
-                let event = WindowEvent::ToggleWebRenderDebug(WebRenderDebugOption::TextureCacheDebug);
+                let event =
+                    WindowEvent::ToggleWebRenderDebug(WebRenderDebugOption::TextureCacheDebug);
                 self.event_queue.push(event);
             }
             (KeyModifiers::CONTROL, None, Key::F12) => {
@@ -137,10 +145,10 @@ impl Browser {
             }
             _ => {
                 let event = self.platform_handle_key(key, mods);
-                self.event_queue.push(event.unwrap_or(WindowEvent::KeyEvent(ch, key, state, mods)));
+                self.event_queue
+                    .push(event.unwrap_or(WindowEvent::KeyEvent(ch, key, state, mods)));
             }
         }
-
     }
 
     #[cfg(not(target_os = "win"))]
@@ -152,7 +160,7 @@ impl Browser {
             (CMD_OR_CONTROL, Key::RightBracket, Some(id)) => {
                 Some(WindowEvent::Navigation(id, TraversalDirection::Forward(1)))
             }
-            _ => None
+            _ => None,
         }
     }
 
@@ -162,8 +170,14 @@ impl Browser {
     }
 
     /// Handle key events after they have been handled by Servo.
-    fn handle_key_from_servo(&mut self, _: Option<BrowserId>, ch: Option<char>,
-                             key: Key, _: KeyState, mods: KeyModifiers) {
+    fn handle_key_from_servo(
+        &mut self,
+        _: Option<BrowserId>,
+        ch: Option<char>,
+        key: Key,
+        _: KeyState,
+        mods: KeyModifiers,
+    ) {
         match (mods, ch, key) {
             (_, Some('+'), _) => {
                 if mods & !KeyModifiers::SHIFT == CMD_OR_CONTROL {
@@ -183,13 +197,17 @@ impl Browser {
             }
 
             (KeyModifiers::NONE, None, Key::PageDown) => {
-               let scroll_location = ScrollLocation::Delta(TypedVector2D::new(0.0,
-                                   -self.window.page_height() + 2.0 * LINE_HEIGHT));
+                let scroll_location = ScrollLocation::Delta(TypedVector2D::new(
+                    0.0,
+                    -self.window.page_height() + 2.0 * LINE_HEIGHT,
+                ));
                 self.scroll_window_from_key(scroll_location, TouchEventType::Move);
             }
             (KeyModifiers::NONE, None, Key::PageUp) => {
-                let scroll_location = ScrollLocation::Delta(TypedVector2D::new(0.0,
-                                   self.window.page_height() - 2.0 * LINE_HEIGHT));
+                let scroll_location = ScrollLocation::Delta(TypedVector2D::new(
+                    0.0,
+                    self.window.page_height() - 2.0 * LINE_HEIGHT,
+                ));
                 self.scroll_window_from_key(scroll_location, TouchEventType::Move);
             }
 
@@ -202,24 +220,31 @@ impl Browser {
             }
 
             (KeyModifiers::NONE, None, Key::Up) => {
-                self.scroll_window_from_key(ScrollLocation::Delta(TypedVector2D::new(0.0, 3.0 * LINE_HEIGHT)),
-                                            TouchEventType::Move);
+                self.scroll_window_from_key(
+                    ScrollLocation::Delta(TypedVector2D::new(0.0, 3.0 * LINE_HEIGHT)),
+                    TouchEventType::Move,
+                );
             }
             (KeyModifiers::NONE, None, Key::Down) => {
-                self.scroll_window_from_key(ScrollLocation::Delta(TypedVector2D::new(0.0, -3.0 * LINE_HEIGHT)),
-                                            TouchEventType::Move);
+                self.scroll_window_from_key(
+                    ScrollLocation::Delta(TypedVector2D::new(0.0, -3.0 * LINE_HEIGHT)),
+                    TouchEventType::Move,
+                );
             }
             (KeyModifiers::NONE, None, Key::Left) => {
-                self.scroll_window_from_key(ScrollLocation::Delta(TypedVector2D::new(LINE_HEIGHT, 0.0)),
-                                            TouchEventType::Move);
+                self.scroll_window_from_key(
+                    ScrollLocation::Delta(TypedVector2D::new(LINE_HEIGHT, 0.0)),
+                    TouchEventType::Move,
+                );
             }
             (KeyModifiers::NONE, None, Key::Right) => {
-                self.scroll_window_from_key(ScrollLocation::Delta(TypedVector2D::new(-LINE_HEIGHT, 0.0)),
-                                            TouchEventType::Move);
+                self.scroll_window_from_key(
+                    ScrollLocation::Delta(TypedVector2D::new(-LINE_HEIGHT, 0.0)),
+                    TouchEventType::Move,
+                );
             }
 
-            _ => {
-            }
+            _ => {}
         }
     }
 
@@ -233,7 +258,7 @@ impl Browser {
             match event {
                 EmbedderMsg::Status(_browser_id, status) => {
                     self.status = status;
-                },
+                }
                 EmbedderMsg::ChangePageTitle(_browser_id, title) => {
                     self.title = title;
 
@@ -269,7 +294,7 @@ impl Browser {
                 EmbedderMsg::NewFavicon(_browser_id, url) => {
                     self.favicon = Some(url);
                 }
-                EmbedderMsg::HeadParsed(_browser_id, ) => {
+                EmbedderMsg::HeadParsed(_browser_id) => {
                     self.loading_state = Some(LoadingState::Loading);
                 }
                 EmbedderMsg::HistoryChanged(_browser_id, entries, current) => {
@@ -284,36 +309,37 @@ impl Browser {
                 EmbedderMsg::LoadComplete(_browser_id) => {
                     self.loading_state = Some(LoadingState::Loaded);
                 }
-                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => { }
+                EmbedderMsg::GetSelectedBluetoothDevice(_, _) => {}
                 EmbedderMsg::Shutdown => {
                     self.shutdown_requested = true;
                 }
-                EmbedderMsg::ShowIME(_browser_id, _kind) => {
-
-                }
-                EmbedderMsg::HideIME(_browser_id) => {
-
-                }
-                EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => { }
+                EmbedderMsg::ShowIME(_browser_id, _kind) => {}
+                EmbedderMsg::HideIME(_browser_id) => {}
+                EmbedderMsg::SelectFiles(_, _, _) => {}
+                EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {}
             }
         }
     }
-
 }
 
 fn sanitize_url(request: &str) -> Option<ServoUrl> {
     let request = request.trim();
-    ServoUrl::parse(&request).ok()
+    ServoUrl::parse(&request)
+        .ok()
         .or_else(|| {
             if request.contains('/') || is_reg_domain(request) {
                 ServoUrl::parse(&format!("http://{}", request)).ok()
             } else {
                 None
             }
-        }).or_else(|| {
-            PREFS.get("shell.searchpage").as_string().and_then(|s: &str| {
-                let url = s.replace("%s", request);
-                ServoUrl::parse(&url).ok()
-            })
+        })
+        .or_else(|| {
+            PREFS
+                .get("shell.searchpage")
+                .as_string()
+                .and_then(|s: &str| {
+                    let url = s.replace("%s", request);
+                    ServoUrl::parse(&url).ok()
+                })
         })
 }
