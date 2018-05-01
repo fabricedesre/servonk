@@ -121,6 +121,18 @@ let EmbeddingApi = {
 
         console.log(`EmbeddingApi ws is ${this.ws}`);
 
+        // On device we may get stuck waiting for the response :(
+        // Until we figure out how to wait for the ws server to be fully
+        // ready, hack around.
+        window.setTimeout(() => {
+            if (embedding_ready) {
+                return;
+            }
+            this.ws.close();
+            this.ws = null;
+            this.connect.bind(this);
+        }, 1000);
+
         this.ws.onopen = () => {
             console.log(`EmbeddingApi websocket open`);
 
