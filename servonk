@@ -35,6 +35,9 @@ case "$cmd" in
     flash)
         script flash $@
         ;;
+    frontend)
+        script update-frontend $@
+        ;;
     package)
         script package $@
         ;;
