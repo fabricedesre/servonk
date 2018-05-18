@@ -1,5 +1,5 @@
 
-class SuggestionFetcher {
+class SearchSuggestionFetcher {
     constructor(delay, callback) {
         this.delay = delay;
         this.callback = callback;
@@ -23,8 +23,12 @@ class SuggestionFetcher {
         }, this.delay);
     }
 
+    cancel() {
+        this.token += 1;
+    }
+
     do_fetch(value) {
-        console.log(`Search request for ${value}`);
+        // console.log(`Search request for ${value}`);
         let expected = this.token;
         // TODO: don't hardcode Google as the search engine.
         let url = `https://www.google.com/complete/search?client=firefox&q=${encodeURIComponent(value)}`;
@@ -48,14 +52,72 @@ class SuggestionFetcher {
     }
 }
 
+class TopSitesFetcher {
+    constructor(max_results, callback) {
+        this.json = [];
+
+        this.callback = callback;
+        this.max_results = max_results;
+        this.load_data();
+    }
+
+    load_data() {
+        let url = "/shared/top-10k.json";
+        fetch(url).then(response => {
+            if (response.status == 200) {
+                return response.json();
+            } else {
+                throw "Failed to get suggestions";
+            }
+        }).then(json => {
+            console.log(`Top sites loaded: ${json.length} entries.`);
+            this.json = json;
+        }).catch(e => {
+            console.error(`Failed to load top sites: ${e}`);
+        });
+    }
+
+    // TODO: dispatch that to a worker instead.
+    update(value) {
+        if (value.length < 3) {
+            return;
+        }
+
+        let start = Date.now();
+        let res = [];
+        value = value.toLowerCase();
+
+        // console.log(`Looking for top site matching ${value}`);
+
+        for (let i = 0; i < this.json.length; i++) {
+            if (this.json[i].indexOf(value) !== -1) {
+                res.push(`https://${this.json[i]}`);
+                if (res.length == this.max_results) {
+                    break;
+                }
+            }
+        }
+
+        let elapsed = Date.now() - start;
+        console.log(`Found ${res.length} top sites matching ${value} in ${elapsed}ms`);
+        this.callback(res);
+    }
+
+    cancel() {
+
+    }
+}
+
 class SearchPanel extends HTMLElement {
     constructor() {
         super();
 
         this.content = "";
-        this.suggestions = [];
+        this.search_suggestions = [];
+        this.sites_suggestions = [];
         this.opened = false;
-        this.suggester = new SuggestionFetcher(200, this.update_suggestions.bind(this));
+        this.search_suggester = new SearchSuggestionFetcher(200, this.update_search_suggestions.bind(this));
+        this.sites_suggester = new TopSitesFetcher(5, this.update_sites_suggestions.bind(this));
     }
 
     connectedCallback() {
@@ -86,8 +148,13 @@ class SearchPanel extends HTMLElement {
         }
     }
 
-    update_suggestions(value) {
-        this.suggestions = value;
+    update_search_suggestions(value) {
+        this.search_suggestions = value;
+        this.update();
+    }
+
+    update_sites_suggestions(value) {
+        this.sites_suggestions = value;
         this.update();
     }
 
@@ -100,7 +167,10 @@ class SearchPanel extends HTMLElement {
 
         let input = event.target.value.trim();
         if (input.length == 0) {
-            this.update_suggestions([]);
+            this.search_suggester.cancel();
+            this.sites_suggester.cancel();
+            this.update_search_suggestions([]);
+            this.update_sites_suggestions([]);
             return;
         }
 
@@ -108,7 +178,8 @@ class SearchPanel extends HTMLElement {
             this.go_to(input);
         } else {
             // update the list of suggestions.
-            this.suggester.update(input);
+            this.search_suggester.update(input);
+            this.sites_suggester.update(input);
         }
     }
 
@@ -116,7 +187,8 @@ class SearchPanel extends HTMLElement {
         this.render`
         <div>
             <ul class="search-results" onclick=${this}>
-                ${this.suggestions.map(value => `<li>${value}</li>`)}
+                ${this.search_suggestions.map(value => `<li><i class="fas fa-search"></i> ${value}</li>`)}
+                ${this.sites_suggestions.map(value => `<li><i class="fas fa-globe"></i> ${value}</li>`)}
             </ul>
             <input type="text" value=${this.content} onkeyup=${this}>
         </div>

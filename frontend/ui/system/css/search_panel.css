@@ -16,6 +16,7 @@ search-panel.open {
 
 search-panel ul {
     margin: 0px;
+    font-size: smaller;
 }
 
 search-panel ul li {
