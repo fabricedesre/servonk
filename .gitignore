@@ -14,3 +14,6 @@
 **/mtdev/mtdev-1.1.5/mtdev.pc
 **/mtdev/mtdev-1.1.5/src/Makefile
 **/mtdev/mtdev-1.1.5/test/*
+**/mtdev/mtdev-1.1.5/config.h
+**/mtdev/mtdev-1.1.5/stamp-h1
+**/mtdev/mtdev-1.1.5/libtool
