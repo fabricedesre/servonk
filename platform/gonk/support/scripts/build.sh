@@ -11,6 +11,15 @@ else
     echo "Using '$GONK_DIR'";
 fi
 
+# Check that the GONK_PRODUCT_NAME environment variable is set.
+if [ -z ${GONK_PRODUCT_NAME+x} ];
+then
+    echo "Please set GONK_PRODUCT_NAME to the name of the device (look at $GONK_DIR/out/target/product).";
+    exit 1;
+else
+    echo "Product is '$GONK_PRODUCT_NAME'";
+fi
+
 export RUST_TARGET=armv7-linux-androideabi
 
 cd ../..
