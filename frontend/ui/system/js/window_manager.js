@@ -10,7 +10,20 @@ class WindowManager extends HTMLElement {
         this.frames = [];
         this.pos = 0;
         this.wm_id = 0;
+        this.expose = false;
 
+        this.calc_dimensions();
+
+        console.log(`Full frame size is ${this.width}x${this.height}`);
+
+        window.addEventListener("resize", () => {
+            this.calc_dimensions();
+            this.remove_overlays();
+            this.update_expose();
+        });
+    }
+
+    calc_dimensions() {
         let statusbar_height = getComputedStyle(document.body).getPropertyValue("--statusbar-height")
             .trim().split("px")[0];
         let navbar_height = getComputedStyle(document.body).getPropertyValue("--navbar-height")
@@ -18,10 +31,6 @@ class WindowManager extends HTMLElement {
 
         this.width = window.innerWidth;
         this.height = window.innerHeight - statusbar_height - navbar_height;
-
-        this.expose = false;
-
-        console.log(`Full frame size is ${this.width}x${this.height}`);
     }
 
     state() {
