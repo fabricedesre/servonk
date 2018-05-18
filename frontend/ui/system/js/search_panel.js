@@ -199,6 +199,7 @@ class SearchPanel extends HTMLElement {
         console.log("Close search panel");
         this.classList.remove("open");
         this.content = "";
+        this.update();
         this.opened = false;
     }
 
@@ -208,6 +209,9 @@ class SearchPanel extends HTMLElement {
         this.update();
         this.classList.add("open");
         this.opened = true;
+        window.setTimeout(() => {
+            this.querySelector("input").focus();
+        }, 0);
     }
 
     is_open() {
