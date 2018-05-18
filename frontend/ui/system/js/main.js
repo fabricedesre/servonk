@@ -45,9 +45,9 @@ function init_window_manager() {
 
     window_manager.add_frame("/homescreen/index.html", { closable: false });
     // window_manager.add_frame("https://duckduckgo.com");
-    window_manager.add_frame("https://wikipedia.org");
+    // window_manager.add_frame("https://wikipedia.org");
     // window_manager.add_frame("https://google.com");
-    window_manager.add_frame("https://www.google.com/");
+    // window_manager.add_frame("https://www.google.com/");
     window_manager.set_pos(0);
 }
 

@@ -152,7 +152,10 @@ class NavBar extends HTMLElement {
         }
         let loading = "refresh fa-fw fas fa-sync-alt";
         if (this.frame_state.loading) {
+            console.log("Adding fa-spin class");
             loading += " fa-spin";
+        } else {
+            console.log("Not adding fa-spin class");
         }
         
         this.render`

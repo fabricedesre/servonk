@@ -313,8 +313,8 @@ impl Browser {
                 EmbedderMsg::Shutdown => {
                     self.shutdown_requested = true;
                 }
-                EmbedderMsg::ShowIME(_browser_id, _kind) => {}
-                EmbedderMsg::HideIME(_browser_id) => {}
+                EmbedderMsg::ShowIME(_browser_id, _kind) => { println!("Show IME {}", _browser_id); }
+                EmbedderMsg::HideIME(_browser_id) => { println!("Hide IME for {}", _browser_id); }
                 EmbedderMsg::SelectFiles(_, _, _) => {}
                 EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {}
             }

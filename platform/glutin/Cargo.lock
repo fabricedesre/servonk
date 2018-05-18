@@ -22,7 +22,7 @@ dependencies = [
 
 [[package]]
 name = "actix-web"
-version = "0.5.6"
+version = "0.5.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -123,7 +123,7 @@ name = "api_server"
 version = "0.1.0"
 dependencies = [
  "actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "actix-web 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "actix-web 0.5.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "libservo 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
  "log 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nonzero 0.0.1 (git+https://github.com/fabricedesre/servo?branch=gonk)",
@@ -4333,7 +4333,7 @@ dependencies = [
 
 [metadata]
 "checksum actix 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)" = "e767e3170dc7cdec50fe1b74d22fd9d2f4b78b97b2052a254b5acb07dae68634"
-"checksum actix-web 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)" = "ebda1eae1638d03af2fc27a7d57c5fd035901a949f548d7c72ff5e07f5052d9f"
+"checksum actix-web 0.5.8 (registry+https://github.com/rust-lang/crates.io-index)" = "a38d2eba3736d9d58cd3115aae25386cfac43b2482376c14581e0cb30a0d20c1"
 "checksum actix_derive 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c4b1dc922654b9aca7a8a31eab875fde804fa9fbd67f220f2e457787b23590f2"
 "checksum adler32 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "3ff33fe13a08dbce05bcefa2c68eea4844941437e33d6f808240b54d7157b9cd"
 "checksum advapi32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e06588080cb19d0acb6739808aafa5f26bfb2ca015b2b6370028b44cf7cb8a9a"
