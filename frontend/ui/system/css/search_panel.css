@@ -27,6 +27,10 @@ search-panel ul li {
     white-space: nowrap;
 }
 
+search-panel ul li:hover {
+    background-color: gray;
+}
+
 search-panel input {
     margin: 1em;
     width: calc(100% - 2em);
