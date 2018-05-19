@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
     init_window_manager();
 });
 
+window.onmessage = (e) => {
+    console.log(`window.onmessage: received ${e.data}`);
+}
+
 function init_window_manager() {
     // Only really start when all stars are aligned.
     if (!dom_ready || !embedding_ready) {

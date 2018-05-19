@@ -10,6 +10,15 @@ status-bar {
     align-items: center;
 }
 
+status-bar div.favicon {
+    margin-top: 5px;
+}
+
+status-bar div.favicon img {
+    width: calc(var(--statusbar-height) - 10px);
+    height: calc(var(--statusbar-height) - 10px);
+}
+
 status-bar div {
     margin-left: 0.5em;
 }

@@ -305,6 +305,7 @@ class FrameOverlay extends HTMLElement {
         this.scale = this.getAttribute("scale");
         this.closable = this.getAttribute("closable") == "true";
     }
+
     connectedCallback() {
         this.get_attr_values();
         this.render = hyperHTML.bind(this);

@@ -12,6 +12,7 @@ class WebView extends HTMLElement {
         console.log('Adding WebView');
 
         this.title = "";
+        this.favicon = "";
         this.src = this.getAttribute("src");
         this.update();
         this.frame = this.firstElementChild;
@@ -83,6 +84,12 @@ class WebView extends HTMLElement {
             this.can_go_forward = msg.current + 1 !== msg.urls.length;
             this.dispatch_state();
             this.update();
+        } else if (msg.type === "new_favicon") {
+            let event = new CustomEvent("favicon-change", { detail: { url: msg.url } });
+            this.favicon = msg.url;
+            this.dispatchEvent(event);
+        } else {
+            // console.log(`Got webview event ${JSON.stringify(msg)}`);
         }
     }
 
