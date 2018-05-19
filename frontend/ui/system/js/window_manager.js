@@ -107,7 +107,7 @@ class WindowManager extends HTMLElement {
     is_in_expose() {
         return this.expose;
     }
-    
+
     enter_expose() {
         if (!this.expose) {
             this.toggle_expose();
@@ -173,7 +173,8 @@ class WindowManager extends HTMLElement {
             let y = 0;
             let delta = 0;
             // If the last row is empty or if we have only one row, shift the content down to center it.
-            if ((grid_size * (grid_size - 1) > this.frames.length) || (grid_size == this.frames.length)) {
+            if ((this.frames.length != 1) &&
+                ((grid_size * (grid_size - 1) > this.frames.length) || (grid_size == this.frames.length))) {
                 delta = this.height / 2;
             }
 
