@@ -6447,33 +6447,10 @@ var DOMLocalization = function (_Localization) {
     // list of elements pending for translation.
     _this.pendingElements = new Set();
     _this.windowElement = windowElement;
-    // _this.mutationObserver = new windowElement.MutationObserver(function (mutations) {
-    //   return _this.translateMutations(mutations);
-    // });
-    _this.mutationObserver = {
-      observe: () => { },
-      takeRecords: () => {
-        // Poor man implementation, returns all the data-l10n-id attributes.
-        let nodes = document.querySelectorAll("*[data-l10n-id]");
-        console.log(`Found ${nodes.length} l10n attributes.`);
-        let records = [];
-        nodes.forEach(node => {
-          let record = {
-            type: "attributes",
-            target: node,
-            attributeName: "data-l10n-id",
-            oldValue: ""
-          };
-          records.push(record);
-
-          // Remove the attribute to not trigger a loop...
-          node.removeAttribute("data-l10n-id");
-        });
-        return records;
-      },
-      disconnect: () => { }
-    };
-
+    _this.mutationObserver = new windowElement.MutationObserver(function (mutations) {
+      return _this.translateMutations(mutations);
+    });
+    
     _this.observerConfig = {
       attribute: true,
       characterData: false,
