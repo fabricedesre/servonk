@@ -13,7 +13,10 @@ It is in very early stages and not really usable yet. There is an incomplete [to
 
 Since we depend on Servo, first check that you have everything set up [as explained](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment).
 
-You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet.
+You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet. It is only necessary to build gonk, not gecko or gaia. A simple way to remove these from the build after running ./config.sh is to edit b2g.mk in gonk-misc repository and comment out the gecko and gaia lines, as shown in this git diff: https://pastebin.com/sdQG3Tki
+
+Also:
+- sudo apt-get llvm-dev libclang-dev and clang (Ubuntu 18.04).
 
 ## Building
 
@@ -27,7 +30,7 @@ You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device
 
 ## Running
 
-On desktop, just run `./servonk run glutin`. On Gonk, you first need to flash your device before running:
+On desktop, just run `./servonk run glutin`. On Gonk, you first need to flash your device with B2G before running:
 1. `./servonk flash gonk`
 2. `./servonk run gonk`
 
@@ -35,4 +38,4 @@ The lockscreen code is 4242.
 
 ## Supported devices
 
-- The L port of the Sony Z3C is currently the only tested device.
+- The L port of the Sony Z3C and Nexus 5 are currently the only tested and working devices.
