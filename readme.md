@@ -15,6 +15,9 @@ Since we depend on Servo, first check that you have everything set up [as explai
 
 You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet.
 
+Also:
+- sudo apt-get llvm-dev libclang-dev and clang (Ubuntu 18.04).
+
 ## Building
 
 1) First, install [rustup](https://rustup.rs/).
