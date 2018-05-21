@@ -190,7 +190,7 @@ class SearchPanel extends HTMLElement {
                 ${this.search_suggestions.map(value => `<li><i class="fas fa-search"></i> ${value}</li>`)}
                 ${this.sites_suggestions.map(value => `<li><i class="fas fa-globe"></i> ${value}</li>`)}
             </ul>
-            <input type="text" value=${this.content} onkeyup=${this}>
+            <input data-l10n-id="search-input" type="text" value=${this.content} onkeyup=${this}>
         </div>
         `;
     }
