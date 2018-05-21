@@ -39,7 +39,7 @@ class StatusBar extends HTMLElement {
 
         this.update();
         this.querySelector(".title").addEventListener("click", () => {
-            window.dispatchEvent(new CustomEvent("open-search", { detail: { content: this.active_frame.src, target: this.active_frame } }));
+            Utils.dispatch_event("open-search", { content: this.active_frame.src, target: this.active_frame });
         });
     }
 

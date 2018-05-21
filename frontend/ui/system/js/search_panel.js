@@ -125,13 +125,13 @@ class SearchPanel extends HTMLElement {
         this.render = hyperHTML.bind(this);
         this.update();
 
-        window.addEventListener("open-search", event => {
-            let content = (event.detail && event.detail.content) || "";
-            this.target = (event.detail && event.detail.target) || null;
+        Utils.add_event_listener("open-search", msg => {
+            let content = (msg && msg.content) || "";
+            this.target = (msg && msg.target) || null;
             this.open(content);
         });
 
-        window.addEventListener("close-search", event => {
+        Utils.add_event_listener("close-search", () => {
             this.close();
         });
     }

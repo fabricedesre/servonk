@@ -96,9 +96,9 @@ class NavBar extends HTMLElement {
                 // When in normal view, open or close the search panel.
                 let spanel = document.getElementById("search");
                 if (spanel.is_open()) {
-                    window.dispatchEvent(new CustomEvent("close-search"));
+                    Utils.dispatch_event("close-search");
                 } else {
-                    window.dispatchEvent(new CustomEvent("open-search"));
+                    Utils.dispatch_event("open-search");
                 }
             }
         });
