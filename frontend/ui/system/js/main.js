@@ -83,7 +83,7 @@ let EmbeddingApi = {
             console.log(`EmbeddingApi websocket open`);
 
             Utils.add_event_listener("ws-message", (msg) => {
-                let json = JSON.stringify(msg.data);
+                let json = JSON.stringify(msg);
                 console.log(`Sending ${json}`);
                 this.ws.send(json);
             });
