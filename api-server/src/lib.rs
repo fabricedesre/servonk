@@ -87,7 +87,7 @@ impl Actor for WsSession {
 
     fn stopping(&mut self, ctx: &mut Self::Context) -> Running {
         // Notify the api server.
-        ctx.state().addr.do_send(server::Disconnect { id: self.id });
+        ctx.state().api_server.do_send(server::Disconnect { id: self.id });
         Running::Stop
     }
 }
@@ -105,7 +105,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
                 match sys_msg {
                     Ok(msg) => match msg {
                         ServiceMessage::FromSystemApp(from) => {
-                            ctx.state().addr.do_send(server::QueueMessage { message: from });
+                            ctx.state().api_server.do_send(server::QueueMessage { message: from });
                         }
                         _ => error!("Unexpected message: {}", text),
                     },
@@ -133,7 +133,7 @@ pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
             .expect("Failed to send back server address!");
 
         ActixServer::new(move || {
-            let state = WsSessionState { addr: server.clone() };
+            let state = WsSessionState { api_server: server.clone() };
 
             // Serve the ui from $UI_ROOT if set or `./ui/` by default.
             let ui_root = match env::var("UI_ROOT") {
