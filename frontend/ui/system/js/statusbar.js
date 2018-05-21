@@ -10,7 +10,7 @@ class StatusBar extends HTMLElement {
         console.log("Adding status bar");
         this.render = hyperHTML.bind(this);
         this.title = "Servonk";
-        this.favicon_url = this.default_favicon;
+        this.favicon = this.default_favicon;
         this.timer = setInterval(this.update.bind(this), 1000);
         this.active_frame = null;
 
@@ -23,6 +23,7 @@ class StatusBar extends HTMLElement {
         }
 
         Utils.add_event_listener("set-active-frame", (message) => {
+            console.log(`set-active-frame`);
             if (this.active_frame) {
                 this.active_frame.removeEventListener("title-change", title_change);
                 this.active_frame.removeEventListener("favicon-change", favicon_change);
@@ -30,8 +31,10 @@ class StatusBar extends HTMLElement {
             this.active_frame = message.frame;
             this.active_frame.addEventListener("title-change", title_change);
             this.active_frame.addEventListener("favicon-change", favicon_change);
-            this.set_title(this.active_frame.title);
-            this.set_favicon(this.default_favicon);
+            console.log(`Active frame set to ${this.active_frame.title} ${this.active_frame.favicon}`);
+            this.title = this.active_frame.title;
+            this.favicon = this.active_frame.favicon;
+            this.update();
         });
 
         this.update();
@@ -51,16 +54,20 @@ class StatusBar extends HTMLElement {
     }
 
     set_favicon(url) {
-        this.favicon_url = url;
+        this.favicon = url;
         this.update();
     }
 
     update() {
+        console.log(`Update to ${this.title} ${this.favicon}`);
+
         // Servo's toLocaleTimeString() is HH:MM:SS and we don't want the seconds.
         this.render`
-            <div class="favicon"><img src=${this.favicon_url}></div>
+            <div class="favicon"><img src=${this.favicon}></div>
             <div class="title">${this.title}</div>
-            <div>${new Date().toLocaleTimeString().substr(0, 5)}</div>`
+            <div>${new Date().toLocaleTimeString().substr(0, 5)}</div>`;
+
+        console.log(this.innerHTML);
     }
 }
 
