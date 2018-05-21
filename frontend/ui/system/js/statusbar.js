@@ -22,7 +22,7 @@ class StatusBar extends HTMLElement {
             this.set_favicon(event.detail.url);
         }
 
-        MessageRouter.add_listener("set-active-frame", (message) => {
+        Utils.add_event_listener("set-active-frame", (message) => {
             if (this.active_frame) {
                 this.active_frame.removeEventListener("title-change", title_change);
                 this.active_frame.removeEventListener("favicon-change", favicon_change);

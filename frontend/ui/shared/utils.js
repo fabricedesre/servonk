@@ -117,10 +117,23 @@
         }
     }
 
+    let dispatch_event = (name, payload) => {
+        let event = new CustomEvent(`private:${name}`, { detail: payload });
+        global.dispatchEvent(event);
+    }
+
+    let add_event_listener = (name, callback) => {
+        window.addEventListener(`private:${name}`, (event) => {
+            callback(event.detail);
+        });
+    }
+
     global.Utils = {
         add_longpress_event,
         add_timed_click_event,
         add_idle_event,
         fixup_url,
+        dispatch_event,
+        add_event_listener,
     }
 })(window);

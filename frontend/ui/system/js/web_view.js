@@ -23,7 +23,7 @@ class WebView extends HTMLElement {
 
         let webview_id = this.frame.getAttribute("webviewid");
         // console.log(`webview id is ${webview_id}`);
-        MessageRouter.add_listener(`webview-${webview_id}`, this.on_webview_event.bind(this));
+        Utils.add_event_listener(`webview-${webview_id}`, this.on_webview_event.bind(this));
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -64,9 +64,7 @@ class WebView extends HTMLElement {
         this.dispatchEvent(event);
     }
 
-    on_webview_event(message) {
-        let msg = message.data;
-
+    on_webview_event(msg) {
         if (msg.type === "change_page_title") {
             this.title = msg.title;
             let event = new CustomEvent("title-change", { detail: { title: msg.title } });

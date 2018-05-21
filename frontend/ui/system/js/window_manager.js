@@ -62,7 +62,7 @@ class WindowManager extends HTMLElement {
         // Activate the new active frame.
         let active_frame = this.current_frame();
         active_frame.set_active(true);
-        MessageRouter.dispatch({ name: "set-active-frame", frame: active_frame });
+        Utils.dispatch_event("set-active-frame", { frame: active_frame });
 
         this.setAttribute("style", `transform: translateX(${- this.pos * this.width}px);`);
     }
@@ -245,7 +245,7 @@ class WindowManager extends HTMLElement {
             this.pos = this.frames.length - 1;
             let active_frame = this.current_frame();
             active_frame.set_active(true);
-            MessageRouter.dispatch({ name: "set-active-frame", frame: active_frame });
+            Utils.dispatch_event("set-active-frame", { frame: active_frame });
         }
     }
 

@@ -27,14 +27,11 @@ class NavBar extends HTMLElement {
             }
 
             let message = {
-                name: "ws-message",
-                data: {
-                    service: "from_system_app",
-                    type: "reload",
-                    webview_id: this.active_frame.frame.getAttribute("webviewid")
-                }
+                service: "from_system_app",
+                type: "reload",
+                webview_id: this.active_frame.frame.getAttribute("webviewid")
             };
-            MessageRouter.dispatch(message);
+            Utils.dispatch_event("ws-message", message);
         });
 
         this.back.addEventListener("click", () => {
@@ -48,15 +45,12 @@ class NavBar extends HTMLElement {
             }
 
             let message = {
-                name: "ws-message",
-                data: {
-                    service: "from_system_app",
-                    type: "navigate",
-                    webview_id: this.active_frame.frame.getAttribute("webviewid"),
-                    direction: { back: 1 }
-                }
+                service: "from_system_app",
+                type: "navigate",
+                webview_id: this.active_frame.frame.getAttribute("webviewid"),
+                direction: { back: 1 }
             };
-            MessageRouter.dispatch(message);
+            Utils.dispatch_event("ws-message", message);
         });
 
         this.forward.addEventListener("click", () => {
@@ -70,15 +64,12 @@ class NavBar extends HTMLElement {
             }
 
             let message = {
-                name: "ws-message",
-                data: {
-                    service: "from_system_app",
-                    type: "navigate",
-                    webview_id: this.active_frame.frame.getAttribute("webviewid"),
-                    direction: { forward: 1 }
-                }
+                service: "from_system_app",
+                type: "navigate",
+                webview_id: this.active_frame.frame.getAttribute("webviewid"),
+                direction: { forward: 1 }
             };
-            MessageRouter.dispatch(message);
+            Utils.dispatch_event("ws-message", message);
         });
 
         // this.notifs.addEventListener("click", () => {
@@ -117,7 +108,7 @@ class NavBar extends HTMLElement {
             this.update();
         }
 
-        MessageRouter.add_listener("set-active-frame", (message) => {
+        Utils.add_event_listener("set-active-frame", (message) => {
             if (this.active_frame) {
                 this.active_frame.removeEventListener("state-change", state_change);
             }
@@ -146,7 +137,7 @@ class NavBar extends HTMLElement {
             // Disable spinning animation until https://github.com/servo/servo/issues/20731 is fixed.
             // loading += " fa-spin";
         }
-        
+
         this.render`
     <div class="nav-left">
         <i class="notifs fas fa-bell"></i>

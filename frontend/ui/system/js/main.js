@@ -55,64 +55,6 @@ function init_window_manager() {
     window_manager.set_pos(0);
 }
 
-// Simple message router.
-// TODO: consider just dispatching custom events to the top level window.
-let MessageRouter = {
-    listeners: [],
-
-    init() {
-        console.log("MessageRouter: init");
-        window.addEventListener("message", this.onmessage.bind(this));
-    },
-
-    onmessage(payload) {
-        this.dispatch(payload.data);
-    },
-
-    dispatch(message) {
-        // console.log(`MessageRouter: '${message.name}'`);
-        // Check if this message needs to be routed.
-        if (!message.name || !this.listeners[message.name]) {
-            return;
-        }
-
-        // Route the message to the appropriate handlers.
-        // console.log(`MessageRouter: dispatching to ${this.listeners[message.name].length} listeners`);
-        this.listeners[message.name].forEach(listener => {
-            listener(message);
-        });
-    },
-
-    // Add a new listener for a given message name.
-    add_listener(name, handler) {
-        if (typeof handler !== "function") {
-            return;
-        }
-
-        this.listeners[name] = this.listeners[name] || [];
-        // The same handler should not be added twice.
-        if (this.listeners[name].indexOf(handler) !== -1) {
-            return;
-        }
-        console.log(`MessageRouter: adding listener for '${name}'`);
-        this.listeners[name].push(handler);
-    },
-
-    // Remove an existing listener for a given message name.
-    remove_listener(name, handler) {
-        if (typeof handler !== "function" || !this.listeners[name]) {
-            return;
-        }
-
-        let index = this.listeners[name].indexOf(handler);
-        if (index !== -1) {
-            this.listeners[event].splice(index, 1);
-        }
-    }
-}
-
-MessageRouter.init();
-
 // WebSocket based embedding API.
 let EmbeddingApi = {
     init() {
@@ -140,7 +82,7 @@ let EmbeddingApi = {
         this.ws.onopen = () => {
             console.log(`EmbeddingApi websocket open`);
 
-            MessageRouter.add_listener("ws-message", (msg) => {
+            Utils.add_event_listener("ws-message", (msg) => {
                 let json = JSON.stringify(msg.data);
                 console.log(`Sending ${json}`);
                 this.ws.send(json);
@@ -160,10 +102,7 @@ let EmbeddingApi = {
 
             // Dispatch webview messages keyed on the webview id.
             if (msg.webview_id) {
-                MessageRouter.dispatch({
-                    name: `webview-${msg.webview_id}`,
-                    data: msg
-                });
+                Utils.dispatch_event(`webview-${msg.webview_id}`, msg);
             }
         }
 
