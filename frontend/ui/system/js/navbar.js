@@ -14,8 +14,6 @@ class NavBar extends HTMLElement {
             can_go_forward: false
         };
 
-        let dup = this.cloneNode();
-
         this.update();
 
         ["menu", "notifs", "back", "forward", "refresh"].forEach(e => {
@@ -84,13 +82,6 @@ class NavBar extends HTMLElement {
         });
 
         // this.notifs.addEventListener("click", () => {
-        //     console.log("ZZZ Clicked on notifications");
-        //     let w_m = document.getElementById("windows");
-        //     let {size, pos} = w_m.state();
-        //     console.log(`ZZZ state: size=${size} pos=${pos}`)
-        //     let npos = (pos + 1) % size;
-        //     console.log("ZZZ Moving to pos " + npos);
-        //     w_m.set_pos(npos);
         // });
 
         Utils.add_longpress_event(this.menu, this.MENU_LONG_PRESS_DELAY);
