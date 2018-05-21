@@ -23,7 +23,7 @@ class StatusBar extends HTMLElement {
         }
 
         Utils.add_event_listener("set-active-frame", (message) => {
-            console.log(`set-active-frame`);
+            // console.log(`set-active-frame`);
             if (this.active_frame) {
                 this.active_frame.removeEventListener("title-change", title_change);
                 this.active_frame.removeEventListener("favicon-change", favicon_change);
@@ -31,7 +31,7 @@ class StatusBar extends HTMLElement {
             this.active_frame = message.frame;
             this.active_frame.addEventListener("title-change", title_change);
             this.active_frame.addEventListener("favicon-change", favicon_change);
-            console.log(`Active frame set to ${this.active_frame.title} ${this.active_frame.favicon}`);
+            // console.log(`Active frame set to ${this.active_frame.title} ${this.active_frame.favicon}`);
             this.title = this.active_frame.title;
             this.favicon = this.active_frame.favicon;
             this.update();
@@ -59,15 +59,13 @@ class StatusBar extends HTMLElement {
     }
 
     update() {
-        console.log(`Update to ${this.title} ${this.favicon}`);
+        // console.log(`Update to ${this.title} ${this.favicon}`);
 
         // Servo's toLocaleTimeString() is HH:MM:SS and we don't want the seconds.
         this.render`
             <div class="favicon"><img src=${this.favicon}></div>
             <div class="title">${this.title}</div>
             <div>${new Date().toLocaleTimeString().substr(0, 5)}</div>`;
-
-        console.log(this.innerHTML);
     }
 }
 

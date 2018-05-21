@@ -18,7 +18,7 @@ Servonk feature list
 - [x] the homescreen is a frame like any other.
 - [x] Side swipes to change app with snapping.
 - [x] the window title is displayed in the status bar.
-- [ ] the favicon is displayed in the status bar.
+- [x] the favicon is displayed in the status bar.
 - [ ] pressing the status bar opens details/action for the site (eg. bookmarking).
 
 ## Homescreen
@@ -67,7 +67,7 @@ Servonk feature list
 - [ ] API to list and select themes.
 
 ## l18n & l10n
-- [ ] include l20n.js
+- [x] include fluent.js
 
 ## Content Filtering & Adaptation
 - [ ] https everywhere.
