@@ -28,7 +28,7 @@ pub mod server;
 use server::*;
 
 struct WsSessionState {
-    addr: Addr<Syn, server::ApiServer>,
+    api_server: Addr<Syn, server::ApiServer>,
 }
 
 // Do the websocket handshake and start an actor to manage this connection.
@@ -58,7 +58,7 @@ impl Actor for WsSession {
     type Context = ws::WebsocketContext<Self, WsSessionState>;
 
     /// Method is called on actor start.
-    /// We register ws session with ChatServer
+    /// We register ws session with the api server.
     fn started(&mut self, ctx: &mut Self::Context) {
         info!("Starting WsSession");
 
@@ -69,7 +69,7 @@ impl Actor for WsSession {
         // routes within application.
         let addr: Addr<Syn, _> = ctx.address();
         ctx.state()
-            .addr
+            .api_server
             .send(server::Connect {
                 addr: addr.recipient(),
             })

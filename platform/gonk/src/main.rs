@@ -95,6 +95,8 @@ fn main() {
         opts.initial_window_size = size;
     }
     opts.user_agent = USER_AGENT.into();
+    opts.config_dir = Some(env::current_dir().unwrap_or("/data/local/servonk".into()));
+
     // opts.certificate_path = Some(certificate_path.to_str().unwrap().into());
 
     // TODO: figure out failure to start child process.
@@ -180,7 +182,7 @@ fn main() {
                 if !events.is_empty() {
                     servo.handle_events(events);
                 }
-    
+
                 // Wake up servo.
                 servo.handle_events(vec![]);
             }
@@ -199,23 +201,19 @@ fn main() {
                     }
                 } else if key == Key::Up {
                     if state == KeyState::Pressed {
-                        servo.handle_events(vec![
-                            WindowEvent::Scroll(
-                                ScrollLocation::Delta(TypedVector2D::new(0.0, 2.0 * LINE_HEIGHT)),
-                                TypedPoint2D::new(0, 0),
-                                TouchEventType::Move,
-                            ),
-                        ]);
+                        servo.handle_events(vec![WindowEvent::Scroll(
+                            ScrollLocation::Delta(TypedVector2D::new(0.0, 2.0 * LINE_HEIGHT)),
+                            TypedPoint2D::new(0, 0),
+                            TouchEventType::Move,
+                        )]);
                     }
                 } else if key == Key::Down {
                     if state == KeyState::Pressed {
-                        servo.handle_events(vec![
-                            WindowEvent::Scroll(
-                                ScrollLocation::Delta(TypedVector2D::new(0.0, -2.0 * LINE_HEIGHT)),
-                                TypedPoint2D::new(0, 0),
-                                TouchEventType::Move,
-                            ),
-                        ]);
+                        servo.handle_events(vec![WindowEvent::Scroll(
+                            ScrollLocation::Delta(TypedVector2D::new(0.0, -2.0 * LINE_HEIGHT)),
+                            TypedPoint2D::new(0, 0),
+                            TouchEventType::Move,
+                        )]);
                     }
                 } else {
                     servo.handle_events(vec![WindowEvent::KeyEvent(char_, key, state, modifier)]);
