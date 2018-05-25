@@ -16,7 +16,7 @@ Since we depend on Servo, first check that you have everything set up [as explai
 You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet. It is only necessary to build gonk, not gecko or gaia. A simple way to remove these from the build after running ./config.sh is to edit b2g.mk in gonk-misc repository and comment out the gecko and gaia lines, as shown in this git diff: https://pastebin.com/sdQG3Tki
 
 Also:
-- sudo apt-get llvm-dev libclang-dev and clang (Ubuntu 18.04).
+- sudo apt install llvm-dev libclang-dev and clang (Ubuntu 18.04).
 
 ## Building
 
