@@ -4,7 +4,7 @@
 
 use actix::prelude::*;
 use rand::{self, Rng, ThreadRng};
-use servo::compositing::compositor_thread::{EmbedderMsg, EventLoopWaker};
+use servo::embedder_traits::{EmbedderMsg, EventLoopWaker};
 use servo::compositing::windowing::WindowEvent;
 use servo::msg::constellation_msg::{BrowsingContextId, BrowsingContextIndex, PipelineNamespaceId,
                                     TopLevelBrowsingContextId, TraversalDirection};
@@ -98,52 +98,58 @@ fn webview_id(id: TopLevelBrowsingContextId) -> String {
 }
 
 impl MessageToSystemApp {
-    pub fn from_embedder_msg(msg: &EmbedderMsg) -> Option<Self> {
-        match msg {
-            &EmbedderMsg::Status(browser_id, ref status) => {
+    pub fn from_embedder_msg(data: &(Option<TopLevelBrowsingContextId>, EmbedderMsg)) -> Option<Self> {
+        if data.0.is_none() {
+            // error!("Unable to create MessageToSystemApp without a browser id for {:?}", data.1);
+            return None;
+        }
+        let browser_id = data.0.unwrap();
+
+        match data.1 {
+            EmbedderMsg::Status(ref status) => {
                 Some(MessageToSystemApp::Status(StatusMsg {
                     webview_id: webview_id(browser_id),
                     status: (*status).clone(),
                 }))
             }
-            &EmbedderMsg::ChangePageTitle(browser_id, ref title) => {
+            EmbedderMsg::ChangePageTitle(ref title) => {
                 Some(MessageToSystemApp::ChangePageTitle(ChangePageTitleMsg {
                     webview_id: webview_id(browser_id),
                     title: (*title).clone(),
                 }))
             }
-            &EmbedderMsg::NewFavicon(browser_id, ref url) => {
+            EmbedderMsg::NewFavicon(ref url) => {
                 Some(MessageToSystemApp::NewFavicon(NewFaviconMsg {
                     webview_id: webview_id(browser_id),
                     url: (*url).clone(),
                 }))
             }
-            &EmbedderMsg::HeadParsed(browser_id) => {
+            EmbedderMsg::HeadParsed => {
                 Some(MessageToSystemApp::Progress(ProgressMsg {
                     webview_id: webview_id(browser_id),
                     event: ProgressEvent::HeadParsed,
                 }))
             }
-            &EmbedderMsg::HistoryChanged(browser_id, ref entries, current) => {
+            EmbedderMsg::HistoryChanged(ref entries, current) => {
                 Some(MessageToSystemApp::HistoryChanged(HistoryChangedMsg {
                     webview_id: webview_id(browser_id),
-                    urls: entries.into_iter().map(|e| e.url.clone()).collect(),
+                    urls: entries.into_iter().map(|e| e.clone()).collect(),
                     current,
                 }))
             }
-            &EmbedderMsg::SetFullscreenState(browser_id, state) => Some(
+            EmbedderMsg::SetFullscreenState(state) => Some(
                 MessageToSystemApp::SetFullscreenState(SetFullscreenStateMsg {
                     webview_id: webview_id(browser_id),
                     state,
                 }),
             ),
-            &EmbedderMsg::LoadStart(browser_id) => {
+            EmbedderMsg::LoadStart => {
                 Some(MessageToSystemApp::Progress(ProgressMsg {
                     webview_id: webview_id(browser_id),
                     event: ProgressEvent::LoadStart,
                 }))
             }
-            &EmbedderMsg::LoadComplete(browser_id) => {
+            EmbedderMsg::LoadComplete => {
                 Some(MessageToSystemApp::Progress(ProgressMsg {
                     webview_id: webview_id(browser_id),
                     event: ProgressEvent::LoadComplete,
