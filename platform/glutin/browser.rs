@@ -5,7 +5,7 @@
 use euclid::{TypedPoint2D, TypedVector2D};
 use glutin_app::keyutils::{CMD_OR_ALT, CMD_OR_CONTROL};
 use glutin_app::window::{Window, LINE_HEIGHT};
-use servo::compositing::compositor_thread::EmbedderMsg;
+use servo::embedder_traits::EmbedderMsg;
 use servo::compositing::windowing::{WebRenderDebugOption, WindowEvent};
 use servo::msg::constellation_msg::{Key, TopLevelBrowsingContextId as BrowserId};
 use servo::msg::constellation_msg::{KeyModifiers, KeyState, TraversalDirection};
@@ -253,13 +253,13 @@ impl Browser {
         self.event_queue.push(event);
     }
 
-    pub fn handle_servo_events(&mut self, events: Vec<EmbedderMsg>) {
+    pub fn handle_servo_events(&mut self, events: Vec<(Option<BrowserId>, EmbedderMsg)>) {
         for event in events {
-            match event {
-                EmbedderMsg::Status(_browser_id, status) => {
+            match event.1 {
+                EmbedderMsg::Status(status) => {
                     self.status = status;
                 }
-                EmbedderMsg::ChangePageTitle(_browser_id, title) => {
+                EmbedderMsg::ChangePageTitle(title) => {
                     self.title = title;
 
                     let fallback_title: String = if let Some(ref current_url) = self.current_url {
@@ -274,49 +274,51 @@ impl Browser {
                     let title = format!("{} - Servo", title);
                     self.window.set_title(&title);
                 }
-                EmbedderMsg::MoveTo(_browser_id, point) => {
+                EmbedderMsg::MoveTo(point) => {
                     self.window.set_position(point);
                 }
-                EmbedderMsg::ResizeTo(_browser_id, size) => {
+                EmbedderMsg::ResizeTo(size) => {
                     self.window.set_inner_size(size);
                 }
-                EmbedderMsg::AllowNavigation(_browser_id, _url, response_chan) => {
+                EmbedderMsg::AllowNavigation(_url, response_chan) => {
                     if let Err(e) = response_chan.send(true) {
                         warn!("Failed to send allow_navigation() response: {}", e);
                     };
                 }
-                EmbedderMsg::KeyEvent(browser_id, ch, key, state, modified) => {
-                    self.handle_key_from_servo(browser_id, ch, key, state, modified);
+                EmbedderMsg::KeyEvent(ch, key, state, modified) => {
+                    self.handle_key_from_servo(event.0, ch, key, state, modified);
                 }
                 EmbedderMsg::SetCursor(cursor) => {
                     self.window.set_cursor(cursor);
                 }
-                EmbedderMsg::NewFavicon(_browser_id, url) => {
+                EmbedderMsg::NewFavicon(url) => {
                     self.favicon = Some(url);
                 }
-                EmbedderMsg::HeadParsed(_browser_id) => {
+                EmbedderMsg::HeadParsed => {
                     self.loading_state = Some(LoadingState::Loading);
                 }
-                EmbedderMsg::HistoryChanged(_browser_id, entries, current) => {
-                    self.current_url = Some(entries[current].url.clone());
+                EmbedderMsg::HistoryChanged(entries, current) => {
+                    self.current_url = Some(entries[current].clone());
                 }
-                EmbedderMsg::SetFullscreenState(_browser_id, state) => {
+                EmbedderMsg::SetFullscreenState(state) => {
                     self.window.set_fullscreen(state);
                 }
-                EmbedderMsg::LoadStart(_browser_id) => {
+                EmbedderMsg::LoadStart => {
                     self.loading_state = Some(LoadingState::Connecting);
                 }
-                EmbedderMsg::LoadComplete(_browser_id) => {
+                EmbedderMsg::LoadComplete => {
                     self.loading_state = Some(LoadingState::Loaded);
                 }
                 EmbedderMsg::GetSelectedBluetoothDevice(_, _) => {}
                 EmbedderMsg::Shutdown => {
                     self.shutdown_requested = true;
                 }
-                EmbedderMsg::ShowIME(_browser_id, _kind) => { println!("Show IME {}", _browser_id); }
-                EmbedderMsg::HideIME(_browser_id) => { println!("Hide IME for {}", _browser_id); }
-                EmbedderMsg::SelectFiles(_, _, _) => {}
-                EmbedderMsg::Panic(_browser_id, _reason, _backtrace) => {}
+                EmbedderMsg::ShowIME(_kind) => { println!("Show IME {:?}", event.0); }
+                EmbedderMsg::HideIME => { println!("Hide IME for {:?}", event.0); }
+                EmbedderMsg::SelectFiles(_filter, _multiple, _sender) => {}
+                EmbedderMsg::Panic(_reason, _backtrace) => {}
+                EmbedderMsg::Alert(_message, _sender) => {},
+                EmbedderMsg::AllowUnload(_sender) => {},
             }
         }
     }

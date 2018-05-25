@@ -8,7 +8,7 @@ use egl;
 use events_loop::Event;
 use gleam::gl::Gl;
 use gonk_gfx::window::Window;
-use servo::compositing::compositor_thread::EventLoopWaker;
+use servo::embedder_traits::EventLoopWaker;
 use servo::compositing::windowing::{AnimationState, EmbedderCoordinates, WindowMethods};
 use servo::euclid::{Length, TypedPoint2D, TypedRect, TypedScale, TypedSize2D};
 use servo::webrender_api::{DeviceIntPoint, DevicePixel, DeviceUintSize};
