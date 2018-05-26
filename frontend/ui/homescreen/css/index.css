@@ -7,12 +7,11 @@ html {
     overflow: hidden;
 }
 
-body {
-    padding: 50px; /* at least as much as drag-panel width in window_manager.css */
-}
-
 icon-grid {
     display: block;
+    position: absolute;
+    bottom: 0;
+    margin: 50px; /* at least as much as the drag-panel width in window_manager.css */
 }
 
 icon-grid .grid {
