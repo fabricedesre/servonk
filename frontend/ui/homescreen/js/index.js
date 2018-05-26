@@ -33,7 +33,7 @@ class IconGrid extends HTMLElement {
 
         window.addEventListener("storage", e => {
             if (e.key === "homescreen-sites") {
-                this.sites = JSON.parse(window.localStorage.getItem("homescreen-sites"));
+                this.sites = JSON.parse(e.newValue);
                 this.update();
             }
         });
