@@ -41,6 +41,17 @@ class StatusBar extends HTMLElement {
         this.querySelector(".title").addEventListener("click", () => {
             Utils.dispatch_event("open-search", { content: this.active_frame.src, target: this.active_frame });
         });
+
+        this.querySelector(".favicon").addEventListener("click", () => {
+            console.log(`Will bookmark site ${this.active_frame.src}`);
+            let sites = JSON.parse(window.localStorage.getItem("homescreen-sites"));
+            sites.push({
+                name: this.title,
+                url: this.active_frame.current_url,
+                icon: this.favicon
+            });
+            window.localStorage.setItem("homescreen-sites", JSON.stringify(sites));
+        });
     }
 
     disconnectedCallback() {

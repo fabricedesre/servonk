@@ -58,7 +58,8 @@ class WebView extends HTMLElement {
             detail: {
                 loading: this.loading,
                 can_go_back: this.can_go_back,
-                can_go_forward: this.can_go_forward
+                can_go_forward: this.can_go_forward,
+                href: this.current_url
             }
         });
         this.dispatchEvent(event);
@@ -80,6 +81,7 @@ class WebView extends HTMLElement {
         } else if (msg.type === "history_changed") {
             this.can_go_back = msg.current !== 0;
             this.can_go_forward = msg.current + 1 !== msg.urls.length;
+            this.current_url = msg.urls[msg.current];
             this.dispatch_state();
             this.update();
         } else if (msg.type === "new_favicon") {

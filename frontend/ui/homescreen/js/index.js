@@ -26,7 +26,18 @@ class IconGrid extends HTMLElement {
     connectedCallback() {
         this.render = hyperHTML.bind(this);
 
-        this.sites = window.localStorage.getItem("homescreen-sites") || DEFAULT_SITES;
+        let stored = window.localStorage.getItem("homescreen-sites");
+        this.sites = stored ? JSON.parse(stored) : DEFAULT_SITES;
+
+        window.localStorage.setItem("homescreen-sites", JSON.stringify(this.sites));
+
+        window.addEventListener("storage", e => {
+            if (e.key === "homescreen-sites") {
+                this.sites = JSON.parse(window.localStorage.getItem("homescreen-sites"));
+                this.update();
+            }
+        });
+
         this.update();
     }
 
