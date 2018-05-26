@@ -1,1 +1,1 @@
-welcome = Welcome to Servonk!
+title = Servonk Home

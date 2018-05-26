@@ -11,6 +11,7 @@ icon-grid {
     display: block;
     position: absolute;
     bottom: 0;
+    width: calc(100% - 100px);
     margin: 50px; /* at least as much as the drag-panel width in window_manager.css */
 }
 
@@ -18,7 +19,7 @@ icon-grid .grid {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly; /* doesn't seem to work on Servo */
+    justify-content: space-between;
 }
 
 icon-grid .grid .icon {
@@ -27,6 +28,8 @@ icon-grid .grid .icon {
     min-width: 128px;
     max-width: 128px;
     margin-bottom: 1em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
 }
 
 icon-grid .grid .icon img {
@@ -36,6 +39,9 @@ icon-grid .grid .icon img {
 
 icon-grid .grid .icon .name {
     color: white;
-    font-weight: bold;
     font-size: 1.5em;
+    line-height: 1.5em;
+    max-height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
