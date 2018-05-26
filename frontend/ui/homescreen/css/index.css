@@ -1,0 +1,42 @@
+html {
+    font-family: "fira sans", sans-serif;
+    color: lightgray;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    padding: 50px; /* at least as much as drag-panel width in window_manager.css */
+}
+
+icon-grid {
+    display: block;
+}
+
+icon-grid .grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly; /* doesn't seem to work on Servo */
+}
+
+icon-grid .grid .icon {
+    text-align: center;
+    flex: 0;
+    min-width: 128px;
+    max-width: 128px;
+    margin-bottom: 1em;
+}
+
+icon-grid .grid .icon img {
+    width: 64px;
+    height: 64px;
+}
+
+icon-grid .grid .icon .name {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+}

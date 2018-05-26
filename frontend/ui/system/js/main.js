@@ -36,7 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.onmessage = (e) => {
-    console.log(`window.onmessage: received ${e.data}`);
+    let msg = e.data;
+    console.log(`window.onmessage: received ${JSON.stringify(msg)}`);
+
+    if (msg.from === "homescreen" && msg.action === "open-url") {
+        let wm = document.getElementById("windows");
+        wm.select_frame(wm.add_frame(msg.href));
+    }
 }
 
 function init_window_manager() {
