@@ -20,7 +20,7 @@ adb push servo.sh /system/bin/servo.sh
 adb push ../../target/armv7-linux-androideabi/$KIND/servo /data/local/servo/servo
 
 # Push common resources and the android fonts definitions.
-adb push ../../../shared/resources /data/local/servo/
+adb push ../../../shared/resources /data/local/servo/resources
 adb push ../../resources/fonts.xml /system/etc/system_fonts.xml
 
 # Push the frontend.
