@@ -4,10 +4,12 @@
 
 use actix::prelude::*;
 use rand::{self, Rng, ThreadRng};
-use servo::embedder_traits::{EmbedderMsg, EventLoopWaker};
 use servo::compositing::windowing::WindowEvent;
-use servo::msg::constellation_msg::{BrowsingContextId, BrowsingContextIndex, PipelineNamespaceId,
-                                    TopLevelBrowsingContextId, TraversalDirection};
+use servo::embedder_traits::{EmbedderMsg, EventLoopWaker};
+use servo::msg::constellation_msg::{
+    BrowsingContextId, BrowsingContextIndex, InputMethodType, PipelineNamespaceId,
+    TopLevelBrowsingContextId, TraversalDirection,
+};
 use servo::servo_url::ServoUrl;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -73,6 +75,19 @@ pub struct ProgressMsg {
     event: ProgressEvent,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub struct ShowImeMsg {
+    webview_id: String,
+    kind: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub struct HideImeMsg {
+    webview_id: String,
+}
+
 /// The set of messages that can be sent to the system app.
 #[derive(Clone, Debug, Deserialize, Message, Serialize)]
 #[serde(tag = "type")]
@@ -84,6 +99,8 @@ pub enum MessageToSystemApp {
     Progress(ProgressMsg),
     HistoryChanged(HistoryChangedMsg),
     SetFullscreenState(SetFullscreenStateMsg),
+    ShowIme(ShowImeMsg),
+    HideIme(HideImeMsg),
 }
 
 /// Stringify a browser context id.
@@ -97,8 +114,29 @@ fn webview_id(id: TopLevelBrowsingContextId) -> String {
     )
 }
 
+/// Formats a InputMethodType
+fn format_input_method_type(method: &InputMethodType) -> &'static str {
+    match method {
+        InputMethodType::Color => "color",
+        InputMethodType::Date => "date",
+        InputMethodType::DatetimeLocal => "datetimelocal",
+        InputMethodType::Email => "email",
+        InputMethodType::Month => "month",
+        InputMethodType::Number => "number",
+        InputMethodType::Password => "password",
+        InputMethodType::Search => "search",
+        InputMethodType::Tel => "tel",
+        InputMethodType::Text => "text",
+        InputMethodType::Time => "time",
+        InputMethodType::Url => "url",
+        InputMethodType::Week => "week",
+    }
+}
+
 impl MessageToSystemApp {
-    pub fn from_embedder_msg(data: &(Option<TopLevelBrowsingContextId>, EmbedderMsg)) -> Option<Self> {
+    pub fn from_embedder_msg(
+        data: &(Option<TopLevelBrowsingContextId>, EmbedderMsg),
+    ) -> Option<Self> {
         if data.0.is_none() {
             // error!("Unable to create MessageToSystemApp without a browser id for {:?}", data.1);
             return None;
@@ -106,12 +144,10 @@ impl MessageToSystemApp {
         let browser_id = data.0.unwrap();
 
         match data.1 {
-            EmbedderMsg::Status(ref status) => {
-                Some(MessageToSystemApp::Status(StatusMsg {
-                    webview_id: webview_id(browser_id),
-                    status: (*status).clone(),
-                }))
-            }
+            EmbedderMsg::Status(ref status) => Some(MessageToSystemApp::Status(StatusMsg {
+                webview_id: webview_id(browser_id),
+                status: (*status).clone(),
+            })),
             EmbedderMsg::ChangePageTitle(ref title) => {
                 Some(MessageToSystemApp::ChangePageTitle(ChangePageTitleMsg {
                     webview_id: webview_id(browser_id),
@@ -124,12 +160,10 @@ impl MessageToSystemApp {
                     url: (*url).clone(),
                 }))
             }
-            EmbedderMsg::HeadParsed => {
-                Some(MessageToSystemApp::Progress(ProgressMsg {
-                    webview_id: webview_id(browser_id),
-                    event: ProgressEvent::HeadParsed,
-                }))
-            }
+            EmbedderMsg::HeadParsed => Some(MessageToSystemApp::Progress(ProgressMsg {
+                webview_id: webview_id(browser_id),
+                event: ProgressEvent::HeadParsed,
+            })),
             EmbedderMsg::HistoryChanged(ref entries, current) => {
                 Some(MessageToSystemApp::HistoryChanged(HistoryChangedMsg {
                     webview_id: webview_id(browser_id),
@@ -137,24 +171,27 @@ impl MessageToSystemApp {
                     current,
                 }))
             }
-            EmbedderMsg::SetFullscreenState(state) => Some(
-                MessageToSystemApp::SetFullscreenState(SetFullscreenStateMsg {
+            EmbedderMsg::SetFullscreenState(state) => Some(MessageToSystemApp::SetFullscreenState(
+                SetFullscreenStateMsg {
                     webview_id: webview_id(browser_id),
                     state,
-                }),
-            ),
-            EmbedderMsg::LoadStart => {
-                Some(MessageToSystemApp::Progress(ProgressMsg {
-                    webview_id: webview_id(browser_id),
-                    event: ProgressEvent::LoadStart,
-                }))
-            }
-            EmbedderMsg::LoadComplete => {
-                Some(MessageToSystemApp::Progress(ProgressMsg {
-                    webview_id: webview_id(browser_id),
-                    event: ProgressEvent::LoadComplete,
-                }))
-            }
+                },
+            )),
+            EmbedderMsg::LoadStart => Some(MessageToSystemApp::Progress(ProgressMsg {
+                webview_id: webview_id(browser_id),
+                event: ProgressEvent::LoadStart,
+            })),
+            EmbedderMsg::LoadComplete => Some(MessageToSystemApp::Progress(ProgressMsg {
+                webview_id: webview_id(browser_id),
+                event: ProgressEvent::LoadComplete,
+            })),
+            EmbedderMsg::ShowIME(ref kind) => Some(MessageToSystemApp::ShowIme(ShowImeMsg {
+                webview_id: webview_id(browser_id),
+                kind: format!("{}", format_input_method_type(kind)),
+            })),
+            EmbedderMsg::HideIME => Some(MessageToSystemApp::HideIme(HideImeMsg {
+                webview_id: webview_id(browser_id),
+            })),
             _ => None,
         }
     }
@@ -334,7 +371,8 @@ fn browser_context_from_string(id_s: &str) -> TopLevelBrowsingContextId {
     use nonzero::NonZeroU32;
     use std::str::FromStr;
 
-    let splitted: Vec<u32> = id_s.split('-')
+    let splitted: Vec<u32> = id_s
+        .split('-')
         .map(|item| u32::from_str(item).unwrap())
         .collect();
     let id = BrowsingContextId {
