@@ -25,7 +25,9 @@ export RUST_TARGET=armv7-linux-androideabi
 cd ../..
 
 # Build the host version of backtrace-sys without any custom CFLAGS
-cargo build -p backtrace-sys $@
+cargo build -p backtrace-sys \
+            -p libloading \
+            $@
 
 export PATH=$GONK_DIR/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/:$PATH
 
@@ -103,5 +105,22 @@ do
 done
 
 export TARGET_DIR=`pwd`/target/$RUST_TARGET/$OPT/
+
+# Terrible hack to workaround an issue with clang when creating bindings for mozjs_sys
+MATH_H=$GONK_DIR/prebuilts/ndk/9/platforms/android-21/arch-arm/usr/include/math.h
+
+cp $MATH_H /tmp/math.h
+cp `pwd`/support/include/math.h $MATH_H
+
+# Special CXXFLAGS for mozjs_sys binding generator.
+export BINDGEN_CXXFLAGS="
+$STLPORT_CPPFLAGS \
+-isystem $GONK_DIR/prebuilts/ndk/9/platforms/android-21/arch-arm/usr/include \
+-std=c++11"
+
+cargo build --target $RUST_TARGET -p mozjs_sys $@
+
+cp /tmp/math.h $MATH_H
+# End of the mozjs_sys hack
 
 cargo build --target $RUST_TARGET $@
