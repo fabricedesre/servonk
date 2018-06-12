@@ -39,7 +39,7 @@ There are many other possible devices and platforms which could run Servonk, how
   * This includes updating Gonk to work with M or N versions of AOSP
 * LineageOS/CyanogenMod bases earlier than 15.1
 * Smart TVs using FirefoxTV or Panasonic's My Home Screen.
-  * These were apparenetly originally based on BSD but recent source code releases suggest they are now based on GNU/Linux (not Android).
+  * These were apparenetly originally based on BSD but recent [source code releases](http://www.unipf.jp/dl/EUIDTV17/) suggest they are now based on GNU/Linux (not Android).
   * It's possible therefore that making Servonk work on a hacked Panasonic TV could contribute to support on Librem 5!
 * [Redox OS](https://www.redox-os.org/) is a POSIX compliant OS written entirely in Rust. Since Servo is also written in Rust there's some synergies which make building for Redox interesting, but this won't contribute to the intended platforms.
 
