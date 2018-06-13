@@ -10,9 +10,6 @@ Using Glutin:
 
 To do: add links to the build instructions for each of the working devices.
 
-# Work in progress
-Nothing at present.
-
 # Potential targets
 ## Intended targets
 Long term there is a desire not to support old hardware and to make Servonk usable on new devices. These devices listed below are the intended targets for running Servonk, so if you're working on this then great!
