@@ -5,7 +5,7 @@ This is an experimental project, aiming at providing a web based environment for
 - Encourage contributions to [Servo](https://servo.org) outside of the mandate of its corporate backers.
 - Scratch an itch and have fun.
 
-It currently runs on Gonk based devices and on desktop platforms (tested on Linux only so far, let me know if you get it to run on Windows or Mac). Another potential target will be the [Librem 5 from Purism](https://puri.sm/shop/librem-5/). For more information on target devices and platforms see this page in the [wiki](/docs/Target-devices-and-platforms.md
+It currently runs on Gonk based devices and on desktop platforms (tested on Linux only so far, let me know if you get it to run on Windows or Mac). Another potential target will be the [Librem 5 from Purism](https://puri.sm/shop/librem-5/). For more information on target devices and platforms see [this page](/docs/Target-devices-and-platforms.md
 ).
 
 It is in very early stages and not really usable yet. There is an incomplete [todo list](todo.md) if you want to help!
