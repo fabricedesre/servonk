@@ -10,6 +10,8 @@ It currently runs on Gonk based devices and on desktop platforms (tested on Linu
 
 It is in very early stages and not really usable yet. There is an incomplete [todo list](todo.md) if you want to help!
 
+You can check the **_tutorial-build_** file in the **_docs_** folder to have a more detailed explanation of how to build and run B2G/Servonk.
+
 ## Dependencies
 
 Since we depend on Servo, first check that you have everything set up [as explained](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment).
@@ -24,7 +26,7 @@ Also:
 1) First, install [rustup](https://rustup.rs/).
 2) Git clone this repository.
 3) cd to the 'servonk' directory.
-4) Then run `./bootstrap.sh` to install the Rust toolchain. 
+4) Then run `./bootstrap.sh` to install the Rust toolchain.
 5) For Gonk builds only: configure the build by setting the `GONK_DIR` environment variable to the path of your b2g repository, and the `GONK_PRODUCT_NAME` to the Android product name (eg. "aries" for a Sony Z3C).
 6) You can then build for the platform of your choice by running:
 `./servonk build gonk --release` for a Gonk build, or `./servonk build glutin --release` for a desktop version.
