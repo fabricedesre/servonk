@@ -2,38 +2,7 @@
 
 This tutorial was made using Antergos, an Arch distro based, but can be expanded to other distros.
 
-## Servo stuffs
-
-Building servo requires [rustup](https://rustup.rs/), version 1.8.0 or more recent.
-If you have an older version, run `rustup self update`. [Oficial Servo documentation](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment)
-
-Run:
-
-```sh
-curl https://sh.rustup.rs -sSf | sh
-```
-
-This will also download the current stable version of Rust, which Servo won’t use.
-
-To skip that step, run instead:
-
-```
-curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain none
-```
-
-Proceed with the installation, option 1.
-
-Install Arch dependencies.
-
-``` sh
-# Update system
-sudo pacman -Syudd
-
-# Install dependencies
-sudo pacman -S --needed --force base-devel git python2 python2-virtualenv python2-pip mesa cmake bzip2 libxmu glu pkg-config ttf-fira-sans harfbuzz ccache clang
-```
-
-## B2G stuffs
+## B2G steps
 
 You need to do a B2G build for your device (eng or userdebug to get root access), as this is not properly setup with the Android build system yet. If you need more info, [this is a good first place to start](https://developer.mozilla.org/en-US/docs/Archive/B2G_OS/B2G_OS_build_prerequisites).
 
@@ -61,7 +30,7 @@ Enable [multilib on Arch](https://wiki.archlinux.org/index.php/Multilib) and ins
 sudo pacman -S --needed alsa-lib autoconf2.13 bison ccache curl firefox flex gcc-multilib git gperf libnotify libxt libx11 mesa multilib-devel wget wireless_tools yasm zip lib32-mesa lib32-mesa-libgl lib32-ncurses lib32-readline lib32-zlib lzop
 ```
 
-Configure Python.
+Configure Python. Remember to use virtualenv every time you try to compile.
 
 ```sh
 sudo pacman -S python-virtualenvwrapper
@@ -128,7 +97,7 @@ Remember to plug your phone. Now config, build and flash B2G on your phone. This
 ./flash.sh
 ```
 
-## Servonk stuffs
+## Servonk steps
 
 Install rustup.
 
@@ -159,7 +128,7 @@ The product name for **Android devices** can bee seen [here](https://support.goo
 
 The product name for **FirefoxOS devices** can bee seen [here](https://developer.mozilla.org/en-US/docs/Archive/B2G_OS/Building_and_installing_B2G_OS/Compatible_Devices) and [here](https://developer.mozilla.org/en-US/docs/Archive/B2G_OS/Phone_guide/Phone_specs) in the _nickname_ or _Name/Codename_ cell. This may not work depending on the device.
 
-Build running:
+To build, run:
 
 ```sh
 # For a Gonk build
