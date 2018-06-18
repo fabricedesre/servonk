@@ -8,7 +8,6 @@ extern crate actix;
 extern crate actix_web;
 #[macro_use]
 extern crate log;
-extern crate nonzero;
 extern crate rand;
 #[macro_use]
 extern crate serde_derive;

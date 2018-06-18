@@ -46,6 +46,7 @@ STLPORT_CPPFLAGS="-I$gonkdir/external/libcxx/include \
 -I$gonkdir/ndk/sources/cxx-stl/system/include"
 
 export CFLAGS="-DANDROID -DTARGET_OS_GONK \
+-DJE_FORCE_SYNC_COMPARE_AND_SWAP_4=1 \
 -DANDROID_VERSION=23 \
 -DGR_GL_USE_NEW_SHADER_SOURCE_SIGNATURE=1 \
 -isystem $GONK_DIR/bionic \

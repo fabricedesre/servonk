@@ -4,14 +4,6 @@
 
 // For size_of::<linux_input_event>() in input.rs
 #![feature(const_size_of)]
-// Don't use jemalloc
-#![feature(global_allocator)]
-#![feature(allocator_api)]
-
-use std::heap::System;
-
-#[global_allocator]
-static ALLOCATOR: System = System;
 
 extern crate android_logger;
 extern crate api_server;
