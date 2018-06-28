@@ -20,9 +20,6 @@ You need to do a [b2g](https://github.com/mozilla-b2g/B2G) build for your device
 Also:
 - sudo apt install llvm-dev libclang-dev and clang (Ubuntu 18.04).
 
-Also:
-- sudo apt-get llvm-dev libclang-dev and clang (Ubuntu 18.04).
-
 ## Building
 
 1) First, install [rustup](https://rustup.rs/).
