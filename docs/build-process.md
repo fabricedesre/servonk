@@ -1,0 +1,1 @@
+This will decribe the flow of the build process for Servonk including the dependent repositories. Note that it will not attempty to fully describe the build process for the platforms (Gonk, GNU/Linux, etc) nor Servo as these should be described elsewhere.
