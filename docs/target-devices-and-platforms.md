@@ -10,6 +10,10 @@ Using Glutin:
 
 To do: add links to the build instructions for each of the working devices.
 
+# Work in progress
+* macOS using Glutin - @novski in Telegram, confirmed built, instructions to be written and need confirmation it's running.
+* Flame - @penserbjorne has stated a desire to get this working in the repo issues.
+
 # Potential targets
 ## Intended targets
 Long term there is a desire not to support old hardware and to make Servonk usable on new devices. These devices listed below are the intended targets for running Servonk, so if you're working on this then great!
@@ -40,6 +44,7 @@ There are many other possible devices and platforms which could run Servonk, how
   * It's possible therefore that making Servonk work on a hacked Panasonic TV could contribute to support on Librem 5!
 * [Redox OS](https://www.redox-os.org/) is a POSIX compliant OS written entirely in Rust. Since Servo is also written in Rust there's some synergies which make building for Redox interesting, but this won't contribute to the intended platforms.
 * macOS / Mac OSX desktop using Glutin
+* Raspberry Pi or other SBCs using Glutin (not Gonk)
 * Windows
 
 For discussion use this issue: [Target platforms and devices #13](https://github.com/fabricedesre/servonk/issues/13)

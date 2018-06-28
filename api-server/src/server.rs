@@ -368,7 +368,7 @@ pub enum MessageFromSystemApp {
 
 /// Converts a stringified browsing context ID into a native type.
 fn browser_context_from_string(id_s: &str) -> TopLevelBrowsingContextId {
-    use nonzero::NonZeroU32;
+    use std::num::NonZeroU32;
     use std::str::FromStr;
 
     let splitted: Vec<u32> = id_s

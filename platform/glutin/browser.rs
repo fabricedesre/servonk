@@ -319,6 +319,7 @@ impl Browser {
                 EmbedderMsg::Panic(_reason, _backtrace) => {}
                 EmbedderMsg::Alert(_message, _sender) => {},
                 EmbedderMsg::AllowUnload(_sender) => {},
+                EmbedderMsg::CloseBrowser => {},
             }
         }
     }
