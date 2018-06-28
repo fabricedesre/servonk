@@ -11,7 +11,24 @@ This checks the current version of the [rust-toolchain](https://github.com/fabri
 [Bindgen](https://github.com/rust-lang-nursery/rust-bindgen) is needed to generate Rust FFI bindings to the [mtdev C library](https://github.com/fabricedesre/servonk/tree/master/platform/gonk/mtdev/mtdev-1.1.5). "command -v bindgen >/dev/null 2>&1 || { etc..." checks if bindgen exists and if not it installs it with "cargo install -f bindgen".
 
 ### [servonk](https://github.com/fabricedesre/servonk/blob/master/servonk)
+This is the main script for interfacing with Servonk. It's parameters are the functions you wish to perform, on which platform and with which options. The functions call other scripts in the [/platform](https://github.com/fabricedesre/servonk/tree/master/platform) for the specified platform, e.g. [/platform/gonk/support/scripts](https://github.com/fabricedesre/servonk/tree/master/platform/gonk/support/scripts) for Gonk.
 
+Usage: ./servonk {build|clean|flash|package|run} {gonk|glutin} <opts>
+
+Functions:
+* _build_ Servonk for specified platform.
+* _clean_ the Servonk build files for the specified platform.
+* _flash_ Servonk to the specified platform (not for Glutin)
+* _frontend_ which only flashes the frontend of Servonk, it does not update the rest (not for Glutin)
+* _package_ the built Servonk runtimes for distribution, e.g. as a [release](https://github.com/fabricedesre/servonk/releases)
+* _run_ Servonk for the specified platform
+
+Supported platforms:
+* _gonk_
+* _glutin_
+
+Options:
+* These depend on the function; to be completed.
 
 ### [update-servo.sh](https://github.com/fabricedesre/servonk/blob/master/update-servo.sh)
 This script updates the Servonk repo with key resources from a Servo repository. The location of the Servo repository is given as an argument to the script. The script copies:
