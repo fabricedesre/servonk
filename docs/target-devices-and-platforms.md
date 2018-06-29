@@ -11,6 +11,8 @@ Using Glutin:
 To do: add links to the build instructions for each of the working devices.
 
 # Work in progress
+* AOSP 8.1 in Android Emulator - vmx from IRC #b2g, built but not running
+* AOSP 6.0 - confirmed working by Fabrice in Telegram group
 * macOS using Glutin - @novski in Telegram, confirmed built, instructions to be written and need confirmation it's running.
 * Flame - @penserbjorne has stated a desire to get this working in the repo issues.
 
