@@ -4,7 +4,6 @@
 
 //! A windowing implementation using winit.
 
-use euclid::{Length, TypedPoint2D, TypedVector2D, TypedScale, TypedSize2D};
 #[cfg(target_os = "windows")]
 use gdi32;
 use gleam::gl;
@@ -14,6 +13,7 @@ use osmesa_sys;
 use servo::compositing::windowing::{AnimationState, MouseWindowEvent, WindowEvent};
 use servo::compositing::windowing::{EmbedderCoordinates, WindowMethods};
 use servo::embedder_traits::EventLoopWaker;
+use servo::euclid::{Length, TypedPoint2D, TypedVector2D, TypedScale, TypedSize2D};
 use servo::msg::constellation_msg::{Key, KeyState};
 use servo::script_traits::TouchEventType;
 use servo::servo_config::opts;
