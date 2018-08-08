@@ -34,7 +34,7 @@ oculusvr = ["libservo/oculusvr"]
 unstable = ["libservo/unstable"]
 
 [dependencies]
-actix = "0.5"
+actix = "0.7"
 api_server = { path = "../../api-server" }
 backtrace = "0.3"
 bitflags = "1.0"
