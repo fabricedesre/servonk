@@ -1,5 +1,5 @@
 # Currently working devices:
-Currently Servonk is targetting Gonk from B2G derived from Android Lollipop. There's also the desktop build with Glutin. 
+Currently Servonk is targetting Gonk from B2G derived from Android Lollipop. There's also the desktop build with Glutin.
 
 Using Gonk-L:
 * Sony Xperia Z3 Compact
@@ -11,7 +11,7 @@ Using Glutin:
 To do: add links to the build instructions for each of the working devices.
 
 # Work in progress
-* macOS using Glutin - @novski in Telegram, confirmed built, instructions to be written and need confirmation it's running.
+* macOS using Glutin - build confirmed, not runing.
 * Flame - @penserbjorne has stated a desire to get this working in the repo issues.
 
 # Potential targets
