@@ -16,8 +16,7 @@ extern crate servo;
 
 use actix::prelude::*;
 use actix::{fut, Actor, StreamHandler};
-use actix_web::{fs, middleware, ws, App, Error, HttpRequest, HttpResponse, server as ActixServer};
-use actix_web::http;
+use actix_web::{fs, middleware, ws, App, server as ActixServer};
 use std::env;
 use std::sync::mpsc::Sender;
 use std::thread;
@@ -27,13 +26,7 @@ pub mod server;
 use server::*;
 
 struct WsSessionState {
-    api_server: Addr<Syn, server::ApiServer>,
-}
-
-// Do the websocket handshake and start an actor to manage this connection.
-fn ws_index(req: HttpRequest<WsSessionState>) -> Result<HttpResponse, Error> {
-    debug!("Got WS connection!");
-    ws::start(req, WsSession { id: 0 })
+    api_server: Addr<server::ApiServer>,
 }
 
 struct WsSession {
@@ -66,7 +59,7 @@ impl Actor for WsSession {
         // before processing any other events.
         // HttpContext::state() is instance of WsSessionState, state is shared across all
         // routes within application.
-        let addr: Addr<Syn, _> = ctx.address();
+        let addr: Addr<_> = ctx.address();
         ctx.state()
             .api_server
             .send(server::Connect {
@@ -121,11 +114,11 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
 }
 
 /// Starts the local server.
-pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
+pub fn start_api_server(sender: Sender<Addr<ApiServer>>) {
     thread::spawn(move || {
         let sys = actix::System::new("api-ws-server");
 
-        let server: Addr<Syn, _> = Arbiter::start(|_| ApiServer::default());
+        let server: Addr<_> = Arbiter::start(|_| ApiServer::default());
 
         sender
             .send(server.clone())
@@ -144,9 +137,9 @@ pub fn start_api_server(sender: Sender<Addr<Syn, ApiServer>>) {
                 // enable logger
                 .middleware(middleware::Logger::default())
                 // websocket route
-                .resource("/api/v1/", |r| r.method(http::Method::GET).f(ws_index))
+                .resource("/api/v1/", |r| r.f(|req| ws::start(req, WsSession { id: 0 })))
                 // static files
-                .handler("/", fs::StaticFiles::new(ui_root))
+                .handler("/", fs::StaticFiles::new(ui_root).unwrap())
             })
         .disable_signals() // TODO: figure out why this is actually preventing shutdown.
         .bind("127.0.0.1:8000").expect("Can not bind to 127.0.0.1:8000")

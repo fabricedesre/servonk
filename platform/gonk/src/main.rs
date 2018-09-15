@@ -29,9 +29,9 @@ mod resources;
 use android_logger::Filter;
 use api_server::server::MessageToSystemApp;
 use events_loop::*;
+use servo::BrowserId;
 use servo::compositing::windowing::{WindowEvent, WindowMethods};
 use servo::euclid::{TypedPoint2D, TypedSize2D, TypedVector2D};
-use servo::ipc_channel::ipc;
 use servo::msg::constellation_msg::{Key, KeyState};
 use servo::script_traits::TouchEventType;
 use servo::servo_config::opts;
@@ -134,10 +134,10 @@ fn main() {
     // Load the initial url in a new browser and select it.
     info!("About to load {}", start_url);
     let url = ServoUrl::parse(&start_url).unwrap();
-    let (sender, receiver) = ipc::channel().unwrap();
-    servo.handle_events(vec![WindowEvent::NewBrowser(url.clone(), sender)]);
-    let browser_id = receiver.recv().unwrap();
-    servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
+    let browser_id = BrowserId::new();
+    servo.handle_events(vec![WindowEvent::NewBrowser(url.clone(), browser_id)]);
+    
+    // servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
 
     input::run_input_loop(&looper.get_sender());
 

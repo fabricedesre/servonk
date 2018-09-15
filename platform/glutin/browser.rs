@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use euclid::{TypedPoint2D, TypedVector2D};
 use glutin_app::keyutils::{CMD_OR_ALT, CMD_OR_CONTROL};
 use glutin_app::window::{Window, LINE_HEIGHT};
 use servo::embedder_traits::EmbedderMsg;
+use servo::euclid::{TypedPoint2D, TypedVector2D};
 use servo::compositing::windowing::{WebRenderDebugOption, WindowEvent};
 use servo::msg::constellation_msg::{Key, TopLevelBrowsingContextId as BrowserId};
 use servo::msg::constellation_msg::{KeyModifiers, KeyState, TraversalDirection};
@@ -320,6 +320,22 @@ impl Browser {
                 EmbedderMsg::Alert(_message, _sender) => {},
                 EmbedderMsg::AllowUnload(_sender) => {},
                 EmbedderMsg::CloseBrowser => {},
+                EmbedderMsg::AllowOpeningBrowser(response_chan) => {
+                    // Note: would be a place to handle pop-ups config.
+                    // see Step 7 of #the-rules-for-choosing-a-browsing-context-given-a-browsing-context-name
+                    if let Err(e) = response_chan.send(true) {
+                        warn!("Failed to send AllowOpeningBrowser response: {}", e);
+                    };
+                }
+                EmbedderMsg::BrowserCreated(new_browser_id) => {
+                    debug!("BrowserCreated {}", new_browser_id);
+                    // TODO: properly handle a new "tab"
+                    // self.browsers.push(new_browser_id);
+                    // if self.browser_id.is_none() {
+                    //     self.browser_id = Some(new_browser_id);
+                    // }
+                    // self.event_queue.push(WindowEvent::SelectBrowser(new_browser_id));
+                }
             }
         }
     }

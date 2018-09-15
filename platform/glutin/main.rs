@@ -51,14 +51,13 @@ mod resources;
 
 use api_server::server::MessageToSystemApp;
 use backtrace::Backtrace;
-use servo::Servo;
+use servo::{BrowserId, Servo};
 use servo::compositing::windowing::{WindowEvent, WindowMethods};
 
 #[cfg(target_os = "android")]
 use servo::config;
 use servo::config::opts::{self, parse_url_or_filename, ArgumentParsingResult};
 use servo::config::servo_version;
-use servo::ipc_channel::ipc;
 use servo::servo_config::prefs::PREFS;
 use servo::servo_url::ServoUrl;
 use std::env;
@@ -193,11 +192,11 @@ fn main() {
 
     let mut servo = Servo::new(window.clone());
 
-    let (sender, receiver) = ipc::channel().unwrap();
-    servo.handle_events(vec![WindowEvent::NewBrowser(target_url, sender)]);
-    let browser_id = receiver.recv().unwrap();
+    let browser_id = BrowserId::new();
+    servo.handle_events(vec![WindowEvent::NewBrowser(target_url, browser_id)]);
+    
     browser.set_browser_id(browser_id);
-    servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
+    // servo.handle_events(vec![WindowEvent::SelectBrowser(browser_id)]);
 
     servo.setup_logging();
 

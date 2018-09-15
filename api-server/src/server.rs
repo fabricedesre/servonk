@@ -201,7 +201,7 @@ impl MessageToSystemApp {
 #[derive(Message)]
 #[rtype(usize)]
 pub struct Connect {
-    pub addr: Recipient<Syn, ServiceMessage>,
+    pub addr: Recipient<ServiceMessage>,
 }
 
 /// Session is disconnected.
@@ -212,7 +212,7 @@ pub struct Disconnect {
 
 /// Actor that relays messages sent from Servo to the WS sessions.
 pub struct ApiServer {
-    sessions: HashMap<usize, Recipient<Syn, ServiceMessage>>,
+    sessions: HashMap<usize, Recipient<ServiceMessage>>,
     rng: RefCell<ThreadRng>,
     event_queue: Vec<MessageFromSystemApp>,
     servo: Option<mpsc::Sender<MessageFromSystemApp>>,

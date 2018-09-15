@@ -2,19 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-//! A windowing implementation using glutin.
+//! A windowing implementation using winit.
 
-use super::keyutils::{self, GlutinKeyModifiers};
-use euclid::{Length, TypedPoint2D, TypedScale, TypedSize2D, TypedVector2D};
 #[cfg(target_os = "windows")]
 use gdi32;
 use gleam::gl;
-use glutin::{self, Api, GlContext, GlRequest};
+use glutin::{Api, ContextBuilder, GlContext, GlRequest, GlWindow};
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 use osmesa_sys;
-use servo::embedder_traits::EventLoopWaker;
 use servo::compositing::windowing::{AnimationState, MouseWindowEvent, WindowEvent};
 use servo::compositing::windowing::{EmbedderCoordinates, WindowMethods};
+use servo::embedder_traits::EventLoopWaker;
+use servo::euclid::{Length, TypedPoint2D, TypedVector2D, TypedScale, TypedSize2D};
 use servo::msg::constellation_msg::{Key, KeyState};
 use servo::script_traits::TouchEventType;
 use servo::servo_config::opts;
@@ -32,14 +31,17 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::thread;
 use std::time;
+use super::keyutils::{self, WinitKeyModifiers};
 #[cfg(target_os = "windows")]
 use user32;
 #[cfg(target_os = "windows")]
 use winapi;
 use winit;
+use winit::{ElementState, Event, MouseButton, MouseScrollDelta, TouchPhase, VirtualKeyCode};
+use winit::dpi::{LogicalPosition, LogicalSize, PhysicalSize};
 #[cfg(target_os = "macos")]
 use winit::os::macos::{ActivationPolicy, WindowBuilderExt};
-use winit::{ElementState, Event, MouseButton, MouseScrollDelta, TouchPhase, VirtualKeyCode};
+
 
 // This should vary by zoom level and maybe actual text size (focused or under cursor)
 pub const LINE_HEIGHT: f32 = 38.0;
@@ -89,21 +91,20 @@ impl HeadlessContext {
         attribs.push(3);
         attribs.push(0);
 
-        let context =
-            unsafe { osmesa_sys::OSMesaCreateContextAttribs(attribs.as_ptr(), ptr::null_mut()) };
+        let context = unsafe {
+            osmesa_sys::OSMesaCreateContextAttribs(attribs.as_ptr(), ptr::null_mut())
+        };
 
         assert!(!context.is_null());
 
         let mut buffer = vec![0; (width * height) as usize];
 
         unsafe {
-            let ret = osmesa_sys::OSMesaMakeCurrent(
-                context,
-                buffer.as_mut_ptr() as *mut _,
-                gl::UNSIGNED_BYTE,
-                width as i32,
-                height as i32,
-            );
+            let ret = osmesa_sys::OSMesaMakeCurrent(context,
+                                                    buffer.as_mut_ptr() as *mut _,
+                                                    gl::UNSIGNED_BYTE,
+                                                    width as i32,
+                                                    height as i32);
             assert_ne!(ret, 0);
         };
 
@@ -126,7 +127,9 @@ impl HeadlessContext {
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     fn get_proc_address(s: &str) -> *const c_void {
         let c_str = CString::new(s).expect("Unable to create CString");
-        unsafe { mem::transmute(osmesa_sys::OSMesaGetProcAddress(c_str.as_ptr())) }
+        unsafe {
+            mem::transmute(osmesa_sys::OSMesaGetProcAddress(c_str.as_ptr()))
+        }
     }
 
     #[cfg(not(any(target_os = "linux", target_os = "macos")))]
@@ -136,7 +139,7 @@ impl HeadlessContext {
 }
 
 enum WindowKind {
-    Window(glutin::GlWindow, RefCell<winit::EventsLoop>),
+    Window(GlWindow, RefCell<winit::EventsLoop>),
     Headless(HeadlessContext),
 }
 
@@ -149,7 +152,7 @@ pub struct Window {
     mouse_down_point: Cell<TypedPoint2D<i32, DevicePixel>>,
     event_queue: RefCell<Vec<WindowEvent>>,
     mouse_pos: Cell<TypedPoint2D<i32, DevicePixel>>,
-    key_modifiers: Cell<GlutinKeyModifiers>,
+    key_modifiers: Cell<WinitKeyModifiers>,
     last_pressed_key: Cell<Option<Key>>,
     animation_state: Cell<AnimationState>,
     fullscreen: Cell<bool>,
@@ -164,18 +167,18 @@ fn window_creation_scale_factor() -> TypedScale<f32, DeviceIndependentPixel, Dev
 
 #[cfg(target_os = "windows")]
 fn window_creation_scale_factor() -> TypedScale<f32, DeviceIndependentPixel, DevicePixel> {
-    let hdc = unsafe { user32::GetDC(::std::ptr::null_mut()) };
-    let ppi = unsafe { gdi32::GetDeviceCaps(hdc, winapi::wingdi::LOGPIXELSY) };
-    TypedScale::new(ppi as f32 / 96.0)
+        let hdc = unsafe { user32::GetDC(::std::ptr::null_mut()) };
+        let ppi = unsafe { gdi32::GetDeviceCaps(hdc, winapi::wingdi::LOGPIXELSY) };
+        TypedScale::new(ppi as f32 / 96.0)
 }
+
 
 impl Window {
     pub fn new(
         is_foreground: bool,
         window_size: TypedSize2D<u32, DeviceIndependentPixel>,
     ) -> Rc<Window> {
-        let win_size: DeviceUintSize =
-            (window_size.to_f32() * window_creation_scale_factor()).to_u32();
+        let win_size: DeviceUintSize = (window_size.to_f32() * window_creation_scale_factor()).to_u32();
         let width = win_size.to_untyped().width;
         let height = win_size.to_untyped().height;
 
@@ -197,13 +200,20 @@ impl Window {
                 .with_title("Servo".to_string())
                 .with_decorations(!opts::get().no_native_titlebar)
                 .with_transparency(opts::get().no_native_titlebar)
-                .with_dimensions(width, height)
+                .with_dimensions(LogicalSize::new(width as f64, height as f64))
                 .with_visibility(visible)
                 .with_multitouch();
 
+            #[cfg(any(target_os = "linux", target_os = "windows"))]
+            {
+                let icon_bytes = include_bytes!("../../shared/resources/servo64.png");
+                let icon = Some(winit::Icon::from_bytes(icon_bytes).expect("Failed to open icon"));
+                window_builder = window_builder.with_window_icon(icon);
+            }
+
             window_builder = builder_with_platform_options(window_builder);
 
-            let mut context_builder = glutin::ContextBuilder::new()
+            let mut context_builder = ContextBuilder::new()
                 .with_gl(Window::gl_version())
                 .with_vsync(opts::get().enable_vsync);
 
@@ -211,24 +221,22 @@ impl Window {
                 context_builder = context_builder.with_multisampling(MULTISAMPLES)
             }
 
-            let glutin_window =
-                glutin::GlWindow::new(window_builder, context_builder, &events_loop)
-                    .expect("Failed to create window.");
+            let glutin_window = GlWindow::new(window_builder, context_builder, &events_loop)
+                .expect("Failed to create window.");
 
             unsafe {
-                glutin_window
-                    .context()
-                    .make_current()
-                    .expect("Couldn't make window current");
+                glutin_window.context().make_current().expect("Couldn't make window current");
             }
 
-            let (screen_width, screen_height) = events_loop.get_primary_monitor().get_dimensions();
-            screen_size = TypedSize2D::new(screen_width, screen_height);
+            let PhysicalSize {
+                width: screen_width,
+                height: screen_height,
+            } = events_loop.get_primary_monitor().get_dimensions();
+            screen_size = TypedSize2D::new(screen_width as u32, screen_height as u32);
             // TODO(ajeffrey): can this fail?
-            let (width, height) = glutin_window
-                .get_inner_size()
-                .expect("Failed to get window inner size.");
-            inner_size = TypedSize2D::new(width, height);
+            let LogicalSize { width, height } =
+                glutin_window.get_inner_size().expect("Failed to get window inner size.");
+            inner_size = TypedSize2D::new(width as u32, height as u32);
 
             glutin_window.show();
 
@@ -236,17 +244,25 @@ impl Window {
         };
 
         let gl = match window_kind {
-            WindowKind::Window(ref window, ..) => match gl::GlType::default() {
-                gl::GlType::Gl => unsafe {
-                    gl::GlFns::load_with(|s| window.get_proc_address(s) as *const _)
-                },
-                gl::GlType::Gles => unsafe {
-                    gl::GlesFns::load_with(|s| window.get_proc_address(s) as *const _)
-                },
-            },
-            WindowKind::Headless(..) => unsafe {
-                gl::GlFns::load_with(|s| HeadlessContext::get_proc_address(s))
-            },
+            WindowKind::Window(ref window, ..) => {
+                match gl::GlType::default() {
+                    gl::GlType::Gl => {
+                        unsafe {
+                            gl::GlFns::load_with(|s| window.get_proc_address(s) as *const _)
+                        }
+                    }
+                    gl::GlType::Gles => {
+                        unsafe {
+                            gl::GlesFns::load_with(|s| window.get_proc_address(s) as *const _)
+                        }
+                    }
+                }
+            }
+            WindowKind::Headless(..) => {
+                unsafe {
+                    gl::GlFns::load_with(|s| HeadlessContext::get_proc_address(s))
+                }
+            }
         };
 
         if opts::get().headless {
@@ -263,12 +279,12 @@ impl Window {
 
         let window = Window {
             kind: window_kind,
-            event_queue: RefCell::new(vec![]),
+            event_queue: RefCell::new(vec!()),
             mouse_down_button: Cell::new(None),
             mouse_down_point: Cell::new(TypedPoint2D::new(0, 0)),
 
             mouse_pos: Cell::new(TypedPoint2D::new(0, 0)),
-            key_modifiers: Cell::new(GlutinKeyModifiers::empty()),
+            key_modifiers: Cell::new(WinitKeyModifiers::empty()),
 
             last_pressed_key: Cell::new(None),
             gl: gl.clone(),
@@ -292,12 +308,12 @@ impl Window {
         let dpr = self.hidpi_factor();
         match self.kind {
             WindowKind::Window(ref window, _) => {
-                let (_, height) = window
-                    .get_inner_size()
-                    .expect("Failed to get window inner size.");
-                height as f32 * dpr.get()
+                let size = window.get_inner_size().expect("Failed to get window inner size.");
+                size.height as f32 * dpr.get()
+            },
+            WindowKind::Headless(ref context) => {
+                context.height as f32 * dpr.get()
             }
-            WindowKind::Headless(ref context) => context.height as f32 * dpr.get(),
         }
     }
 
@@ -310,14 +326,14 @@ impl Window {
     pub fn set_inner_size(&self, size: DeviceUintSize) {
         if let WindowKind::Window(ref window, _) = self.kind {
             let size = size.to_f32() / self.hidpi_factor();
-            window.set_inner_size(size.width as u32, size.height as u32)
+            window.set_inner_size(LogicalSize::new(size.width.into(), size.height.into()))
         }
     }
 
     pub fn set_position(&self, point: DeviceIntPoint) {
         if let WindowKind::Window(ref window, _) = self.kind {
             let point = point.to_f32() / self.hidpi_factor();
-            window.set_position(point.x as i32, point.y as i32)
+            window.set_position(LogicalPosition::new(point.x.into(), point.y.into()))
         }
     }
 
@@ -327,7 +343,7 @@ impl Window {
                 if self.fullscreen.get() != state {
                     window.set_fullscreen(None);
                 }
-            }
+            },
             WindowKind::Headless(..) => {}
         }
         self.fullscreen.set(state);
@@ -337,10 +353,7 @@ impl Window {
         self.animation_state.get() == AnimationState::Animating && !self.suspended.get()
     }
 
-    pub fn run<T>(&self, mut servo_callback: T)
-    where
-        T: FnMut() -> bool,
-    {
+    pub fn run<T>(&self, mut servo_callback: T) where T: FnMut() -> bool {
         match self.kind {
             WindowKind::Window(_, ref events_loop) => {
                 let mut stop = false;
@@ -348,13 +361,13 @@ impl Window {
                     if self.is_animating() {
                         // We block on compositing (servo_callback ends up calling swap_buffers)
                         events_loop.borrow_mut().poll_events(|e| {
-                            self.glutin_event_to_servo_event(e);
+                            self.winit_event_to_servo_event(e);
                         });
                         stop = servo_callback();
                     } else {
-                        // We block on glutin's event loop (window events)
+                        // We block on winit's event loop (window events)
                         events_loop.borrow_mut().run_forever(|e| {
-                            self.glutin_event_to_servo_event(e);
+                            self.winit_event_to_servo_event(e);
                             if !self.event_queue.borrow().is_empty() {
                                 if !self.suspended.get() {
                                     stop = servo_callback();
@@ -388,32 +401,33 @@ impl Window {
         }
     }
 
-    #[cfg(not(any(target_arch = "arm", target_arch = "aarch64")))]
+    #[cfg(not(any(target_arch = "arm", target_arch = "aarch64", target_os = "android")))]
     fn gl_version() -> GlRequest {
         return GlRequest::Specific(Api::OpenGl, (3, 2));
     }
 
-    #[cfg(any(target_arch = "arm", target_arch = "aarch64"))]
+    #[cfg(any(target_arch = "arm", target_arch = "aarch64", target_os = "android"))]
     fn gl_version() -> GlRequest {
         GlRequest::Specific(Api::OpenGlEs, (3, 0))
     }
 
     fn handle_received_character(&self, ch: char) {
-        let modifiers = keyutils::glutin_mods_to_script_mods(self.key_modifiers.get());
+        let modifiers = keyutils::winit_mods_to_script_mods(self.key_modifiers.get());
         if keyutils::is_identifier_ignorable(&ch) {
-            return;
+            return
         }
         if let Some(last_pressed_key) = self.last_pressed_key.get() {
-            let event =
-                WindowEvent::KeyEvent(Some(ch), last_pressed_key, KeyState::Pressed, modifiers);
+            let event = WindowEvent::KeyEvent(Some(ch), last_pressed_key, KeyState::Pressed, modifiers);
             self.event_queue.borrow_mut().push(event);
         } else {
             // Only send the character if we can print it (by ignoring characters like backspace)
             if !ch.is_control() {
                 match keyutils::char_to_script_key(ch) {
                     Some(key) => {
-                        let event =
-                            WindowEvent::KeyEvent(Some(ch), key, KeyState::Pressed, modifiers);
+                        let event = WindowEvent::KeyEvent(Some(ch),
+                                                          key,
+                                                          KeyState::Pressed,
+                                                          modifiers);
                         self.event_queue.borrow_mut().push(event);
                     }
                     None => {}
@@ -425,14 +439,14 @@ impl Window {
 
     fn toggle_keyboard_modifiers(&self, virtual_key_code: VirtualKeyCode) {
         match virtual_key_code {
-            VirtualKeyCode::LControl => self.toggle_modifier(GlutinKeyModifiers::LEFT_CONTROL),
-            VirtualKeyCode::RControl => self.toggle_modifier(GlutinKeyModifiers::RIGHT_CONTROL),
-            VirtualKeyCode::LShift => self.toggle_modifier(GlutinKeyModifiers::LEFT_SHIFT),
-            VirtualKeyCode::RShift => self.toggle_modifier(GlutinKeyModifiers::RIGHT_SHIFT),
-            VirtualKeyCode::LAlt => self.toggle_modifier(GlutinKeyModifiers::LEFT_ALT),
-            VirtualKeyCode::RAlt => self.toggle_modifier(GlutinKeyModifiers::RIGHT_ALT),
-            VirtualKeyCode::LWin => self.toggle_modifier(GlutinKeyModifiers::LEFT_SUPER),
-            VirtualKeyCode::RWin => self.toggle_modifier(GlutinKeyModifiers::RIGHT_SUPER),
+            VirtualKeyCode::LControl => self.toggle_modifier(WinitKeyModifiers::LEFT_CONTROL),
+            VirtualKeyCode::RControl => self.toggle_modifier(WinitKeyModifiers::RIGHT_CONTROL),
+            VirtualKeyCode::LShift => self.toggle_modifier(WinitKeyModifiers::LEFT_SHIFT),
+            VirtualKeyCode::RShift => self.toggle_modifier(WinitKeyModifiers::RIGHT_SHIFT),
+            VirtualKeyCode::LAlt => self.toggle_modifier(WinitKeyModifiers::LEFT_ALT),
+            VirtualKeyCode::RAlt => self.toggle_modifier(WinitKeyModifiers::RIGHT_ALT),
+            VirtualKeyCode::LWin => self.toggle_modifier(WinitKeyModifiers::LEFT_SUPER),
+            VirtualKeyCode::RWin => self.toggle_modifier(WinitKeyModifiers::RIGHT_SUPER),
             _ => {}
         }
     }
@@ -440,7 +454,7 @@ impl Window {
     fn handle_keyboard_input(&self, element_state: ElementState, virtual_key_code: VirtualKeyCode) {
         self.toggle_keyboard_modifiers(virtual_key_code);
 
-        if let Ok(key) = keyutils::glutin_key_to_script_key(virtual_key_code) {
+        if let Ok(key) = keyutils::winit_key_to_script_key(virtual_key_code) {
             let state = match element_state {
                 ElementState::Pressed => KeyState::Pressed,
                 ElementState::Released => KeyState::Released,
@@ -450,54 +464,45 @@ impl Window {
                     self.last_pressed_key.set(Some(key));
                 }
             }
-            let modifiers = keyutils::glutin_mods_to_script_mods(self.key_modifiers.get());
-            self.event_queue
-                .borrow_mut()
-                .push(WindowEvent::KeyEvent(None, key, state, modifiers));
+            let modifiers = keyutils::winit_mods_to_script_mods(self.key_modifiers.get());
+            self.event_queue.borrow_mut().push(WindowEvent::KeyEvent(None, key, state, modifiers));
         }
     }
 
-    fn glutin_event_to_servo_event(&self, event: winit::Event) {
+    fn winit_event_to_servo_event(&self, event: winit::Event) {
         match event {
             Event::WindowEvent {
                 event: winit::WindowEvent::ReceivedCharacter(ch),
                 ..
             } => self.handle_received_character(ch),
             Event::WindowEvent {
-                event:
-                    winit::WindowEvent::KeyboardInput {
-                        input:
-                            winit::KeyboardInput {
-                                state,
-                                virtual_keycode: Some(virtual_keycode),
-                                ..
-                            },
-                        ..
-                    },
-                ..
+                event: winit::WindowEvent::KeyboardInput {
+                    input: winit::KeyboardInput {
+                        state, virtual_keycode: Some(virtual_keycode), ..
+                    }, ..
+                }, ..
             } => self.handle_keyboard_input(state, virtual_keycode),
             Event::WindowEvent {
-                event: winit::WindowEvent::MouseInput { state, button, .. },
-                ..
+                event: winit::WindowEvent::MouseInput {
+                    state, button, ..
+                }, ..
             } => {
                 if button == MouseButton::Left || button == MouseButton::Right {
                     self.handle_mouse(button, state, self.mouse_pos.get());
                 }
-            }
+            },
             Event::WindowEvent {
-                event:
-                    winit::WindowEvent::CursorMoved {
-                        position: (x, y), ..
-                    },
+                event: winit::WindowEvent::CursorMoved {
+                    position,
+                    ..
+                },
                 ..
             } => {
-                self.mouse_pos.set(TypedPoint2D::new(x as i32, y as i32));
-                self.event_queue
-                    .borrow_mut()
-                    .push(WindowEvent::MouseWindowMoveEventClass(TypedPoint2D::new(
-                        x as f32,
-                        y as f32,
-                    )));
+                let pos = position.to_physical(self.hidpi_factor().get() as f64);
+                let (x, y): (i32, i32) = pos.into();
+                self.mouse_pos.set(TypedPoint2D::new(x, y));
+                self.event_queue.borrow_mut().push(
+                    WindowEvent::MouseWindowMoveEventClass(TypedPoint2D::new(x as f32, y as f32)));
             }
             Event::WindowEvent {
                 event: winit::WindowEvent::MouseWheel { delta, phase, .. },
@@ -505,7 +510,10 @@ impl Window {
             } => {
                 let (mut dx, mut dy) = match delta {
                     MouseScrollDelta::LineDelta(dx, dy) => (dx, dy * LINE_HEIGHT),
-                    MouseScrollDelta::PixelDelta(dx, dy) => (dx, dy),
+                    MouseScrollDelta::PixelDelta(position) => {
+                        let position = position.to_physical(self.hidpi_factor().get() as f64);
+                        (position.x as f32, position.y as f32)
+                    }
                 };
                 // Scroll events snap to the major axis of movement, with vertical
                 // preferred over horizontal.
@@ -516,45 +524,45 @@ impl Window {
                 }
 
                 let scroll_location = ScrollLocation::Delta(TypedVector2D::new(dx, dy));
-                let phase = glutin_phase_to_touch_event_type(phase);
+                let phase = winit_phase_to_touch_event_type(phase);
                 let event = WindowEvent::Scroll(scroll_location, self.mouse_pos.get(), phase);
                 self.event_queue.borrow_mut().push(event);
-            }
+            },
             Event::WindowEvent {
                 event: winit::WindowEvent::Touch(touch),
                 ..
             } => {
                 use servo::script_traits::TouchId;
 
-                let phase = glutin_phase_to_touch_event_type(touch.phase);
+                let phase = winit_phase_to_touch_event_type(touch.phase);
                 let id = TouchId(touch.id as i32);
-                let point = TypedPoint2D::new(touch.location.0 as f32, touch.location.1 as f32);
-                self.event_queue
-                    .borrow_mut()
-                    .push(WindowEvent::Touch(phase, id, point));
+                let position = touch.location.to_physical(self.hidpi_factor().get() as f64);
+                let point = TypedPoint2D::new(position.x as f32, position.y as f32);
+                self.event_queue.borrow_mut().push(WindowEvent::Touch(phase, id, point));
             }
             Event::WindowEvent {
                 event: winit::WindowEvent::Refresh,
                 ..
             } => self.event_queue.borrow_mut().push(WindowEvent::Refresh),
             Event::WindowEvent {
-                event: winit::WindowEvent::Closed,
+                event: winit::WindowEvent::CloseRequested,
                 ..
             } => {
                 self.event_queue.borrow_mut().push(WindowEvent::Quit);
             }
             Event::WindowEvent {
-                event: winit::WindowEvent::Resized(width, height),
+                event: winit::WindowEvent::Resized(size),
                 ..
             } => {
-                // width and height are DevicePixel.
+                // width and height are DeviceIndependentPixel.
                 // window.resize() takes DevicePixel.
                 if let WindowKind::Window(ref window, _) = self.kind {
-                    window.resize(width, height);
+                    let size = size.to_physical(self.hidpi_factor().get() as f64);
+                    window.resize(size);
                 }
                 // window.set_inner_size() takes DeviceIndependentPixel.
-                let new_size = TypedSize2D::new(width as f32, height as f32);
-                let new_size = (new_size / self.hidpi_factor()).to_u32();
+                let (width, height) = size.into();
+                let new_size = TypedSize2D::new(width, height);
                 if self.inner_size.get() != new_size {
                     self.inner_size.set(new_size);
                     self.event_queue.borrow_mut().push(WindowEvent::Resize);
@@ -573,19 +581,16 @@ impl Window {
         }
     }
 
-    fn toggle_modifier(&self, modifier: GlutinKeyModifiers) {
+    fn toggle_modifier(&self, modifier: WinitKeyModifiers) {
         let mut modifiers = self.key_modifiers.get();
         modifiers.toggle(modifier);
         self.key_modifiers.set(modifiers);
     }
 
     /// Helper function to handle a click
-    fn handle_mouse(
-        &self,
-        button: winit::MouseButton,
-        action: winit::ElementState,
-        coords: TypedPoint2D<i32, DevicePixel>,
-    ) {
+    fn handle_mouse(&self, button: winit::MouseButton,
+                    action: winit::ElementState,
+                    coords: TypedPoint2D<i32, DevicePixel>) {
         use servo::script_traits::MouseButton;
 
         let max_pixel_dist = 10.0 * self.hidpi_factor().get();
@@ -601,25 +606,20 @@ impl Window {
                     None => mouse_up_event,
                     Some(but) if button == but => {
                         let pixel_dist = self.mouse_down_point.get() - coords;
-                        let pixel_dist =
-                            ((pixel_dist.x * pixel_dist.x + pixel_dist.y * pixel_dist.y) as f32)
-                                .sqrt();
+                        let pixel_dist = ((pixel_dist.x * pixel_dist.x +
+                                           pixel_dist.y * pixel_dist.y) as f32).sqrt();
                         if pixel_dist < max_pixel_dist {
-                            self.event_queue
-                                .borrow_mut()
-                                .push(WindowEvent::MouseWindowEventClass(mouse_up_event));
+                            self.event_queue.borrow_mut().push(WindowEvent::MouseWindowEventClass(mouse_up_event));
                             MouseWindowEvent::Click(MouseButton::Left, coords.to_f32())
                         } else {
                             mouse_up_event
                         }
-                    }
+                    },
                     Some(_) => mouse_up_event,
                 }
             }
         };
-        self.event_queue
-            .borrow_mut()
-            .push(WindowEvent::MouseWindowEventClass(event));
+        self.event_queue.borrow_mut().push(WindowEvent::MouseWindowEventClass(event));
     }
 
     fn hidpi_factor(&self) -> TypedScale<f32, DeviceIndependentPixel, DevicePixel> {
@@ -627,24 +627,16 @@ impl Window {
             Some(device_pixels_per_px) => TypedScale::new(device_pixels_per_px),
             None => match opts::get().output_file {
                 Some(_) => TypedScale::new(1.0),
-                None => self.platform_hidpi_factor(),
-            },
+                None => match self.kind {
+                    WindowKind::Window(ref window, ..) => {
+                        TypedScale::new(window.get_hidpi_factor() as f32)
+                    }
+                    WindowKind::Headless(..) => {
+                        TypedScale::new(1.0)
+                    }
+                }
+            }
         }
-    }
-
-    #[cfg(not(target_os = "windows"))]
-    fn platform_hidpi_factor(&self) -> TypedScale<f32, DeviceIndependentPixel, DevicePixel> {
-        match self.kind {
-            WindowKind::Window(ref window, ..) => TypedScale::new(window.hidpi_factor()),
-            WindowKind::Headless(..) => TypedScale::new(1.0),
-        }
-    }
-
-    #[cfg(target_os = "windows")]
-    fn platform_hidpi_factor(&self) -> TypedScale<f32, DeviceIndependentPixel, DevicePixel> {
-        let hdc = unsafe { user32::GetDC(::std::ptr::null_mut()) };
-        let ppi = unsafe { gdi32::GetDeviceCaps(hdc, winapi::wingdi::LOGPIXELSY) };
-        TypedScale::new(ppi as f32 / 96.0)
     }
 
     /// Has no effect on Android.
@@ -653,9 +645,8 @@ impl Window {
             WindowKind::Window(ref window, ..) => {
                 use winit::MouseCursor;
 
-                let glutin_cursor = match cursor {
+                let winit_cursor = match cursor {
                     CursorKind::Auto => MouseCursor::Default,
-                    CursorKind::None => MouseCursor::NoneCursor,
                     CursorKind::Default => MouseCursor::Default,
                     CursorKind::Pointer => MouseCursor::Hand,
                     CursorKind::ContextMenu => MouseCursor::ContextMenu,
@@ -690,8 +681,9 @@ impl Window {
                     CursorKind::AllScroll => MouseCursor::AllScroll,
                     CursorKind::ZoomIn => MouseCursor::ZoomIn,
                     CursorKind::ZoomOut => MouseCursor::ZoomOut,
+                    _ => MouseCursor::Default
                 };
-                window.set_cursor(glutin_cursor);
+                window.set_cursor(winit_cursor);
             }
             WindowKind::Headless(..) => {}
         }
@@ -708,17 +700,13 @@ impl WindowMethods for Window {
         match self.kind {
             WindowKind::Window(ref window, _) => {
                 // TODO(ajeffrey): can this fail?
-                let (width, height) = window
-                    .get_outer_size()
-                    .expect("Failed to get window outer size.");
-                let (x, y) = window.get_position().unwrap_or((0, 0));
+                let LogicalSize { width, height } = window.get_outer_size().expect("Failed to get window outer size.");
+                let LogicalPosition { x, y } = window.get_position().unwrap_or(LogicalPosition::new(0., 0.));
                 let win_size = (TypedSize2D::new(width as f32, height as f32) * dpr).to_u32();
                 let win_origin = (TypedPoint2D::new(x as f32, y as f32) * dpr).to_i32();
                 let screen = (self.screen_size.to_f32() * dpr).to_u32();
 
-                let (width, height) = window
-                    .get_inner_size()
-                    .expect("Failed to get window inner size.");
+                let LogicalSize { width, height } = window.get_inner_size().expect("Failed to get window inner size.");
                 let inner_size = (TypedSize2D::new(width as f32, height as f32) * dpr).to_u32();
 
                 let viewport = DeviceUintRect::new(TypedPoint2D::zero(), inner_size);
@@ -732,10 +720,9 @@ impl WindowMethods for Window {
                     screen_avail: screen,
                     hidpi_factor: dpr,
                 }
-            }
+            },
             WindowKind::Headless(ref context) => {
-                let size =
-                    (TypedSize2D::new(context.width, context.height).to_f32() * dpr).to_u32();
+                let size = (TypedSize2D::new(context.width, context.height).to_f32() * dpr).to_u32();
                 EmbedderCoordinates {
                     viewport: DeviceUintRect::new(TypedPoint2D::zero(), size),
                     framebuffer: size,
@@ -768,8 +755,10 @@ impl WindowMethods for Window {
                 let proxy = match window.kind {
                     WindowKind::Window(_, ref events_loop) => {
                         Some(Arc::new(events_loop.borrow().create_proxy()))
+                    },
+                    WindowKind::Headless(..) => {
+                        None
                     }
-                    WindowKind::Headless(..) => None,
                 };
                 GlutinEventLoopWaker { proxy }
             }
@@ -797,11 +786,7 @@ impl WindowMethods for Window {
         self.animation_state.set(state);
     }
 
-    fn prepare_for_composite(
-        &self,
-        _width: Length<u32, DevicePixel>,
-        _height: Length<u32, DevicePixel>,
-    ) -> bool {
+    fn prepare_for_composite(&self, _width: Length<u32, DevicePixel>, _height: Length<u32, DevicePixel>) -> bool {
         true
     }
 
@@ -810,7 +795,7 @@ impl WindowMethods for Window {
     }
 }
 
-fn glutin_phase_to_touch_event_type(phase: TouchPhase) -> TouchEventType {
+fn winit_phase_to_touch_event_type(phase: TouchPhase) -> TouchEventType {
     match phase {
         TouchPhase::Started => TouchEventType::Down,
         TouchPhase::Moved => TouchEventType::Move,
