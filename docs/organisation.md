@@ -3,10 +3,10 @@ This will describe the files in the Servonk repo AND the other dependent repos.
 # [Servonk repo](https://github.com/fabricedesre/servonk)
 ## Root
 ### [rust-toolchain](https://github.com/fabricedesre/servonk/blob/master/rust-toolchain)
-Contains the current version of the Rust toolchain which is used by Servo. This is updated by manually running update-servo.sh script.
+Contains the current version of the Rust toolchain which is used by Servo. This is updated by manually running bootstrap.sh script.
 
 ### [bootstrap.sh](https://github.com/fabricedesre/servonk/blob/master/bootstrap.sh)
-This checks the current version of the [rust-toolchain](https://github.com/fabricedesre/servonk/blob/master/rust-toolchain), installs the rust toolchain for your current platform and the target armv7-linux-androideabi uaing the current vrsion and sets the override so that within the Servonk directory it will use this installed version of the toolchain for work on Servonk. This will only work if you have already installed [rustup](https://github.com/rust-lang-nursery/rustup.rs), which is part of the dependencies for Servo (and therefore Servonk) as described [here](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment).
+This checks the current version of the [rust-toolchain](https://github.com/fabricedesre/servonk/blob/master/rust-toolchain), installs the rust toolchain for your current platform and the target armv7-linux-androideabi using the current version and sets the override so that within the Servonk directory it will use this installed version of the toolchain for work on Servonk. This will only work if you have already installed [rustup](https://github.com/rust-lang-nursery/rustup.rs), which is part of the dependencies for Servo (and therefore Servonk) as described [here](https://github.com/servo/servo/blob/master/README.md#setting-up-your-environment).
 
 [Bindgen](https://github.com/rust-lang-nursery/rust-bindgen) is needed to generate Rust FFI bindings to the [mtdev C library](https://github.com/fabricedesre/servonk/tree/master/platform/gonk/mtdev/mtdev-1.1.5). "command -v bindgen >/dev/null 2>&1 || { etc..." checks if bindgen exists and if not it installs it with "cargo install -f bindgen".
 
