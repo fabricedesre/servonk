@@ -106,6 +106,3 @@ Servonk feature list
 
 ## Building
 - [ ] mtdev/build.rs: Unwrap the directory less when generating mod.rs
-
-
-
