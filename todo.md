@@ -6,11 +6,15 @@ Servonk feature list
 
 ## Lockscreen
 - [x] lock after 1min of inactivity or when pressing the power button.
+- [ ] main.js: replace idle event listener with a proper signal from the Servo side.
+- [ ] main.js: turn off and turn off the screen properly
 
 ## Virtual Keyboard
 (see attachResizeListener)
 - [ ] script injection to listen to focus/blur events for now.
 - [ ] open keyboard... how to send back events?
+- [ ] layout_dictionary_downloader.js: harden the verification
+- [ ] candidate_panel_view.js: (latin too) Don't create a business logic object in these views
 
 ## Window manager
 - [x] frames are layout side by side.
@@ -20,12 +24,20 @@ Servonk feature list
 - [x] the window title is displayed in the status bar.
 - [x] the favicon is displayed in the status bar.
 - [ ] pressing the status bar opens details/action for the site (eg. bookmarking).
+- [ ] browser_window.rs: Change the scale based on the phone display's DPI.
 
 ## Homescreen
 - [ ] basic grid of bookmarked sites.
 - [ ] reorganize icons by dragging them around.
 - [ ] grouping by folders / sections?
 - [ ] automatic grouping by origin?
+- [ ] statusbar.js: Use a default favicon
+
+## Search
+- [ ] search_panel.js:
+  - [ ] Implement abortable fetch() in Servo instead for the search suggestion fetcher
+  - [ ] Don't hardcode Google as the default search engine (in utils.js too)
+  - [ ] Update top sites fetcher by dispatching to worker
 
 ## Menu (short press on the menu icon)
 - [ ] opens a panel with the search field at the bottom and quick settings on top.
@@ -50,6 +62,7 @@ Servonk feature list
   - [ ] wifi (open and wpa/wpa2).
   - [ ] vibration?
   - [ ] lights?
+- [ ] lib.rs: Why is disable_signals() preventing shutdown?
 
 # Notifications
 - [ ] from the desktop notifications api.
@@ -84,7 +97,12 @@ Servonk feature list
 - [x] Desktop packages (Linux).
 - [ ] Desktop packages (Windows & Mac).
 
-
 ## Tests
 - [ ] Embedding tests.
 - [ ] Frontend tests.
+
+## Dependencies
+- [ ] bootstrap.sh: Check the current Rust version and only call rustup if needed
+
+## Building
+- [ ] mtdev/build.rs: Unwrap the directory less when generating mod.rs
